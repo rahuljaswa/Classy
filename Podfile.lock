@@ -1,0 +1,61 @@
+PODS:
+  - ActionLabel (1.0.0)
+  - AFNetworking (2.5.3):
+    - AFNetworking/NSURLConnection (= 2.5.3)
+    - AFNetworking/NSURLSession (= 2.5.3)
+    - AFNetworking/Reachability (= 2.5.3)
+    - AFNetworking/Security (= 2.5.3)
+    - AFNetworking/Serialization (= 2.5.3)
+    - AFNetworking/UIKit (= 2.5.3)
+  - AFNetworking/NSURLConnection (2.5.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.3)
+  - AFNetworking/Security (2.5.3)
+  - AFNetworking/Serialization (2.5.3)
+  - AFNetworking/UIKit (2.5.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - Bolts/Tasks (1.1.5)
+  - ChatViewControllers (1.0.0)
+  - DZNEmptyDataSet (1.5.2)
+  - FastImageCache (1.3)
+  - Mixpanel (2.8.1):
+    - Mixpanel/Mixpanel (= 2.8.1)
+  - Mixpanel/Mixpanel (2.8.1):
+    - Mixpanel/MPCategoryHelpers
+  - Mixpanel/MPCategoryHelpers (2.8.1)
+  - Parse (1.7.2.1):
+    - Bolts/Tasks (>= 1.1.5)
+  - SVProgressHUD (1.1.3)
+  - Touchpose (1.2.0)
+
+DEPENDENCIES:
+  - ActionLabel
+  - AFNetworking
+  - ChatViewControllers
+  - DZNEmptyDataSet
+  - FastImageCache
+  - Mixpanel
+  - Parse
+  - SVProgressHUD
+  - Touchpose
+
+SPEC CHECKSUMS:
+  ActionLabel: 2ef75a8fc6304446f67b75272bb7b93a3cd6c829
+  AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
+  Bolts: aac24961496d504aa56fc267cde95162a71bac39
+  ChatViewControllers: a3bb422260979e3c3cd15f1bf4816a20f66a1a28
+  DZNEmptyDataSet: 741da409081a4bf707c949c964623a6ad1799772
+  FastImageCache: 25f214fd46405daca3d1995d783fb83b9036c62e
+  Mixpanel: 93c4825025e6380ced273ed7178496282e385077
+  Parse: 8213b05b52768b34b87e1e41fd9efc88a9933f3f
+  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  Touchpose: 219ef3dc3d1932b384ea502ec6df2f003667129b
+
+COCOAPODS: 0.37.2
