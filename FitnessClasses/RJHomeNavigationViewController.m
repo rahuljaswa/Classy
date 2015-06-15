@@ -10,7 +10,10 @@
 #import "RJHomeNavigationViewController.h"
 #import "RJHomeViewController.h"
 #import "RJParseClass.h"
+#import "RJParseUser.h"
+#import "RJParseUtils.h"
 #import "RJPlayingClassNavigationController.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 
 @interface RJHomeNavigationViewController () <RJHomeViewControllerDelegate, RJPlayingClassViewControllerDelegate>
@@ -44,17 +47,54 @@
 #pragma mark - Private Protocols - RJHomeViewControllerDelegate
 
 - (void)homeViewController:(RJHomeViewController *)homeViewController wantsPlayForClass:(RJParseClass *)klass autoPlay:(BOOL)autoPlay {
-    if (self.currentClassViewController.playingClassViewController.klass && self.currentClassViewController.playingClassViewController.hasClassStarted) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"Are you sure you want to switch from your current workout?", nil) preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self.currentClassViewController.playingClassViewController setKlass:klass withAutoPlay:autoPlay];
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-        [alertController addAction:acceptAction];
-        [alertController addAction:cancelAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+    NSUInteger creditsCost = [klass.creditsCost integerValue];
+    if (creditsCost > 0) {
+        RJParseUser *user = [RJParseUser currentUser];
+        if (user) {
+            NSUInteger indexOfPurchasedClass = [user.classesPurchased indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                return [[(RJParseClass *)obj objectId] isEqualToString:klass.objectId];
+            }];
+            
+            if (!user.classesPurchased || (indexOfPurchasedClass == NSNotFound)) {
+                NSString *title = nil;
+                if (creditsCost == 1) {
+                    title = [NSString stringWithFormat:@"%@ costs 1 credit. You only have to pay once!", klass.name];
+                } else {
+                    title = [NSString stringWithFormat:@"%@ costs %@ credits. You only have to pay once!", klass.name, klass.creditsCost];
+                }
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+                
+                [alertController addAction:
+                 [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
+                [alertController addAction:
+                 [UIAlertAction actionWithTitle:NSLocalizedString(@"Purchase", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    if ([[[RJParseUser currentUser] creditsAvailable] unsignedIntegerValue] >= creditsCost) {
+                        [SVProgressHUD showWithStatus:NSLocalizedString(@"Purchasing class...", nil) maskType:SVProgressHUDMaskTypeClear];
+                        [RJParseUtils purchaseClass:klass completion:^(BOOL success) {
+                            if (success) {
+                                [self startClass:klass autoPlay:autoPlay];
+                                [SVProgressHUD showWithStatus:NSLocalizedString(@"Success!", nil) maskType:SVProgressHUDMaskTypeClear];
+                            } else {
+                                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error. Try again! You weren't charged.", nil)];
+                            }
+                        }];
+                    } else {
+                        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Please earn or buy more credits (settings menu) to continue", nil)];
+                    }
+                }]];
+                
+                [self presentViewController:alertController animated:YES completion:nil];
+            } else {
+                [self startClass:klass autoPlay:autoPlay];
+            }
+        } else {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"This class costs credits. Please login to earn or buy credits!", nil) message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:
+             [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
     } else {
-        [self.currentClassViewController.playingClassViewController setKlass:klass withAutoPlay:autoPlay];
+        [self startClass:klass autoPlay:autoPlay];
     }
 }
 
@@ -77,6 +117,21 @@
 }
 
 #pragma mark - Private Instance Methods
+
+- (void)startClass:(RJParseClass *)klass autoPlay:(BOOL)autoPlay {
+    if (self.currentClassViewController.playingClassViewController.klass && self.currentClassViewController.playingClassViewController.hasClassStarted) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"Are you sure you want to switch from your current workout?", nil) preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:
+         [UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self.currentClassViewController.playingClassViewController setKlass:klass withAutoPlay:autoPlay];
+        }]];
+        [alertController addAction:
+         [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        [self.currentClassViewController.playingClassViewController setKlass:klass withAutoPlay:autoPlay];
+    }
+}
 
 - (CGRect)maximizedFrameForCurrentClassViewController {
     CGFloat topAdjustment = 20.0f;//self.currentClassViewController.topLayoutGuide.length;

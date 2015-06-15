@@ -10,7 +10,9 @@
 #import "RJHomeGalleryViewController.h"
 #import "RJHomeTitleView.h"
 #import "RJHomeViewController.h"
+#import "RJParseClass.h"
 #import "RJParseUser.h"
+#import "RJSettingsViewController.h"
 #import "RJSortOptionsViewController.h"
 #import "RJStyleManager.h"
 #import "UIImage+RJAdditions.h"
@@ -81,21 +83,8 @@
 
 - (void)settingsButtonPressed:(UIBarButtonItem *)settingsButton {
     if ([RJParseUser currentUser]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"Are you sure you want to logout?", nil) preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *acceptAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Logout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [SVProgressHUD showWithStatus:NSLocalizedString(@"Logging out...", nil) maskType:SVProgressHUDMaskTypeClear];
-            [[RJAuthenticationViewController sharedInstance] logOutWithCompletion:^(BOOL success) {
-                if (success) {
-                    [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Logged Out!", nil)];
-                } else {
-                    [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error. Try again!", nil)];
-                }
-            }];
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-        [alertController addAction:acceptAction];
-        [alertController addAction:cancelAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        RJSettingsViewController *settingsViewController = [[RJSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        [[self navigationController] pushViewController:settingsViewController animated:YES];
     } else {
         [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
             [self dismissViewControllerAnimated:YES completion:nil];
@@ -171,8 +160,14 @@
     
     [self.galleryViewController switchToNewClassesWithCompletion:^{
         NSArray *classes = self.galleryViewController.classes;
-        if ([classes count] > 0) {
-            [self.delegate homeViewController:self wantsPlayForClass:classes[0] autoPlay:NO];
+        if (classes) {
+            NSUInteger firstFreeClassIndex = [classes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                return ([[(RJParseClass *)obj creditsCost] unsignedIntegerValue] == 0);
+            }];
+            
+            if (firstFreeClassIndex != NSNotFound) {
+                [self.delegate homeViewController:self wantsPlayForClass:classes[firstFreeClassIndex] autoPlay:NO];
+            }
         }
     }];
 }

@@ -67,12 +67,37 @@
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:kRJMixpanelConstantsOpenedApp];
     [mixpanel.people increment:kRJMixpanelPeopleConstantsAppOpens by:@1];
+    
+    [self clearAppBadge];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation.channels = @[@"global"];
+    [currentInstallation saveEventually:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSLog(@"Error updating current installation with device token: %@", error);
+        }
+    }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {}
 - (void)applicationDidEnterBackground:(UIApplication *)application {}
 - (void)applicationWillEnterForeground:(UIApplication *)application {}
 - (void)applicationWillTerminate:(UIApplication *)application {}
+
+#pragma mark - Private Instance Methods
+
+- (void)clearAppBadge {
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    currentInstallation.badge = 0;
+    [currentInstallation saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSLog(@"Error clearing app badge: %@", error);
+        }
+    }];
+}
 
 #pragma mark - Private Instance Methods - Setup
 

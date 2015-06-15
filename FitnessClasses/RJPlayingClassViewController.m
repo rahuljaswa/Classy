@@ -17,6 +17,7 @@
 #import "RJSoundCloudAPIClient.h"
 #import "RJSoundCloudTrack.h"
 #import "RJStackedTitleView.h"
+#import "RJCreditsHelper.h"
 #import "RJStyleManager.h"
 #import "RJTrackImageCacheEntity.h"
 #import "RJUserImageCacheEntity.h"
@@ -29,10 +30,9 @@
 @import AVFoundation.AVPlayerItem;
 @import AVFoundation.AVSpeechSynthesis;
 @import AVFoundation.AVTime;
-@import StoreKit;
 
 
-@interface RJPlayingClassViewController () <AVSpeechSynthesizerDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate>
+@interface RJPlayingClassViewController () <AVSpeechSynthesizerDelegate>
 
 @property (nonatomic, strong, readwrite) RJParseClass *klass;
 
@@ -109,38 +109,6 @@
         _synthesizer.delegate = self;
     }
     return _synthesizer;
-}
-
-#pragma mark - Private Protocols - SKProductsRequestDelegate
-
-- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-    SKProduct *product = [response.products firstObject];
-    if (product) {
-        SKPaymentQueue *paymentQueue = [SKPaymentQueue defaultQueue];
-        [paymentQueue addTransactionObserver:self];
-        SKPayment *payment = [SKPayment paymentWithProduct:product];
-        [paymentQueue addPayment:payment];
-    }
-}
-
-#pragma mark - Private Protocols - SKPaymentTransactionObserver
-
-- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions {
-    for (SKPaymentTransaction *transaction in transactions) {
-        switch (transaction.transactionState) {
-            case SKPaymentTransactionStatePurchased:
-                [self completeTransaction:transaction WithSuccess:YES];
-                break;
-            case SKPaymentTransactionStateFailed:
-                [self completeTransaction:transaction WithSuccess:NO];
-                break;
-            case SKPaymentTransactionStateRestored:
-                [self completeTransaction:transaction WithSuccess:YES];
-                break;
-            default:
-                break;
-        }
-    }
 }
 
 #pragma mark - Private Instance Methods
@@ -380,10 +348,7 @@
 }
 
 - (void)tipButtonPressed:(UIButton *)button {
-    NSSet *products = [NSSet setWithObjects:@"com.rahuljaswa.Classy.instructorTip", nil];
-    SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:products];
-    request.delegate = self;
-    [request start];
+    [[RJCreditsHelper sharedInstance] tipInstructorForClass:self.klass completion:nil];
 }
 
 - (void)sliderEndedSliding:(UISlider *)slider {
@@ -425,28 +390,6 @@
         if ([application canOpenURL:url]) {
             [application openURL:url];
         }
-    }
-}
-
-#pragma mark - Private Instance Methods - StoreKit
-
-- (void)completeTransaction:(SKPaymentTransaction *)transaction WithSuccess:(BOOL)success {
-    if (transaction.error.code != SKErrorPaymentCancelled) {
-        NSString *message = nil;
-        if (success) {
-            [RJParseUtils incrementTipsForClass:self.klass completion:nil];
-            message = NSLocalizedString(@"You're awesome! Thanks for tipping and being a great community member.", nil);
-        } else {
-            if (transaction.error.code != SKErrorPaymentCancelled) {
-                message = NSLocalizedString(@"Ah looks like something went wrong. Sorry about that. Try again!", nil);
-            }
-        }
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:action];
-        [self presentViewController:alertController animated:YES completion:nil];
-        
-        [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
     }
 }
 

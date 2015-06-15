@@ -14,6 +14,8 @@
 @dynamic audioQueue;
 @dynamic category;
 @dynamic comments;
+@dynamic creditsCost;
+@dynamic creditsSaleCost;
 @dynamic coverArtURL;
 @dynamic instructionQueue;
 @dynamic instructor;

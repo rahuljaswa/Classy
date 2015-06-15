@@ -130,15 +130,28 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
     
     NSUInteger totalSeconds = [class.length unsignedIntegerValue];
     NSString *lengthString = [NSString hhmmaaForTotalSeconds:totalSeconds];
+    NSString *summaryText = nil;
     if (class.instructor && class.category) {
-        accessoriesView.summary.text = [NSString stringWithFormat:@" %@ | %@ | %@ ", class.instructor.name, class.category.name, lengthString];
+        summaryText = [NSString stringWithFormat:@" %@ | %@ | %@ ", class.instructor.name, class.category.name, lengthString];
     } else if (class.instructor) {
-        accessoriesView.summary.text = [NSString stringWithFormat:@" %@ | %@ ", class.instructor.name, lengthString];
+        summaryText = [NSString stringWithFormat:@" %@ | %@ ", class.instructor.name, lengthString];
     } else if (class.category) {
-        accessoriesView.summary.text = [NSString stringWithFormat:@" %@ | %@ ", class.category.name, lengthString];
+        summaryText = [NSString stringWithFormat:@" %@ | %@ ", class.category.name, lengthString];
     } else {
-        accessoriesView.summary.text = [NSString stringWithFormat:@" %@ ", lengthString];
+        summaryText = [NSString stringWithFormat:@" %@ ", lengthString];
     }
+    
+    NSUInteger classCost = [class.creditsCost unsignedIntegerValue];
+    NSString *classCostString = nil;
+    if (classCost == 0) {
+        classCostString = NSLocalizedString(@"| Free ", nil);
+    } else if (classCost == 1) {
+        classCostString = NSLocalizedString(@"| 1 Credit ", nil);
+    } else {
+        classCostString = [NSString stringWithFormat:NSLocalizedString(@"| %lu Credits ", nil), (unsigned long)classCost];
+    }
+    
+    accessoriesView.summary.text = [summaryText stringByAppendingString:classCostString];;
     accessoriesView.summary.font = styleManager.smallFont;
     accessoriesView.summary.textColor = styleManager.lightTextColor;
     accessoriesView.summary.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.8f];

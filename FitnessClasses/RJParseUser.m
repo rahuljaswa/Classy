@@ -11,10 +11,17 @@
 
 @implementation RJParseUser
 
+@dynamic appStoreCreditEarnDates;
 @dynamic classesInstructed;
+@dynamic classesPurchased;
+@dynamic creditPurchases;
+@dynamic creditsAvailable;
+@dynamic facebookCreditEarnDates;
 @dynamic instructor;
 @dynamic name;
 @dynamic profilePicture;
+@dynamic tips;
+@dynamic twitterCreditEarnDates;
 @dynamic twitterDigitsUserID;
 
 + (void)load {

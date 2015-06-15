@@ -17,6 +17,8 @@
 @property (nonatomic, strong) RJParseCategory *category;
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) NSString *coverArtURL;
+@property (nonatomic, strong) NSNumber *creditsCost;
+@property (nonatomic, strong) NSNumber *creditsSaleCost;
 @property (nonatomic, strong) NSArray *instructionQueue;
 @property (nonatomic, strong) RJParseUser *instructor;
 @property (nonatomic, strong) NSNumber *length;

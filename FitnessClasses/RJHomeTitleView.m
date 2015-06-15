@@ -28,17 +28,20 @@
         _titleView.userInteractionEnabled = YES;
         [self addSubview:_titleView];
         
+        CGFloat buttonWidth = 44.0f;
+        
         _settingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _settingsButton.translatesAutoresizingMaskIntoConstraints = NO;
         _settingsButton.tintColor = styleManager.accentColor;
-        _settingsButton.contentMode = UIViewContentModeLeft;
+        _settingsButton.imageEdgeInsets = UIEdgeInsetsMake(0.0f, -(buttonWidth/2.0f), 0.0f, 0.0f);
         [_settingsButton setImage:[UIImage tintableImageNamed:@"settingsIcon"] forState:UIControlStateNormal];
         [self addSubview:_settingsButton];
         
         NSDictionary *views = NSDictionaryOfVariableBindings(_titleView, _settingsButton);
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[_titleView]-10-|" options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_settingsButton]|" options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_settingsButton]" options:0 metrics:nil views:views]];
+        NSDictionary *metrics = @{ @"settingsButtonWidth" : @(buttonWidth) };
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[_titleView]-10-|" options:0 metrics:metrics views:views]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_settingsButton]|" options:0 metrics:metrics views:views]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_settingsButton(settingsButtonWidth)]" options:0 metrics:metrics views:views]];
         [self addConstraint:[NSLayoutConstraint constraintWithItem:_titleView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0.0f]];
     }
     return self;

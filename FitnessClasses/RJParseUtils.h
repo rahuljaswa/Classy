@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
+#import "RJCreditsHelper.h"
 #import <Foundation/Foundation.h>
 
 
@@ -15,6 +16,8 @@
 
 @interface RJParseUtils : NSObject
 
++ (void)completeEarnCreditsOption:(RJCreditsHelperEarnCreditsOption)option completion:(void (^)(BOOL success))completion;
+
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *categories))completion;
 + (void)fetchAllInstructorsWithCompletion:(void (^)(NSArray *instructors))completion;
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *classes))completion;
@@ -23,10 +26,15 @@
 + (void)fetchNewClassesWithCompletion:(void (^)(NSArray *))completion;
 + (void)fetchPopularClassesWithCompletion:(void (^)(NSArray *popularClasses))completion;
 
++ (void)incrementCreditsAvailableForUser:(RJParseUser *)user byNumber:(NSNumber *)number completion:(void (^)(BOOL success))completion;
++ (void)incrementCreditPurchasesForUser:(RJParseUser *)user forCreditsPurchased:(NSNumber *)creditsPurchased completion:(void (^)(BOOL success))completion;
 + (void)incrementPlaysForClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
 + (void)incrementTipsForClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
++ (void)incrementTipsForUser:(RJParseUser *)user completion:(void (^)(BOOL success))completion;
 
 + (void)insertCommentForClass:(RJParseClass *)klass text:(NSString *)text completion:(void (^)(BOOL success))completion;
 + (void)insertLikeForClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
+
++ (void)purchaseClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
 
 @end

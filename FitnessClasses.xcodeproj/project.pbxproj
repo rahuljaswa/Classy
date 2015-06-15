@@ -57,6 +57,8 @@
 		B77C4CF71B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF61B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m */; };
 		B77C4CFA1B2BACC60088393D /* UINavigationItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */; };
 		B77C4CFD1B2BBD900088393D /* RJHomeTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */; };
+		B7F9CE561B2DDD9D00968559 /* RJSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */; };
+		B7F9CE591B2E146100968559 /* RJCreditsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE581B2E146100968559 /* RJCreditsHelper.m */; };
 		E92ED8C8EB19D17A3D85A9C0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14807AAA5D85AB30F68D5C0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -166,6 +168,10 @@
 		B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+RJAdditions.m"; sourceTree = "<group>"; };
 		B77C4CFB1B2BBD900088393D /* RJHomeTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeTitleView.h; sourceTree = "<group>"; };
 		B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeTitleView.m; sourceTree = "<group>"; };
+		B7F9CE541B2DDD9D00968559 /* RJSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSettingsViewController.h; sourceTree = "<group>"; };
+		B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSettingsViewController.m; sourceTree = "<group>"; };
+		B7F9CE571B2E146100968559 /* RJCreditsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreditsHelper.h; sourceTree = "<group>"; };
+		B7F9CE581B2E146100968559 /* RJCreditsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreditsHelper.m; sourceTree = "<group>"; };
 		D14807AAA5D85AB30F68D5C0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEF9143C93AF01973D41B40A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -244,6 +250,8 @@
 		233386971AFD0CA900181446 /* Main Pages */ = {
 			isa = PBXGroup;
 			children = (
+				B7F9CE541B2DDD9D00968559 /* RJSettingsViewController.h */,
+				B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */,
 				B77C4CE21B2B77A00088393D /* Class Subpages */,
 				23C0D44C1B1E54C3005E31BA /* Home */,
 			);
@@ -314,6 +322,8 @@
 		23631A801AF86D9200E49935 /* FitnessClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B7F9CE571B2E146100968559 /* RJCreditsHelper.h */,
+				B7F9CE581B2E146100968559 /* RJCreditsHelper.m */,
 				B756B5C11B2A5D5F0088E918 /* Authentication */,
 				233386981AFD0CC400181446 /* Categories */,
 				23E63FB41B1E9BD0008C8E66 /* Custom Generic Views */,
@@ -607,6 +617,7 @@
 				23040EA71AFAE01D00852D94 /* UIImageView+FastImageCache.m in Sources */,
 				B77C4CFD1B2BBD900088393D /* RJHomeTitleView.m in Sources */,
 				2353FCA21AFC377800669E64 /* RJSoundCloudTrack.m in Sources */,
+				B7F9CE561B2DDD9D00968559 /* RJSettingsViewController.m in Sources */,
 				23040EC11AFB11CA00852D94 /* RJParseClass.m in Sources */,
 				B77C4CEB1B2B78540088393D /* RJClassDetailsViewController.m in Sources */,
 				2333869F1AFD5AA200181446 /* NSString+Temporal.m in Sources */,
@@ -624,6 +635,7 @@
 				23E63FB01B1E8CFF008C8E66 /* RJHomeViewController.m in Sources */,
 				B77C4CF11B2B8D4D0088393D /* RJStackedTitleView.m in Sources */,
 				2353FCB21AFC82C500669E64 /* RJUserImageCacheEntity.m in Sources */,
+				B7F9CE591B2E146100968559 /* RJCreditsHelper.m in Sources */,
 				23040EBE1AFB11AC00852D94 /* RJParseUser.m in Sources */,
 				B756B5D61B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m in Sources */,
 				232DC2CB1B0BBF160008308E /* RJTouchposeApplication.m in Sources */,
