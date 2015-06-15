@@ -15,6 +15,7 @@
 #import "UIImage+RJAdditions.h"
 #import <DigitsKit/DGTAppearance.h>
 #import <DigitsKit/Digits.h>
+#import <Mixpanel/Mixpanel.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 
 typedef NS_ENUM(NSUInteger, UIState) {
@@ -177,6 +178,14 @@ typedef NS_ENUM(NSUInteger, UIState) {
 - (void)completeLogin {
     [self registerUserNotificationSettingsWithCompletion:^{
         [self registerRemoteNotificationSettingsWithCompletion:^{
+            Mixpanel *mixpanel = [Mixpanel sharedInstance];
+            [mixpanel createAlias:self.user.objectId forDistinctID:mixpanel.distinctId];
+            [mixpanel.people set:
+             @{
+               @"$username": self.user.name,
+               @"$phone" : self.user.username
+               }
+             ];
             if (self.completion) {
                 self.completion(self.user);
             }
