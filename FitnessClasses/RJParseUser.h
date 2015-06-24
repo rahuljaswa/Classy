@@ -12,7 +12,6 @@
 @interface RJParseUser : PFUser
 
 @property (nonatomic, strong) NSArray *appStoreCreditEarnDates;
-@property (nonatomic, strong) PFRelation *classesInstructed;
 @property (nonatomic, strong) NSArray *classesPurchased;
 @property (nonatomic, strong) NSNumber *creditPurchases;
 @property (nonatomic, strong) NSNumber *creditsAvailable;

@@ -12,7 +12,6 @@
 @implementation RJParseUser
 
 @dynamic appStoreCreditEarnDates;
-@dynamic classesInstructed;
 @dynamic classesPurchased;
 @dynamic creditPurchases;
 @dynamic creditsAvailable;
