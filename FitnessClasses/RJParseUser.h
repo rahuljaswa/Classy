@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSArray *facebookCreditEarnDates;
 @property (nonatomic, assign) BOOL instructor;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) BOOL showAllEarnCreditsOptions;
 @property (nonatomic, strong) NSNumber *tips;
 @property (nonatomic, strong) NSArray *twitterCreditEarnDates;
 @property (nonatomic, strong) NSString *twitterDigitsUserID;

@@ -20,6 +20,7 @@
 @dynamic instructor;
 @dynamic name;
 @dynamic profilePicture;
+@dynamic showAllEarnCreditsOptions;
 @dynamic tips;
 @dynamic twitterCreditEarnDates;
 @dynamic twitterDigitsUserID;
