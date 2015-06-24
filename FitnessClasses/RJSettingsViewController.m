@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, Section) {
 typedef NS_ENUM(NSUInteger, UserInfoSectionRow) {
     kUserInfoSectionRowName,
     kUserInfoSectionRowPhoneNumber,
+    kUserInfoSectionRowVersion,
     kUserInfoSectionRowAvailableCredits,
     kNumUserInfoSectionRows
 };
@@ -101,6 +102,10 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
                     break;
                 case kUserInfoSectionRowPhoneNumber:
                     cell.textLabel.text = self.currentUser.username;
+                    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+                    break;
+                case kUserInfoSectionRowVersion:
+                    cell.textLabel.text = [NSString stringWithFormat:@"Classy v%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
                     cell.textLabel.textAlignment = NSTextAlignmentLeft;
                     break;
                 case kUserInfoSectionRowAvailableCredits:
