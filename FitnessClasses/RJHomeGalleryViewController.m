@@ -160,17 +160,17 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
     
     accessoriesView.summary.text = [summaryText stringByAppendingString:classCostString];;
     accessoriesView.summary.font = styleManager.verySmallFont;
-    accessoriesView.summary.textColor = styleManager.themeTextColor;
+    accessoriesView.summary.textColor = galleryCell.title.textColor;
     accessoriesView.summary.backgroundColor = styleManager.maskColor;
     
     accessoriesView.playsCount.text = [NSString stringWithFormat:@" %lu", (unsigned long)[class.plays unsignedIntegerValue]];
     accessoriesView.playsCount.font = styleManager.verySmallFont;
-    accessoriesView.playsCount.textColor = styleManager.themeTextColor;
+    accessoriesView.playsCount.textColor = galleryCell.title.textColor;
     accessoriesView.playsCount.backgroundColor = styleManager.maskColor;
     
     [accessoriesView.playsIcon setImage:[UIImage tintableImageNamed:@"playsIcon"]];
     accessoriesView.playsIcon.contentMode = UIViewContentModeCenter;
-    [accessoriesView.playsIcon setTintColor:styleManager.themeTextColor];
+    [accessoriesView.playsIcon setTintColor:galleryCell.title.textColor];
     accessoriesView.playsIcon.backgroundColor = styleManager.maskColor;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
@@ -228,7 +228,7 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.collectionView.backgroundColor = [RJStyleManager sharedInstance].contrastOneLevelColor;
+    self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
 @end

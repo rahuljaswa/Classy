@@ -127,17 +127,14 @@
 
 - (void)setUpStyleManager {
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
-    styleManager.accentColor = [UIColor colorWithRed:45.0f/255.0f green:249.0f/255.0f blue:188.0f/255.0f alpha:1.0f];
-    styleManager.maskColor = [UIColor colorWithWhite:0.0f alpha:0.8f];
-    styleManager.themeBackgroundColor = [UIColor colorWithRed:31.0f/255.0f green:38.0f/255.0f blue:46.0f/255.0f alpha:1.0f];
-    styleManager.themeTextColor = [UIColor whiteColor];
-    styleManager.titleColor = [UIColor whiteColor];
+    styleManager.accentColor = [UIColor colorWithRed:12.0f/255.0f green:165.0f/255.0f blue:176.0f/255.0f alpha:1.0f];
+    styleManager.maskColor = [UIColor colorWithWhite:0.0f alpha:0.7f];
+    styleManager.themeBackgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+    styleManager.themeTextColor = [UIColor colorWithWhite:0.2 alpha:1.0f];
+    styleManager.titleColor = [UIColor colorWithWhite:0.3 alpha:1.0f];
     
     styleManager.tintBlueColor = [UIColor colorWithRed:0.0f/255.0f green:122.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
     styleManager.tintLightGrayColor = [UIColor colorWithWhite:0.92 alpha:1.0f];
-    
-    styleManager.contrastOneLevelColor = [UIColor whiteColor];
-    styleManager.contrastTwoLevelsColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     
     styleManager.navigationBarFont = [UIFont fontWithName:@"Avenir-Heavy" size:18.0f];
     
@@ -151,6 +148,8 @@
     styleManager.smallFont = [UIFont fontWithName:@"Helvetica-Light" size:15.0f];
     styleManager.verySmallBoldFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13.0f];
     styleManager.verySmallFont = [UIFont fontWithName:@"Helvetica-Light" size:13.0f];
+    styleManager.tinyBoldFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:10.0f];
+    styleManager.tinyFont = [UIFont fontWithName:@"Helvetica-Light" size:10.0f];
 }
 
 @end

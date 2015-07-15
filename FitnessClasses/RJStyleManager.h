@@ -20,9 +20,6 @@
 @property (nonatomic, strong) UIColor *tintBlueColor;
 @property (nonatomic, strong) UIColor *tintLightGrayColor;
 
-@property (nonatomic, strong) UIColor *contrastOneLevelColor;
-@property (nonatomic, strong) UIColor *contrastTwoLevelsColor;
-
 @property (nonatomic, strong) UIFont *navigationBarFont;
 
 @property (nonatomic, strong) UIFont *giantBoldFont;
@@ -35,6 +32,8 @@
 @property (nonatomic, strong) UIFont *smallFont;
 @property (nonatomic, strong) UIFont *verySmallBoldFont;
 @property (nonatomic, strong) UIFont *verySmallFont;
+@property (nonatomic, strong) UIFont *tinyBoldFont;
+@property (nonatomic, strong) UIFont *tinyFont;
 
 + (NSDictionary *)attributesWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment;
 

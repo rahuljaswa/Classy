@@ -195,23 +195,31 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     RJParseExerciseInstruction *instruction = self.klass.instructions[indexPath.item];
     cell.exerciseInstruction = instruction;
     cell.backgroundColor = styleManager.themeBackgroundColor;
+    
     cell.leftSideAccessoryButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    cell.leftSideAccessoryButton.imageEdgeInsets = UIEdgeInsetsMake(18.0f, 18.0f, 18.0f, 18.0f);
     [cell.leftSideAccessoryButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateNormal];
     [cell.leftSideAccessoryButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateHighlighted];
     [cell.leftSideAccessoryButton setImage:[UIImage tintableImageNamed:@"playIcon"] forState:UIControlStateNormal];
-    cell.leftSideAccessoryButton.imageView.tintColor = styleManager.contrastTwoLevelsColor;
+    cell.leftSideAccessoryButton.imageView.tintColor = styleManager.themeTextColor;
+    
+    NSInteger startPoint = [instruction.startPoint integerValue];
+    
+    cell.leftSideAccessoryButton.titleLabel.font = styleManager.tinyFont;
+    [cell.leftSideAccessoryButton setTitle:[NSString hhmmaaForTotalSeconds:startPoint] forState:UIControlStateNormal];
+    [cell.leftSideAccessoryButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
+    
+    cell.leftSideAccessoryButton.imageEdgeInsets = UIEdgeInsetsMake(18.0f, 18.0f, 28.0f, 18.0f);
+    cell.leftSideAccessoryButton.titleEdgeInsets = UIEdgeInsetsMake(30.0, -28.0f, 0.0f, 0.0f);
     
     cell.titleLabel.text = nil;
     NSString *titleLabelString = [instruction.exercise.title uppercaseString];
     
-    NSInteger startPoint = [cell.exerciseInstruction.startPoint integerValue];
     if (self.playbackTime >= startPoint)  {
         if (indexPath.item == ([self.klass.instructions count] - 1)) {
             cell.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleLabelString attributes:
                                               @{
                                                 NSForegroundColorAttributeName : styleManager.accentColor,
-                                                NSFontAttributeName : styleManager.mediumFont
+                                                NSFontAttributeName : styleManager.mediumBoldFont
                                                 }];
         } else {
             RJParseExerciseInstruction *nextInstruction = self.klass.instructions[indexPath.item + 1];
@@ -220,7 +228,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
                 cell.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleLabelString attributes:
                                                   @{
                                                     NSForegroundColorAttributeName : styleManager.accentColor,
-                                                    NSFontAttributeName : styleManager.mediumFont
+                                                    NSFontAttributeName : styleManager.mediumBoldFont
                                                     }];
             } else {
                 cell.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleLabelString attributes:
@@ -329,7 +337,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     }
     
     if (self.currentTrack) {
-        [self.trackAttributionLogo setImage:[UIImage imageNamed:@"soundCloudIcon"] forState:UIControlStateNormal];
+        [self.trackAttributionLogo setImage:[UIImage tintableImageNamed:@"soundCloudIcon"] forState:UIControlStateNormal];
         NSURL *url = [NSURL URLWithString:self.currentTrack.artworkURL];
         RJTrackImageCacheEntity *trackEntity = [[RJTrackImageCacheEntity alloc] initWithTrackImageURL:url objectID:self.currentTrack.trackID];
         [self.trackArtwork setImageEntity:trackEntity formatName:kRJTrackImageFormatCardSquare16BitBGR placeholder:nil];
@@ -600,14 +608,16 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     self.tipButton.titleLabel.font = styleManager.verySmallBoldFont;
     [self.tipButton setTitle:NSLocalizedString(@"Tip Instructor", nil) forState:UIControlStateNormal];
     [self.tipButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
-    [self.tipButton setTitleColor:styleManager.contrastTwoLevelsColor forState:UIControlStateHighlighted];
+    [self.tipButton setTitleColor:styleManager.themeBackgroundColor forState:UIControlStateHighlighted];
     [self.tipButton setBackgroundImage:nil forState:UIControlStateNormal];
-    [self.tipButton setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
+    [self.tipButton setBackgroundImage:[UIImage imageWithColor:styleManager.themeTextColor] forState:UIControlStateHighlighted];
     self.tipButton.layer.borderWidth = 2.0f;
     self.tipButton.layer.borderColor = styleManager.themeTextColor.CGColor;
     
     self.trackArtist.textColor = styleManager.themeTextColor;
     self.trackArtist.font = styleManager.verySmallFont;
+    
+    self.trackAttributionLogo.tintColor = styleManager.themeTextColor;
     
     self.trackTitle.textColor = styleManager.themeTextColor;
     self.trackTitle.font = styleManager.verySmallBoldFont;

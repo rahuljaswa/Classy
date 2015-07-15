@@ -141,7 +141,8 @@ static NSString *const kExerciseStepsViewControllerCellID = @"ExerciseStepsViewC
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.pagingEnabled = YES;
     
-    self.pageControl.tintColor = [RJStyleManager sharedInstance].accentColor;
+    self.pageControl.pageIndicatorTintColor = [RJStyleManager sharedInstance].themeTextColor;
+    self.pageControl.currentPageIndicatorTintColor = [RJStyleManager sharedInstance].accentColor;
 }
 
 @end

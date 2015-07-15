@@ -69,7 +69,7 @@
 
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Category"];
-    [query orderByAscending:@"categoryType"];
+    [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all categories\n\n%@", [error localizedDescription]);

@@ -256,17 +256,19 @@
     self.titleView.textLabel.font = styleManager.navigationBarFont;
     
     self.summaryView.backgroundColor = styleManager.themeBackgroundColor;
+    self.summaryView.layer.borderWidth = 0.5f;
+    self.summaryView.layer.borderColor = styleManager.themeTextColor.CGColor;
     
     self.summaryView.playPauseButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.summaryView.playPauseButton.imageEdgeInsets =UIEdgeInsetsMake(3.0f, 3.0f, 7.0f, 0.0f);
     [self.summaryView.playPauseButton setTintColor:[UIColor whiteColor]];
-    [self.summaryView.playPauseButton setTintColor:styleManager.contrastOneLevelColor];
+    [self.summaryView.playPauseButton setTintColor:styleManager.themeTextColor];
     
     self.summaryView.classTitle.font = styleManager.verySmallBoldFont;
-    self.summaryView.classTitle.textColor = styleManager.contrastOneLevelColor;
+    self.summaryView.classTitle.textColor = styleManager.themeTextColor;
     
     self.summaryView.track.font = styleManager.verySmallFont;
-    self.summaryView.track.textColor = styleManager.contrastOneLevelColor;
+    self.summaryView.track.textColor = styleManager.themeTextColor;
     
     self.view.backgroundColor = styleManager.themeBackgroundColor;
 }

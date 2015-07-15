@@ -113,11 +113,11 @@ static NSString *const kCellID = @"cellID";
     
     cell.backgroundColor = styleManager.themeBackgroundColor;
     
-    [cell.leftSideAccessoryButton setBackgroundImage:[UIImage imageWithColor:styleManager.themeTextColor] forState:UIControlStateNormal];
-    [cell.leftSideAccessoryButton setBackgroundImage:[UIImage imageWithColor:styleManager.themeTextColor] forState:UIControlStateHighlighted];
+    [cell.leftSideAccessoryButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateNormal];
+    [cell.leftSideAccessoryButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateHighlighted];
     [cell.leftSideAccessoryButton setBackgroundImage:[UIImage imageWithColor:styleManager.accentColor] forState:UIControlStateSelected];
     [cell.leftSideAccessoryButton setImage:[UIImage tintableImageNamed:@"checkIcon"] forState:UIControlStateNormal];
-    cell.leftSideAccessoryButton.imageView.tintColor = styleManager.contrastTwoLevelsColor;
+    cell.leftSideAccessoryButton.imageView.tintColor = styleManager.themeTextColor;
     cell.leftSideAccessoryButton.selected = [self.completedSteps containsIndex:indexPath.item];
 }
 

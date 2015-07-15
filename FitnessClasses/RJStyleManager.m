@@ -29,7 +29,7 @@
     [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage tintableImageNamed:@"backwardIconSmall"]];
     
     [[UIBarButtonItem appearance] setTintColor:self.accentColor];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 #pragma mark - Public Class Methods

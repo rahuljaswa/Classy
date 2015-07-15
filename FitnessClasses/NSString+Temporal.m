@@ -19,7 +19,11 @@
     minutes = (totalSeconds % secondsInHour) / 60;
     seconds = (totalSeconds % secondsInHour) % 60;
     
-    return [NSString stringWithFormat:@"%02lu:%02lu:%02lu", (unsigned long)hours, (unsigned long)minutes, (unsigned long)seconds];
+    if (hours == 0) {
+        return [NSString stringWithFormat:@"%02lu:%02lu", (unsigned long)minutes, (unsigned long)seconds];
+    } else {
+        return [NSString stringWithFormat:@"%02lu:%02lu:%02lu", (unsigned long)hours, (unsigned long)minutes, (unsigned long)seconds];
+    }
 }
 
 @end
