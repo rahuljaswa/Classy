@@ -128,12 +128,16 @@
 - (void)setUpStyleManager {
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     styleManager.accentColor = [UIColor colorWithRed:45.0f/255.0f green:249.0f/255.0f blue:188.0f/255.0f alpha:1.0f];
-    styleManager.themeColor = [UIColor colorWithRed:31.0f/255.0f green:38.0f/255.0f blue:46.0f/255.0f alpha:1.0f];
-    styleManager.windowTintColor = [UIColor whiteColor];
-    styleManager.tintBlueColor = [UIColor colorWithRed:0.0f/255.0f green:122.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+    styleManager.maskColor = [UIColor colorWithWhite:0.0f alpha:0.8f];
+    styleManager.themeBackgroundColor = [UIColor colorWithRed:31.0f/255.0f green:38.0f/255.0f blue:46.0f/255.0f alpha:1.0f];
+    styleManager.themeTextColor = [UIColor whiteColor];
+    styleManager.titleColor = [UIColor whiteColor];
     
-    styleManager.lightTextColor = [UIColor whiteColor];
-    styleManager.darkTextColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
+    styleManager.tintBlueColor = [UIColor colorWithRed:0.0f/255.0f green:122.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
+    styleManager.tintLightGrayColor = [UIColor colorWithWhite:0.92 alpha:1.0f];
+    
+    styleManager.contrastOneLevelColor = [UIColor whiteColor];
+    styleManager.contrastTwoLevelsColor = [UIColor colorWithWhite:0.2f alpha:1.0f];
     
     styleManager.navigationBarFont = [UIFont fontWithName:@"Avenir-Heavy" size:18.0f];
     
@@ -143,8 +147,10 @@
     styleManager.largeFont = [UIFont fontWithName:@"Helvetica-Light" size:30.0f];
     styleManager.mediumBoldFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:20.0f];
     styleManager.mediumFont = [UIFont fontWithName:@"Helvetica-Light" size:20.0f];
-    styleManager.smallBoldFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13.0f];
-    styleManager.smallFont = [UIFont fontWithName:@"Helvetica-Light" size:13.0f];
+    styleManager.smallBoldFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0f];
+    styleManager.smallFont = [UIFont fontWithName:@"Helvetica-Light" size:15.0f];
+    styleManager.verySmallBoldFont = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13.0f];
+    styleManager.verySmallFont = [UIFont fontWithName:@"Helvetica-Light" size:13.0f];
 }
 
 @end

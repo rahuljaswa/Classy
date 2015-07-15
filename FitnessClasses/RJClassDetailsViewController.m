@@ -213,7 +213,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [RJStyleManager sharedInstance].themeColor;
+    self.view.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
     
     self.navigationItem.titleView = self.titleView;
     
@@ -224,40 +224,40 @@
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     
     self.titleView.detailTextLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleView.detailTextLabel.textColor = styleManager.windowTintColor;
-    self.titleView.detailTextLabel.font = styleManager.smallBoldFont;
+    self.titleView.detailTextLabel.textColor = styleManager.themeTextColor;
+    self.titleView.detailTextLabel.font = styleManager.verySmallBoldFont;
     
     self.titleView.textLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleView.textLabel.textColor = styleManager.lightTextColor;
+    self.titleView.textLabel.textColor = styleManager.titleColor;
     self.titleView.textLabel.font = styleManager.navigationBarFont;
     
     self.commentsViewController.view.backgroundColor = [UIColor clearColor];
-    self.commentsViewController.writeChatView.backgroundColor = styleManager.themeColor;
+    self.commentsViewController.writeChatView.backgroundColor = styleManager.themeBackgroundColor;
     self.commentsViewController.writeChatView.commentView.backgroundColor = [UIColor clearColor];
-    self.commentsViewController.writeChatView.commentView.textColor = styleManager.windowTintColor;
-    self.commentsViewController.writeChatView.commentView.tintColor = styleManager.windowTintColor;
-    self.commentsViewController.writeChatView.commentView.layer.borderColor = styleManager.windowTintColor.CGColor;
+    self.commentsViewController.writeChatView.commentView.textColor = styleManager.themeTextColor;
+    self.commentsViewController.writeChatView.commentView.tintColor = styleManager.themeTextColor;
+    self.commentsViewController.writeChatView.commentView.layer.borderColor = styleManager.themeTextColor.CGColor;
     self.commentsViewController.writeChatView.commentView.layer.borderWidth = 1.0f;
-    [self.commentsViewController.writeChatView.sendButton setTitleColor:styleManager.windowTintColor forState:UIControlStateNormal];
-    self.commentsViewController.writeChatView.sendButton.titleLabel.font = styleManager.smallBoldFont;
+    [self.commentsViewController.writeChatView.sendButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
+    self.commentsViewController.writeChatView.sendButton.titleLabel.font = styleManager.verySmallBoldFont;
     
     UIColor *facebookColor = [UIColor colorWithRed:59.0f/255.0f green:89.0f/255.0f blue:152.0f/255.0f alpha:1.0f];
     [self updateButtonUI:self.facebookButton withTitle:NSLocalizedString(@"Facebook", nil) color:facebookColor imageName:@"facebookIcon"];
     self.facebookButton.titleEdgeInsets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 0.0f);
     self.facebookButton.imageEdgeInsets = UIEdgeInsetsMake(12.0f, 5.0f, 12.0f, 0.0f);
-    self.facebookButton.titleLabel.font = styleManager.smallBoldFont;
+    self.facebookButton.titleLabel.font = styleManager.verySmallBoldFont;
     
     UIColor *twitterColor = [UIColor colorWithRed:19.0f/255.0f green:154.0f/255.0f blue:234.0f/255.0f alpha:1.0f];
     [self updateButtonUI:self.twitterButton withTitle:NSLocalizedString(@"Twitter", nil) color:twitterColor imageName:@"twitterIcon"];
     self.twitterButton.titleEdgeInsets = UIEdgeInsetsMake(0.0f, -5.0f, 0.0f, 0.0f);
     self.twitterButton.imageEdgeInsets = UIEdgeInsetsMake(12.0f, 0.0f, 12.0f, 0.0f);
-    self.twitterButton.titleLabel.font = styleManager.smallBoldFont;
+    self.twitterButton.titleLabel.font = styleManager.verySmallBoldFont;
     
     UIColor *messagesColor = [UIColor colorWithRed:0.0f/255.0f green:163.0f/255.0f blue:55.0f/255.0f alpha:1.0f];
     [self updateButtonUI:self.messagesButton withTitle:NSLocalizedString(@"Message", nil) color:messagesColor imageName:@"messagesIcon"];
     self.messagesButton.titleEdgeInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
     self.messagesButton.imageEdgeInsets = UIEdgeInsetsMake(12.0f, 0.0f, 12.0f, 0.0f);
-    self.messagesButton.titleLabel.font = styleManager.smallBoldFont;
+    self.messagesButton.titleLabel.font = styleManager.verySmallBoldFont;
 }
 
 @end

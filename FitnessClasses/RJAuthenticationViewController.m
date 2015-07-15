@@ -53,8 +53,8 @@ typedef NS_ENUM(NSUInteger, UIState) {
             break;
         case kUIStatePhoneVerification: {
             DGTAppearance *appearance = [[DGTAppearance alloc] init];
-            appearance.backgroundColor = [[RJStyleManager sharedInstance] themeColor];
-            appearance.accentColor = [UIColor whiteColor];
+            appearance.backgroundColor = [[RJStyleManager sharedInstance] themeBackgroundColor];
+            appearance.accentColor = [RJStyleManager sharedInstance].themeTextColor;
             [[Digits sharedInstance] authenticateWithDigitsAppearance:appearance viewController:nil title:nil completion:^(DGTSession *session, NSError *error) {
                 if (session) {
                     [SVProgressHUD showWithStatus:NSLocalizedString(@"Retrieving account details...", nil) maskType:SVProgressHUDMaskTypeClear];
@@ -288,15 +288,15 @@ typedef NS_ENUM(NSUInteger, UIState) {
     self.navigationItem.title = [NSLocalizedString(@"Login to Classy", nil) uppercaseString];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem cancelBarButtonItemWithTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside tintColor:styleManager.accentColor];
     
-    self.view.backgroundColor = styleManager.themeColor;
+    self.view.backgroundColor = styleManager.themeBackgroundColor;
     
     self.descriptionLabel.text = NSLocalizedString(@"Users can compete with friends, write comments, like playlists, buy premium playlists, and earn exclusive rewards, all to get that 365-Beach-Body!", nil);
-    self.descriptionLabel.textColor = styleManager.windowTintColor;
+    self.descriptionLabel.textColor = styleManager.themeTextColor;
     self.descriptionLabel.font = styleManager.mediumFont;
     
     self.startButton.titleLabel.font = styleManager.mediumFont;
     [self.startButton setTitleColor:styleManager.tintBlueColor forState:UIControlStateNormal];
-    [self.startButton setTitleColor:styleManager.windowTintColor forState:UIControlStateHighlighted];
+    [self.startButton setTitleColor:styleManager.themeTextColor forState:UIControlStateHighlighted];
 
     NSString *startButtonTitle = NSLocalizedString(@"Login Now", nil);
     NSMutableDictionary *normalAttributes =
@@ -307,7 +307,7 @@ typedef NS_ENUM(NSUInteger, UIState) {
     
     NSMutableDictionary *highlightAttributes =
     [[NSMutableDictionary alloc] initWithDictionary:
-     [RJStyleManager attributesWithFont:styleManager.mediumFont textColor:styleManager.lightTextColor textAlignment:NSTextAlignmentCenter]];
+     [RJStyleManager attributesWithFont:styleManager.mediumFont textColor:styleManager.themeTextColor textAlignment:NSTextAlignmentCenter]];
     [highlightAttributes setObject:@(NSUnderlineStyleSingle) forKey:NSUnderlineStyleAttributeName];
     [self.startButton setAttributedTitle:[[NSAttributedString alloc] initWithString:startButtonTitle attributes:highlightAttributes] forState:UIControlStateHighlighted];
     

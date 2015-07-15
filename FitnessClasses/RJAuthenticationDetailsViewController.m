@@ -76,23 +76,23 @@
         [_button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
         _button.clipsToBounds = YES;
         _button.contentEdgeInsets = UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f);
-        _button.layer.borderColor = [UIColor whiteColor].CGColor;
+        _button.layer.borderColor = styleManager.themeTextColor.CGColor;
         _button.layer.cornerRadius = 5.0f;
         _button.layer.borderWidth = 2.0f;
-        [_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_button setTitleColor:styleManager.themeColor forState:UIControlStateHighlighted];
-        [_button setBackgroundImage:[UIImage imageWithColor:styleManager.themeColor] forState:UIControlStateNormal];
-        [_button setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
+        [_button setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
+        [_button setTitleColor:styleManager.themeBackgroundColor forState:UIControlStateHighlighted];
+        [_button setBackgroundImage:[UIImage imageWithColor:styleManager.themeBackgroundColor] forState:UIControlStateNormal];
+        [_button setBackgroundImage:[UIImage imageWithColor:styleManager.themeTextColor] forState:UIControlStateHighlighted];
         
         _textField = [[UITextField alloc] initWithFrame:CGRectZero];
         _textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         _textField.leftViewMode = UITextFieldViewModeAlways;
         _textField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 10.0f, 10.0f)];
         _textField.rightViewMode = UITextFieldViewModeAlways;
-        _textField.tintColor = [UIColor whiteColor];
-        _textField.textColor = [UIColor whiteColor];
+        _textField.tintColor = styleManager.themeTextColor;
+        _textField.textColor = styleManager.themeTextColor;
         _textField.textAlignment = NSTextAlignmentCenter;
-        _textField.layer.borderColor = [UIColor whiteColor].CGColor;
+        _textField.layer.borderColor = styleManager.themeTextColor.CGColor;
         _textField.layer.cornerRadius = 5.0f;
         _textField.layer.borderWidth = 2.0f;
     }
@@ -110,7 +110,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [[RJStyleManager sharedInstance] themeColor];
+    self.view.backgroundColor = [[RJStyleManager sharedInstance] themeBackgroundColor];
     
     UIImage *cancelImage = [UIImage tintableImageNamed:@"cancelButton"];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cancelImage

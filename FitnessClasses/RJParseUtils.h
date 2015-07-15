@@ -7,6 +7,7 @@
 //
 
 #import "RJCreditsHelper.h"
+#import "RJParseCategory.h"
 #import <Foundation/Foundation.h>
 
 
@@ -23,8 +24,8 @@
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassesForInstructor:(RJParseUser *)instructor completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassWithId:(NSString *)objectId completion:(void (^)(RJParseClass *klass))completion;
-+ (void)fetchNewClassesWithCompletion:(void (^)(NSArray *))completion;
-+ (void)fetchPopularClassesWithCompletion:(void (^)(NSArray *popularClasses))completion;
++ (void)fetchNewClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(NSArray *))completion;
++ (void)fetchPopularClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(NSArray *popularClasses))completion;
 
 + (void)incrementCreditsAvailableForUser:(RJParseUser *)user byNumber:(NSNumber *)number completion:(void (^)(BOOL success))completion;
 + (void)incrementCreditPurchasesForUser:(RJParseUser *)user forCreditsPurchased:(NSNumber *)creditsPurchased completion:(void (^)(BOOL success))completion;

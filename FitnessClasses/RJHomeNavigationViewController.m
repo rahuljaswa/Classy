@@ -100,6 +100,11 @@
 
 #pragma mark - Private Instance Methods - Animation
 
+- (void)presentPlayingClassViewController {
+    self.currentClassViewController.playingClassViewController.minimized = NO;
+    [self animateClassViewControllerWithFinalFrame:[self maximizedFrameForCurrentClassViewController] completion:nil];
+}
+
 - (void)animateClassViewControllerWithFinalFrame:(CGRect)frame completion:(void (^)(void))completion {
     [UIView animateWithDuration:0.5
                           delay:0.0
@@ -119,17 +124,26 @@
 #pragma mark - Private Instance Methods
 
 - (void)startClass:(RJParseClass *)klass autoPlay:(BOOL)autoPlay {
-    if (self.currentClassViewController.playingClassViewController.klass && self.currentClassViewController.playingClassViewController.hasClassStarted) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"Are you sure you want to switch from your current workout?", nil) preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:
-         [UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self.currentClassViewController.playingClassViewController setKlass:klass withAutoPlay:autoPlay];
-        }]];
-        [alertController addAction:
-         [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
-        [self presentViewController:alertController animated:YES completion:nil];
+    if ([klass.objectId isEqualToString:self.currentClassViewController.playingClassViewController.klass.objectId]) {
+        [self presentPlayingClassViewController];
     } else {
-        [self.currentClassViewController.playingClassViewController setKlass:klass withAutoPlay:autoPlay];
+        if (self.currentClassViewController.playingClassViewController.klass && self.currentClassViewController.playingClassViewController.hasClassStarted) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"Are you sure you want to switch from your current workout?", nil) preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:
+             [UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self.currentClassViewController.playingClassViewController setKlass:klass withAutoPlay:autoPlay];
+                [self presentPlayingClassViewController];
+            }]];
+            [alertController addAction:
+             [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        } else {
+            BOOL shouldPresent = !!self.currentClassViewController.playingClassViewController.klass;
+            [self.currentClassViewController.playingClassViewController setKlass:klass withAutoPlay:autoPlay];
+            if (shouldPresent) {
+                [self presentPlayingClassViewController];
+            }
+        }
     }
 }
 

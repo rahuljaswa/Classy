@@ -14,21 +14,6 @@
 #import "RJStyleManager.h"
 
 
-static NSString * const kCellID = @"cellID";
-
-typedef NS_ENUM(NSUInteger, Section) {
-    kSectionGeneric,
-    kSectionSpecific,
-    kNumSections
-};
-
-typedef NS_ENUM(NSUInteger, GenericSectionItem) {
-    kGenericSectionItemNew,
-    kGenericSectionItemPopular,
-    kNumGenericSectionItems
-};
-
-
 @interface RJSortOptionsViewController ()
 
 @property (nonatomic, strong) NSArray *categories;
@@ -42,24 +27,11 @@ typedef NS_ENUM(NSUInteger, GenericSectionItem) {
 #pragma mark Public Protocols - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return kNumSections;
+    return [self.categories count];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSInteger numberOfSections = 0;
-    
-    Section sortSection = section;
-    switch (sortSection) {
-        case kSectionGeneric:
-            numberOfSections = kNumGenericSectionItems;
-            break;
-        case kSectionSpecific:
-            numberOfSections = [self.categories count];
-            break;
-        default:
-            break;
-    }
-    return numberOfSections;
+    return 1;
 }
 
 #pragma mark Public Protocols - UICollectionViewDelegate
@@ -72,28 +44,7 @@ typedef NS_ENUM(NSUInteger, GenericSectionItem) {
     UICollectionViewCell *newlySelectedCell = [collectionView cellForItemAtIndexPath:self.selectedIndexPath];
     newlySelectedCell.selected = YES;
     
-    Section sortSection = self.selectedIndexPath.section;
-    switch (sortSection) {
-        case kSectionGeneric: {
-            GenericSectionItem genericSectionItem = indexPath.item;
-            switch (genericSectionItem) {
-                case kGenericSectionItemNew:
-                    [self.sortOptionsDelegate sortOptionsViewControllerDidSelectNew:self];
-                    break;
-                case kGenericSectionItemPopular:
-                    [self.sortOptionsDelegate sortOptionsViewControllerDidSelectPopular:self];
-                    break;
-                default:
-                    break;
-            }
-            break;
-        }
-        case kSectionSpecific:
-            [self.sortOptionsDelegate sortOptionsViewController:self didSelectCategory:self.categories[indexPath.item]];
-            break;
-        default:
-            break;
-    }
+    [self.sortOptionsDelegate sortOptionsViewController:self didSelectCategory:self.categories[indexPath.section]];
 }
 
 #pragma mark - Public Instance Methods
@@ -107,35 +58,14 @@ typedef NS_ENUM(NSUInteger, GenericSectionItem) {
     galleryCell.haveSelectedTitle = YES;
     
     galleryCell.backgroundView.backgroundColor = [UIColor clearColor];
-    galleryCell.selectedTitleColor = styleManager.themeColor;
-    galleryCell.unselectedTitleColor = styleManager.windowTintColor;
-    galleryCell.selectedTitleBackgroundColor = styleManager.windowTintColor;
-    galleryCell.unselectedTitleBackgroundColor = styleManager.themeColor;
-    galleryCell.title.font = styleManager.smallBoldFont;
+    galleryCell.selectedTitleColor = styleManager.themeBackgroundColor;
+    galleryCell.unselectedTitleColor = styleManager.themeTextColor;
+    galleryCell.selectedTitleBackgroundColor = styleManager.themeTextColor;
+    galleryCell.unselectedTitleBackgroundColor = styleManager.themeBackgroundColor;
+    galleryCell.title.font = styleManager.verySmallBoldFont;
     galleryCell.title.insets = UIEdgeInsetsMake(2.0f, 4.0f, 2.0f, 4.0f);
 
-    Section sortSection = indexPath.section;
-    switch (sortSection) {
-        case kSectionGeneric: {
-            GenericSectionItem genericSectionItem = indexPath.item;
-            switch (genericSectionItem) {
-                case kGenericSectionItemNew:
-                    galleryCell.title.text = NSLocalizedString(@"New", nil);
-                    break;
-                case kGenericSectionItemPopular:
-                    galleryCell.title.text = NSLocalizedString(@"Popular", nil);
-                    break;
-                default:
-                    break;
-            }
-            break;
-        }
-        case kSectionSpecific:
-            galleryCell.title.text = [self.categories[indexPath.item] name];
-            break;
-        default:
-            break;
-    }
+    galleryCell.title.text = [self.categories[indexPath.section] name];
     
     galleryCell.selected = [indexPath isEqual:self.selectedIndexPath];
 }
@@ -145,7 +75,7 @@ typedef NS_ENUM(NSUInteger, GenericSectionItem) {
     
     self.selectedIndexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     
-    self.collectionView.backgroundColor = [RJStyleManager sharedInstance].themeColor;
+    self.collectionView.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
 
     self.itemsPerRow = 3.5f;
     self.spaced = NO;
@@ -156,6 +86,9 @@ typedef NS_ENUM(NSUInteger, GenericSectionItem) {
     [RJParseUtils fetchAllCategoriesWithCompletion:^(NSArray *categories) {
         self.categories = categories;
         [self.collectionView reloadData];
+        if (categories && ([categories count] > 0)) {
+            [self.sortOptionsDelegate sortOptionsViewController:self didSelectCategory:self.categories[0]];
+        }
     }];
 }
 

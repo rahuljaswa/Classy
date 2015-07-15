@@ -24,7 +24,7 @@
         _titleView.translatesAutoresizingMaskIntoConstraints = NO;
         _titleView.image = [UIImage tintableImageNamed:@"wordmark"];
         _titleView.contentMode = UIViewContentModeScaleAspectFit;
-        [_titleView setTintColor:styleManager.windowTintColor];
+        [_titleView setTintColor:styleManager.themeTextColor];
         _titleView.userInteractionEnabled = YES;
         [self addSubview:_titleView];
         

@@ -4,6 +4,7 @@
 //
 
 #import "RJClassImageCacheEntity.h"
+#import "RJExerciseStepImageCacheEntity.h"
 #import "RJImageCacheManager.h"
 #import "RJTrackImageCacheEntity.h"
 #import "RJUserImageCacheEntity.h"
@@ -96,7 +97,16 @@
     format6.devices = FICImageFormatDevicePhone;
     format6.protectionMode = FICImageFormatProtectionModeCompleteUntilFirstUserAuthentication;
     
-    return @[format1, format2, format3, format4, format5, format6];
+    FICImageFormat *format7 = [[FICImageFormat alloc] init];
+    format7.name = kRJExerciseStepImageFormatFullScreen16BitBGR;
+    format7.family = kRJImageFormatFamilyExerciseStep;
+    format7.style = FICImageFormatStyle32BitBGRA;
+    format7.imageSize = [UIScreen mainScreen].bounds.size;
+    format7.maximumCount = 500;
+    format7.devices = FICImageFormatDevicePhone;
+    format7.protectionMode = FICImageFormatProtectionModeCompleteUntilFirstUserAuthentication;
+    
+    return @[format1, format2, format3, format4, format5, format6, format7];
 }
 
 @end

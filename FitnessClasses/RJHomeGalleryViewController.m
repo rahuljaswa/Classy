@@ -31,7 +31,9 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
 
 @interface RJHomeGalleryViewController ()
 
+@property (nonatomic, assign, getter=hasFoundInitialClass) BOOL foundInitialClass;
 @property (nonatomic, strong) RJParseCategory *category;
+@property (nonatomic, assign) RJParseCategoryType categoryType;
 @property (nonatomic, strong, readwrite) NSArray *classes;
 @property (nonatomic, assign) ClassesState classesState;
 
@@ -42,14 +44,30 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
 
 #pragma mark - Private Properties
 
-- (void)setClassesState:(ClassesState)classesState completion:(void (^)(void))completion {
+- (void)setClassesState:(ClassesState)classesState category:(RJParseCategory *)category categoryType:(RJParseCategoryType)categoryType completion:(void (^)(void))completion {
     void (^fetchCompletion)(NSArray *) = ^ (NSArray *classes) {
         self.classes = classes;
         [self.collectionView reloadData];
+        
+        if (!self.hasFoundInitialClass) {
+            NSUInteger firstFreeClassIndex = [classes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                return ([[(RJParseClass *)obj creditsCost] unsignedIntegerValue] == 0);
+            }];
+            
+            if (firstFreeClassIndex != NSNotFound) {
+                [self.homeGalleryDelegate homeGalleryViewController:self wantsPlayForClass:self.classes[firstFreeClassIndex] autoPlay:NO];
+            }
+            
+            self.foundInitialClass = YES;
+        }
+        
         if (completion) {
             completion();
         }
     };
+    
+    self.category = category;
+    self.categoryType = categoryType;
     
     switch (classesState) {
         case kClassesStateNone:
@@ -59,24 +77,13 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
             [RJParseUtils fetchClassesForCategory:self.category completion:fetchCompletion];
             break;
         case kClassesStateNew:
-            if (_classesState != classesState) {
-                _classesState = classesState;
-                [RJParseUtils fetchNewClassesWithCompletion:fetchCompletion];
-            }
+            _classesState = classesState;
+            [RJParseUtils fetchNewClassesForCategoryType:self.categoryType withCompletion:fetchCompletion];
             break;
         case kClassesStatePopular:
-            if (_classesState != classesState) {
-                _classesState = classesState;
-                [RJParseUtils fetchPopularClassesWithCompletion:fetchCompletion];
-            }
+            _classesState = classesState;
+            [RJParseUtils fetchPopularClassesForCategoryType:self.categoryType withCompletion:fetchCompletion];
             break;
-    }
-}
-
-- (void)setClassesStateToClassesStateCategoryWithCategory:(RJParseCategory *)category completion:(void (^)(void))completion {
-    if (!((self.classesState == kClassesStateCategory) && ([self.category isEqual:category]))) {
-        self.category = category;
-        [self setClassesState:kClassesStateCategory completion:completion];
     }
 }
 
@@ -152,19 +159,19 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
     }
     
     accessoriesView.summary.text = [summaryText stringByAppendingString:classCostString];;
-    accessoriesView.summary.font = styleManager.smallFont;
-    accessoriesView.summary.textColor = styleManager.lightTextColor;
-    accessoriesView.summary.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.8f];
+    accessoriesView.summary.font = styleManager.verySmallFont;
+    accessoriesView.summary.textColor = styleManager.themeTextColor;
+    accessoriesView.summary.backgroundColor = styleManager.maskColor;
     
     accessoriesView.playsCount.text = [NSString stringWithFormat:@" %lu", (unsigned long)[class.plays unsignedIntegerValue]];
-    accessoriesView.playsCount.font = styleManager.smallFont;
-    accessoriesView.playsCount.textColor = styleManager.lightTextColor;
-    accessoriesView.playsCount.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.8f];
+    accessoriesView.playsCount.font = styleManager.verySmallFont;
+    accessoriesView.playsCount.textColor = styleManager.themeTextColor;
+    accessoriesView.playsCount.backgroundColor = styleManager.maskColor;
     
     [accessoriesView.playsIcon setImage:[UIImage tintableImageNamed:@"playsIcon"]];
     accessoriesView.playsIcon.contentMode = UIViewContentModeCenter;
-    [accessoriesView.playsIcon setTintColor:styleManager.lightTextColor];
-    accessoriesView.playsIcon.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.8f];
+    [accessoriesView.playsIcon setTintColor:styleManager.themeTextColor];
+    accessoriesView.playsIcon.backgroundColor = styleManager.maskColor;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
     accessoriesView.userInteractionEnabled = YES;
@@ -188,24 +195,26 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
             [RJParseUtils fetchClassesForCategory:self.category completion:fetchCompletion];
             break;
         case kClassesStateNew:
-            [RJParseUtils fetchNewClassesWithCompletion:fetchCompletion];
+            [RJParseUtils fetchNewClassesForCategoryType:self.categoryType withCompletion:fetchCompletion];
             break;
         case kClassesStatePopular:
-            [RJParseUtils fetchPopularClassesWithCompletion:fetchCompletion];
+            [RJParseUtils fetchPopularClassesForCategoryType:self.categoryType withCompletion:fetchCompletion];
             break;
     }
 }
 
 - (void)switchToClassesForCategory:(RJParseCategory *)category completion:(void (^)(void))completion {
-    [self setClassesStateToClassesStateCategoryWithCategory:category completion:completion];
+    if (!((self.classesState == kClassesStateCategory) && ([self.category isEqual:category]))) {
+        [self setClassesState:kClassesStateCategory category:category categoryType:kRJParseCategoryTypeNone completion:completion];
+    }
 }
 
-- (void)switchToNewClassesWithCompletion:(void (^)(void))completion {
-    [self setClassesState:kClassesStateNew completion:completion];
+- (void)switchToPopularClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(void))completion {
+    [self setClassesState:kClassesStatePopular category:nil categoryType:categoryType completion:completion];
 }
 
-- (void)switchToPopularClassesWithCompletion:(void (^)(void))completion {
-    [self setClassesState:kClassesStatePopular completion:completion];
+- (void)switchToNewClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(void))completion {
+    [self setClassesState:kClassesStateNew category:nil categoryType:categoryType completion:completion];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -215,6 +224,11 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
         self.collectionView.contentInset = insets;
         self.collectionView.scrollIndicatorInsets = insets;
     }
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.collectionView.backgroundColor = [RJStyleManager sharedInstance].contrastOneLevelColor;
 }
 
 @end

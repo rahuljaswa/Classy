@@ -24,6 +24,9 @@
     [query includeKey:@"instructionQueue"];
     [query includeKey:@"category"];
     [query includeKey:@"instructor"];
+    [query includeKey:@"instructions"];
+    [query includeKey:@"instructions.exercise"];
+    [query includeKey:@"instructions.exercise.steps"];
     [query includeKey:@"comments"];
     [query includeKey:@"comments.creator"];
     [query includeKey:@"likes"];
@@ -66,6 +69,7 @@
 
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Category"];
+    [query orderByAscending:@"categoryType"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all categories\n\n%@", [error localizedDescription]);
@@ -129,13 +133,22 @@
     }];
 }
 
-+ (void)fetchNewClassesWithCompletion:(void (^)(NSArray *))completion {
++ (void)fetchNewClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Class"];
     [self updateClassQueryWithIncludedKeys:query];
+    if (categoryType == kRJParseCategoryTypeNone) {
+        PFQuery *subquery = [PFQuery queryWithClassName:@"Category"];
+        [subquery whereKeyDoesNotExist:@"categoryType"];
+        [query whereKey:@"category" matchesQuery:subquery];
+    } else {
+        PFQuery *subquery = [PFQuery queryWithClassName:@"Category"];
+        [subquery whereKey:@"categoryType" equalTo:@(categoryType)];
+        [query whereKey:@"category" matchesQuery:subquery];
+    }
     [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
-            NSLog(@"Error fetching all instructors\n\n%@", [error localizedDescription]);
+            NSLog(@"Error fetching all classes\n\n%@", [error localizedDescription]);
         }
         if (completion) {
             completion(objects);
@@ -143,13 +156,22 @@
     }];
 }
 
-+ (void)fetchPopularClassesWithCompletion:(void (^)(NSArray *))completion {
++ (void)fetchPopularClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Class"];
     [self updateClassQueryWithIncludedKeys:query];
     [query orderByDescending:@"plays"];
+    if (categoryType == kRJParseCategoryTypeNone) {
+        PFQuery *subquery = [PFQuery queryWithClassName:@"Category"];
+        [subquery whereKeyDoesNotExist:@"categoryType"];
+        [query whereKey:@"category" matchesQuery:subquery];
+    } else {
+        PFQuery *subquery = [PFQuery queryWithClassName:@"Category"];
+        [subquery whereKey:@"categoryType" equalTo:@(categoryType)];
+        [query whereKey:@"category" matchesQuery:subquery];
+    }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
-            NSLog(@"Error fetching all instructors\n\n%@", [error localizedDescription]);
+            NSLog(@"Error fetching all classes\n\n%@", [error localizedDescription]);
         }
         if (completion) {
             completion(objects);

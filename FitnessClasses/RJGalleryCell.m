@@ -9,6 +9,7 @@
 #import "RJGalleryCell.h"
 #import "RJGalleryCell_FastImageCache.h"
 #import "RJInsetLabel.h"
+#import "RJStyleManager.h"
 
 
 @interface RJGalleryCell ()
@@ -54,7 +55,7 @@
             [self.contentView insertSubview:_maskView belowSubview:self.title];
         } else {
             _maskView = [[UIView alloc] initWithFrame:self.contentView.bounds];
-            _maskView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.8f];
+            _maskView.backgroundColor = [RJStyleManager sharedInstance].maskColor;
             [self.contentView insertSubview:_maskView belowSubview:self.title];
         }
     } else {

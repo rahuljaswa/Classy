@@ -57,8 +57,17 @@
 		B77C4CF71B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF61B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m */; };
 		B77C4CFA1B2BACC60088393D /* UINavigationItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */; };
 		B77C4CFD1B2BBD900088393D /* RJHomeTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */; };
+		B7EC6DB51B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC6DB41B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m */; };
+		B7EC6DB81B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC6DB71B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m */; };
 		B7F9CE561B2DDD9D00968559 /* RJSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */; };
 		B7F9CE591B2E146100968559 /* RJCreditsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE581B2E146100968559 /* RJCreditsHelper.m */; };
+		B7FF38471B54763100083FE3 /* RJParseExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38461B54763100083FE3 /* RJParseExercise.m */; };
+		B7FF384A1B54764300083FE3 /* RJParseExerciseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38491B54764300083FE3 /* RJParseExerciseStep.m */; };
+		B7FF384D1B5479D100083FE3 /* RJParseExerciseInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF384C1B5479D100083FE3 /* RJParseExerciseInstruction.m */; };
+		B7FF38511B54808800083FE3 /* RJExerciseInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38501B54808800083FE3 /* RJExerciseInstructionCell.m */; };
+		B7FF385B1B55EAE900083FE3 /* RJExerciseStepsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF385A1B55EAE900083FE3 /* RJExerciseStepsViewController.m */; };
+		B7FF385F1B55EB1E00083FE3 /* RJExerciseStepCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF385E1B55EB1E00083FE3 /* RJExerciseStepCell.m */; };
+		B7FF38621B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38611B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m */; };
 		E92ED8C8EB19D17A3D85A9C0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14807AAA5D85AB30F68D5C0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -168,10 +177,28 @@
 		B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+RJAdditions.m"; sourceTree = "<group>"; };
 		B77C4CFB1B2BBD900088393D /* RJHomeTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeTitleView.h; sourceTree = "<group>"; };
 		B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeTitleView.m; sourceTree = "<group>"; };
+		B7EC6DB31B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSelfPacedPlayingClassViewController.h; sourceTree = "<group>"; };
+		B7EC6DB41B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSelfPacedPlayingClassViewController.m; sourceTree = "<group>"; };
+		B7EC6DB61B54450800EC56B9 /* RJChoreographedPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJChoreographedPlayingClassViewController.h; sourceTree = "<group>"; };
+		B7EC6DB71B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJChoreographedPlayingClassViewController.m; sourceTree = "<group>"; };
 		B7F9CE541B2DDD9D00968559 /* RJSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSettingsViewController.h; sourceTree = "<group>"; };
 		B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSettingsViewController.m; sourceTree = "<group>"; };
 		B7F9CE571B2E146100968559 /* RJCreditsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreditsHelper.h; sourceTree = "<group>"; };
 		B7F9CE581B2E146100968559 /* RJCreditsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreditsHelper.m; sourceTree = "<group>"; };
+		B7FF38451B54763100083FE3 /* RJParseExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExercise.h; sourceTree = "<group>"; };
+		B7FF38461B54763100083FE3 /* RJParseExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseExercise.m; sourceTree = "<group>"; };
+		B7FF38481B54764300083FE3 /* RJParseExerciseStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExerciseStep.h; sourceTree = "<group>"; };
+		B7FF38491B54764300083FE3 /* RJParseExerciseStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseExerciseStep.m; sourceTree = "<group>"; };
+		B7FF384B1B5479D100083FE3 /* RJParseExerciseInstruction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExerciseInstruction.h; sourceTree = "<group>"; };
+		B7FF384C1B5479D100083FE3 /* RJParseExerciseInstruction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseExerciseInstruction.m; sourceTree = "<group>"; };
+		B7FF384F1B54808800083FE3 /* RJExerciseInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseInstructionCell.h; sourceTree = "<group>"; };
+		B7FF38501B54808800083FE3 /* RJExerciseInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseInstructionCell.m; sourceTree = "<group>"; };
+		B7FF38591B55EAE900083FE3 /* RJExerciseStepsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseStepsViewController.h; sourceTree = "<group>"; };
+		B7FF385A1B55EAE900083FE3 /* RJExerciseStepsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseStepsViewController.m; sourceTree = "<group>"; };
+		B7FF385D1B55EB1E00083FE3 /* RJExerciseStepCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseStepCell.h; sourceTree = "<group>"; };
+		B7FF385E1B55EB1E00083FE3 /* RJExerciseStepCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseStepCell.m; sourceTree = "<group>"; };
+		B7FF38601B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseStepImageCacheEntity.h; sourceTree = "<group>"; };
+		B7FF38611B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseStepImageCacheEntity.m; sourceTree = "<group>"; };
 		D14807AAA5D85AB30F68D5C0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEF9143C93AF01973D41B40A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -226,6 +253,12 @@
 				23040EC01AFB11CA00852D94 /* RJParseClass.m */,
 				B756B5CE1B2A9EAF0088E918 /* RJParseComment.h */,
 				B756B5CF1B2A9EAF0088E918 /* RJParseComment.m */,
+				B7FF38451B54763100083FE3 /* RJParseExercise.h */,
+				B7FF38461B54763100083FE3 /* RJParseExercise.m */,
+				B7FF384B1B5479D100083FE3 /* RJParseExerciseInstruction.h */,
+				B7FF384C1B5479D100083FE3 /* RJParseExerciseInstruction.m */,
+				B7FF38481B54764300083FE3 /* RJParseExerciseStep.h */,
+				B7FF38491B54764300083FE3 /* RJParseExerciseStep.m */,
 				B756B5D11B2A9EC10088E918 /* RJParseLike.h */,
 				B756B5D21B2A9EC10088E918 /* RJParseLike.m */,
 				23040EBC1AFB11AC00852D94 /* RJParseUser.h */,
@@ -252,7 +285,7 @@
 			children = (
 				B7F9CE541B2DDD9D00968559 /* RJSettingsViewController.h */,
 				B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */,
-				B77C4CE21B2B77A00088393D /* Class Subpages */,
+				B77C4CE21B2B77A00088393D /* Class Pages */,
 				23C0D44C1B1E54C3005E31BA /* Home */,
 			);
 			name = "Main Pages";
@@ -287,6 +320,8 @@
 			children = (
 				2353FCB71AFCAFD700669E64 /* RJClassImageCacheEntity.h */,
 				2353FCB81AFCAFD700669E64 /* RJClassImageCacheEntity.m */,
+				B7FF38601B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.h */,
+				B7FF38611B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m */,
 				23E463EC1AF87268008194D6 /* RJImageCacheManager.h */,
 				23E463ED1AF87268008194D6 /* RJImageCacheManager.m */,
 				2353FCAD1AFC82C500669E64 /* RJTrackImageCacheEntity.h */,
@@ -326,7 +361,7 @@
 				B7F9CE581B2E146100968559 /* RJCreditsHelper.m */,
 				B756B5C11B2A5D5F0088E918 /* Authentication */,
 				233386981AFD0CC400181446 /* Categories */,
-				23E63FB41B1E9BD0008C8E66 /* Custom Generic Views */,
+				23E63FB41B1E9BD0008C8E66 /* Custom Generic UI Elements */,
 				23040E9E1AFADF7900852D94 /* Gallery */,
 				233386971AFD0CA900181446 /* Main Pages */,
 				2353FCB31AFC82D900669E64 /* Image Cache */,
@@ -389,7 +424,7 @@
 			name = Home;
 			sourceTree = "<group>";
 		};
-		23E63FB41B1E9BD0008C8E66 /* Custom Generic Views */ = {
+		23E63FB41B1E9BD0008C8E66 /* Custom Generic UI Elements */ = {
 			isa = PBXGroup;
 			children = (
 				23E63FB11B1E9BC9008C8E66 /* RJInsetLabel.h */,
@@ -397,7 +432,7 @@
 				B77C4CEF1B2B8D4D0088393D /* RJStackedTitleView.h */,
 				B77C4CF01B2B8D4D0088393D /* RJStackedTitleView.m */,
 			);
-			name = "Custom Generic Views";
+			name = "Custom Generic UI Elements";
 			sourceTree = "<group>";
 		};
 		85CE149FAECE8F2D9E0DD7B0 /* Frameworks */ = {
@@ -435,9 +470,11 @@
 			name = Authentication;
 			sourceTree = "<group>";
 		};
-		B77C4CE21B2B77A00088393D /* Class Subpages */ = {
+		B77C4CE21B2B77A00088393D /* Class Pages */ = {
 			isa = PBXGroup;
 			children = (
+				B7FF385C1B55EAFD00083FE3 /* Exercise Steps */,
+				B7FF384E1B54805800083FE3 /* Playing Class Pages */,
 				B756B5CB1B2A9C3F0088E918 /* RJClassCommentsViewController.h */,
 				B756B5CC1B2A9C3F0088E918 /* RJClassCommentsViewController.m */,
 				B77C4CE91B2B78540088393D /* RJClassDetailsViewController.h */,
@@ -449,7 +486,31 @@
 				B77C4CE61B2B78430088393D /* RJPlayingClassViewController.h */,
 				B77C4CE71B2B78430088393D /* RJPlayingClassViewController.m */,
 			);
-			name = "Class Subpages";
+			name = "Class Pages";
+			sourceTree = "<group>";
+		};
+		B7FF384E1B54805800083FE3 /* Playing Class Pages */ = {
+			isa = PBXGroup;
+			children = (
+				B7EC6DB61B54450800EC56B9 /* RJChoreographedPlayingClassViewController.h */,
+				B7EC6DB71B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m */,
+				B7FF384F1B54808800083FE3 /* RJExerciseInstructionCell.h */,
+				B7FF38501B54808800083FE3 /* RJExerciseInstructionCell.m */,
+				B7EC6DB31B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.h */,
+				B7EC6DB41B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m */,
+			);
+			name = "Playing Class Pages";
+			sourceTree = "<group>";
+		};
+		B7FF385C1B55EAFD00083FE3 /* Exercise Steps */ = {
+			isa = PBXGroup;
+			children = (
+				B7FF385D1B55EB1E00083FE3 /* RJExerciseStepCell.h */,
+				B7FF385E1B55EB1E00083FE3 /* RJExerciseStepCell.m */,
+				B7FF38591B55EAE900083FE3 /* RJExerciseStepsViewController.h */,
+				B7FF385A1B55EAE900083FE3 /* RJExerciseStepsViewController.m */,
+			);
+			name = "Exercise Steps";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -504,6 +565,7 @@
 				TargetAttributes = {
 					23631A7D1AF86D9200E49935 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = A6KQ85A79N;
 					};
 					23631A961AF86D9300E49935 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -606,26 +668,35 @@
 				B77C4CF71B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m in Sources */,
 				2333869C1AFD506A00181446 /* RJGalleryCellAccessoriesView.m in Sources */,
 				2356ECF71B1FA02200DB5B66 /* RJMixpanelConstants.m in Sources */,
+				B7FF385F1B55EB1E00083FE3 /* RJExerciseStepCell.m in Sources */,
 				2353FCB91AFCAFD700669E64 /* RJClassImageCacheEntity.m in Sources */,
 				2353FCB11AFC82C500669E64 /* RJTrackImageCacheEntity.m in Sources */,
+				B7FF38621B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m in Sources */,
+				B7FF384D1B5479D100083FE3 /* RJParseExerciseInstruction.m in Sources */,
 				23040EB71AFB0BE400852D94 /* RJParseUtils.m in Sources */,
 				23E63FB31B1E9BC9008C8E66 /* RJInsetLabel.m in Sources */,
 				2353FCB61AFC969500669E64 /* UIImage+RJAdditions.m in Sources */,
 				2353FCC01AFCB70100669E64 /* RJStyleManager.m in Sources */,
+				B7FF38511B54808800083FE3 /* RJExerciseInstructionCell.m in Sources */,
 				B77C4CFA1B2BACC60088393D /* UINavigationItem+RJAdditions.m in Sources */,
+				B7EC6DB51B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m in Sources */,
 				23631A871AF86D9200E49935 /* AppDelegate.m in Sources */,
 				23040EA71AFAE01D00852D94 /* UIImageView+FastImageCache.m in Sources */,
+				B7FF384A1B54764300083FE3 /* RJParseExerciseStep.m in Sources */,
 				B77C4CFD1B2BBD900088393D /* RJHomeTitleView.m in Sources */,
 				2353FCA21AFC377800669E64 /* RJSoundCloudTrack.m in Sources */,
 				B7F9CE561B2DDD9D00968559 /* RJSettingsViewController.m in Sources */,
+				B7EC6DB81B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m in Sources */,
 				23040EC11AFB11CA00852D94 /* RJParseClass.m in Sources */,
 				B77C4CEB1B2B78540088393D /* RJClassDetailsViewController.m in Sources */,
 				2333869F1AFD5AA200181446 /* NSString+Temporal.m in Sources */,
 				B756B5CA1B2A5F550088E918 /* RJAuthenticationViewController.m in Sources */,
+				B7FF385B1B55EAE900083FE3 /* RJExerciseStepsViewController.m in Sources */,
 				B756B5CD1B2A9C3F0088E918 /* RJClassCommentsViewController.m in Sources */,
 				23E463EE1AF87268008194D6 /* RJImageCacheManager.m in Sources */,
 				23631A841AF86D9200E49935 /* main.m in Sources */,
 				B77C4CEE1B2B86DB0088393D /* RJClassSummaryView.m in Sources */,
+				B7FF38471B54763100083FE3 /* RJParseExercise.m in Sources */,
 				B756B5D01B2A9EAF0088E918 /* RJParseComment.m in Sources */,
 				B77C4CE81B2B78430088393D /* RJPlayingClassViewController.m in Sources */,
 				2353FCBC1AFCB17500669E64 /* RJGalleryCell+FastImageCache.m in Sources */,
@@ -763,6 +834,8 @@
 			baseConfigurationReference = EEF9143C93AF01973D41B40A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -771,6 +844,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -779,6 +853,8 @@
 			baseConfigurationReference = 74D17DB7932E584F6AA5BB5E /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -787,6 +863,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -15,7 +15,7 @@
 #import <ChatViewControllers/RJWriteChatView.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-static NSString *const kCellID = @"CellID";
+static NSString *const kClassCommentsViewControllerCellID = @"ClassCommentsViewControllerCellID";
 
 
 @interface RJClassCommentsViewController () <DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
@@ -38,7 +38,7 @@ static NSString *const kCellID = @"CellID";
         text = NSLocalizedString(@"Please login to write a comment", nil);
     }
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
-    NSDictionary *attributes = [RJStyleManager attributesWithFont:styleManager.mediumBoldFont textColor:styleManager.windowTintColor textAlignment:NSTextAlignmentCenter];
+    NSDictionary *attributes = [RJStyleManager attributesWithFont:styleManager.mediumBoldFont textColor:styleManager.themeTextColor textAlignment:NSTextAlignmentCenter];
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
@@ -56,7 +56,7 @@ static NSString *const kCellID = @"CellID";
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     NSDictionary *baseAttributes = nil;
     if (state == UIControlStateHighlighted) {
-        baseAttributes = [RJStyleManager attributesWithFont:styleManager.mediumFont textColor:styleManager.windowTintColor textAlignment:NSTextAlignmentCenter];
+        baseAttributes = [RJStyleManager attributesWithFont:styleManager.mediumFont textColor:styleManager.themeTextColor textAlignment:NSTextAlignmentCenter];
     } else {
         baseAttributes = [RJStyleManager attributesWithFont:styleManager.mediumFont textColor:styleManager.tintBlueColor textAlignment:NSTextAlignmentCenter];
     }
@@ -107,7 +107,7 @@ static NSString *const kCellID = @"CellID";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kClassCommentsViewControllerCellID forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -148,8 +148,8 @@ static NSString *const kCellID = @"CellID";
     }
     
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
-    NSDictionary *boldSmallAttributes = [RJStyleManager attributesWithFont:styleManager.smallBoldFont textColor:styleManager.windowTintColor textAlignment:NSTextAlignmentLeft];
-    NSDictionary *smallAttributes = [RJStyleManager attributesWithFont:styleManager.smallFont textColor:styleManager.windowTintColor textAlignment:NSTextAlignmentLeft];
+    NSDictionary *boldSmallAttributes = [RJStyleManager attributesWithFont:styleManager.verySmallBoldFont textColor:styleManager.themeTextColor textAlignment:NSTextAlignmentLeft];
+    NSDictionary *smallAttributes = [RJStyleManager attributesWithFont:styleManager.verySmallFont textColor:styleManager.themeTextColor textAlignment:NSTextAlignmentLeft];
     
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] init];
     if (!creatorText) {
@@ -223,12 +223,12 @@ static NSString *const kCellID = @"CellID";
     self.tableView.emptyDataSetDelegate = self;
     self.tableView.tableFooterView = [UIView new];
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kCellID];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kClassCommentsViewControllerCellID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     UIView *writeChatViewTopBorder = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0f, CGRectGetWidth(self.writeChatView.bounds), 1.0f)];
     writeChatViewTopBorder.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    writeChatViewTopBorder.backgroundColor = [RJStyleManager sharedInstance].windowTintColor;
+    writeChatViewTopBorder.backgroundColor = [RJStyleManager sharedInstance].themeTextColor;
     [self.writeChatView addSubview:writeChatViewTopBorder];
     
     [self.writeChatView.sendButton addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];

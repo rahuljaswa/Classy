@@ -13,16 +13,28 @@
 
 @dynamic audioQueue;
 @dynamic category;
+@dynamic classType;
 @dynamic comments;
 @dynamic creditsCost;
 @dynamic creditsSaleCost;
 @dynamic coverArtURL;
 @dynamic instructionQueue;
+@dynamic instructions;
 @dynamic instructor;
 @dynamic length;
 @dynamic likes;
 @dynamic name;
 @dynamic plays;
+
+@synthesize formattedClassType;
+
+#pragma mark - Public Getters
+
+- (RJParseClassType)formattedClassType {
+    return (RJParseClassType)[self.classType integerValue];
+}
+
+#pragma mark - Public Class Methods
 
 + (void)load {
     [self registerSubclass];

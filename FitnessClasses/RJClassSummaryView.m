@@ -42,9 +42,9 @@
         [self addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[classTitle][track]-6-|" options:0 metrics:nil views:views]];
         [self addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[trackArtwork]-5-[classTitle]-5-[playPauseButton]|" options:0 metrics:nil views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[trackArtwork]-8-[classTitle]-5-[playPauseButton]|" options:0 metrics:nil views:views]];
         [self addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[trackArtwork]-5-[track]-5-[playPauseButton]|" options:0 metrics:nil views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[trackArtwork]-8-[track]-5-[playPauseButton]|" options:0 metrics:nil views:views]];
         [self addConstraint:
          [NSLayoutConstraint constraintWithItem:trackArtwork attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:trackArtwork attribute:NSLayoutAttributeHeight multiplier:1.0f constant:0.0f]];
         [self addConstraint:

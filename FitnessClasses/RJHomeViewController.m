@@ -58,23 +58,23 @@
 
 #pragma mark - Private Protocols - RJSortOptionsViewControllerDelegate
 
-- (void)sortOptionsViewControllerDidSelectNew:(RJSortOptionsViewController *)sortOptionsViewController {
-    [SVProgressHUD show];
-    [self.galleryViewController switchToNewClassesWithCompletion:^{
-        [SVProgressHUD dismiss];
-    }];
-}
-
-- (void)sortOptionsViewControllerDidSelectPopular:(RJSortOptionsViewController *)sortOptionsViewController {
-    [SVProgressHUD show];
-    [self.galleryViewController switchToPopularClassesWithCompletion:^{
-        [SVProgressHUD dismiss];
-    }];
-}
-
 - (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectCategory:(RJParseCategory *)category {
     [SVProgressHUD show];
     [self.galleryViewController switchToClassesForCategory:category completion:^{
+        [SVProgressHUD dismiss];
+    }];
+}
+
+- (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectNewCategoryType:(RJParseCategoryType)categoryType {
+    [SVProgressHUD show];
+    [self.galleryViewController switchToNewClassesForCategoryType:categoryType withCompletion:^{
+        [SVProgressHUD dismiss];
+    }];
+}
+
+- (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectPopularCategoryType:(RJParseCategoryType)categoryType {
+    [SVProgressHUD show];
+    [self.galleryViewController switchToPopularClassesForCategoryType:categoryType withCompletion:^{
         [SVProgressHUD dismiss];
     }];
 }
@@ -133,7 +133,7 @@
     [self.view addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[sortOptionsView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[sortOptionsView(40)][galleryView]|" options:0 metrics:nil views:views]];
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[sortOptionsView(50)][galleryView]|" options:0 metrics:nil views:views]];
 }
 
 - (void)reloadWithCompletion:(void (^)(BOOL))completion {
@@ -157,19 +157,6 @@
     
     [self.galleryViewController didMoveToParentViewController:self];
     [self.sortOptionsViewController didMoveToParentViewController:self];
-    
-    [self.galleryViewController switchToNewClassesWithCompletion:^{
-        NSArray *classes = self.galleryViewController.classes;
-        if (classes) {
-            NSUInteger firstFreeClassIndex = [classes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-                return ([[(RJParseClass *)obj creditsCost] unsignedIntegerValue] == 0);
-            }];
-            
-            if (firstFreeClassIndex != NSNotFound) {
-                [self.delegate homeViewController:self wantsPlayForClass:classes[firstFreeClassIndex] autoPlay:NO];
-            }
-        }
-    }];
 }
 
 @end

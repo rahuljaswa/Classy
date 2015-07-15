@@ -40,7 +40,7 @@
     cancelButton.imageEdgeInsets = UIEdgeInsetsMake(8.0f, 0.0f, 8.0f, -30.0f);
     cancelButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [cancelButton addTarget:target action:action forControlEvents:controlEvents];
-    [cancelButton setImage:[UIImage tintableImageNamed:@"playIcon"] forState:UIControlStateNormal];
+    [cancelButton setImage:[UIImage tintableImageNamed:@"circledPlayIcon"] forState:UIControlStateNormal];
     [cancelButton setTintColor:tintColor];
     return [[self alloc] initWithCustomView:cancelButton];
 }

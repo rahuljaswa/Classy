@@ -15,16 +15,18 @@
 #pragma mark - Public Instance Methods
 
 - (void)applyGlobalStyles {
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:self.themeColor] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setShadowImage:[UIImage imageWithColor:self.windowTintColor]];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:self.themeBackgroundColor] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[UIImage imageWithColor:self.themeTextColor]];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setTitleTextAttributes:
      @{
        NSFontAttributeName : self.navigationBarFont,
-       NSForegroundColorAttributeName : self.windowTintColor
+       NSForegroundColorAttributeName : self.titleColor
        }
      ];
-    [[UINavigationBar appearance] setTintColor:self.accentColor];
+    [[UINavigationBar appearance] setTintColor:self.themeTextColor];
+    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage tintableImageNamed:@"backwardIconSmall"]];
+    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage tintableImageNamed:@"backwardIconSmall"]];
     
     [[UIBarButtonItem appearance] setTintColor:self.accentColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];

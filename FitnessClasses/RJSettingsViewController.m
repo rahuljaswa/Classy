@@ -15,7 +15,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 @import MessageUI.MFMailComposeViewController;
 
-static NSString *const kCellID = @"CellID";
+static NSString *const kSettingsCellID = @"SettingsCellID";
 
 typedef NS_ENUM(NSInteger, Section) {
     kSectionUserInfo,
@@ -90,7 +90,7 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSettingsCellID forIndexPath:indexPath];
     Section settingsSection = indexPath.section;
     switch (settingsSection) {
         case kSectionUserInfo: {
@@ -152,7 +152,7 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
         default:
             break;
     }
-    cell.textLabel.textColor = [RJStyleManager sharedInstance].lightTextColor;
+    cell.textLabel.textColor = [RJStyleManager sharedInstance].themeTextColor;
     cell.backgroundColor = [UIColor clearColor];
     cell.contentView.backgroundColor = [UIColor clearColor];
     return cell;
@@ -273,10 +273,10 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
     self.navigationItem.title = [NSLocalizedString(@"Settings", nil) uppercaseString];
     
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
-    self.tableView.separatorColor = styleManager.windowTintColor;
-    self.tableView.backgroundColor = styleManager.themeColor;
+    self.tableView.separatorColor = styleManager.themeTextColor;
+    self.tableView.backgroundColor = styleManager.themeBackgroundColor;
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kCellID];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kSettingsCellID];
     [[RJParseUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object,  NSError *error) {
         [self.tableView reloadData];
     }];

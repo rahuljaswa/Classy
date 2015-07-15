@@ -12,12 +12,16 @@
 @interface RJStyleManager : NSObject
 
 @property (nonatomic, strong) UIColor *accentColor;
-@property (nonatomic, strong) UIColor *themeColor;
-@property (nonatomic, strong) UIColor *tintBlueColor;
-@property (nonatomic, strong) UIColor *windowTintColor;
+@property (nonatomic, strong) UIColor *maskColor;
+@property (nonatomic, strong) UIColor *themeBackgroundColor;
+@property (nonatomic, strong) UIColor *themeTextColor;
+@property (nonatomic, strong) UIColor *titleColor;
 
-@property (nonatomic, strong) UIColor *darkTextColor;
-@property (nonatomic, strong) UIColor *lightTextColor;
+@property (nonatomic, strong) UIColor *tintBlueColor;
+@property (nonatomic, strong) UIColor *tintLightGrayColor;
+
+@property (nonatomic, strong) UIColor *contrastOneLevelColor;
+@property (nonatomic, strong) UIColor *contrastTwoLevelsColor;
 
 @property (nonatomic, strong) UIFont *navigationBarFont;
 
@@ -29,6 +33,8 @@
 @property (nonatomic, strong) UIFont *mediumFont;
 @property (nonatomic, strong) UIFont *smallBoldFont;
 @property (nonatomic, strong) UIFont *smallFont;
+@property (nonatomic, strong) UIFont *verySmallBoldFont;
+@property (nonatomic, strong) UIFont *verySmallFont;
 
 + (NSDictionary *)attributesWithFont:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment;
 
