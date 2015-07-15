@@ -30,6 +30,8 @@
 @property (nonatomic, strong, readonly) RJClassSummaryView *summaryView;
 @property (nonatomic, strong, readonly) RJStackedTitleView *titleView;
 
+@property (nonatomic, strong, readonly) UITapGestureRecognizer *tapRecognizer;
+
 @property (nonatomic, strong) UIViewController *currentPlayingClassViewController;
 
 @end
@@ -107,6 +109,11 @@
 - (void)setMinimized:(BOOL)minimized {
     _minimized = minimized;
     [[self navigationController] setNavigationBarHidden:_minimized animated:(self.isViewLoaded && self.view.window)];
+    if (_minimized) {
+        [self.view addGestureRecognizer:self.tapRecognizer];
+    } else {
+        [self.view removeGestureRecognizer:self.tapRecognizer];
+    }
 }
 
 #pragma mark - Private Protocols - RJChoreographedPlayingClassViewControllerDelegate
@@ -216,6 +223,7 @@
         _summaryView = [[RJClassSummaryView alloc] initWithFrame:CGRectZero];
         _summaryView.trackArtwork.backgroundColor = [RJStyleManager sharedInstance].themeTextColor;
         _titleView = [[RJStackedTitleView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 44.0f)];
+        _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
     }
     return self;
 }
@@ -242,10 +250,6 @@
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem toggleBarButtonItemWithTarget:self action:@selector(infoButtonPressed:) forControlEvents:UIControlEventTouchUpInside tintColor:styleManager.accentColor];
     
     [self.summaryView.playPauseButton addTarget:self action:@selector(playPauseButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
-    tapRecognizer.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:tapRecognizer];
     
     self.titleView.detailTextLabel.textAlignment = NSTextAlignmentCenter;
     self.titleView.detailTextLabel.textColor = styleManager.themeTextColor;
