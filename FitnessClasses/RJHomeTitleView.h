@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong, readonly) UIImageView *titleView;
 @property (nonatomic, strong, readonly) UIButton *settingsButton;
+@property (nonatomic, strong, readonly) UIActivityIndicatorView *spinner;
 
 @end

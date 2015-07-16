@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong, readonly) RJHomeGalleryViewController *galleryViewController;
 @property (nonatomic, strong, readonly) RJSortOptionsViewController *sortOptionsViewController;
+@property (nonatomic, strong, readonly) UIView *spacer;
+@property (nonatomic, strong, readonly) RJHomeTitleView *titleView;
 
 @end
 
@@ -31,6 +33,7 @@
 
 @synthesize galleryViewController = _galleryViewController;
 @synthesize sortOptionsViewController = _sortOptionsViewController;
+@synthesize spacer = _spacer;
 
 #pragma mark - Public Properties
 
@@ -50,6 +53,14 @@
     return _sortOptionsViewController;
 }
 
+- (UIView *)spacer {
+    if (!_spacer) {
+        _spacer = [[UIView alloc] initWithFrame:CGRectZero];
+        _spacer.backgroundColor = [RJStyleManager sharedInstance].themeTextColor;
+    }
+    return _spacer;
+}
+
 #pragma mark - Private Protocols - RJHomeGalleryViewControllerDelegate
 
 - (void)homeGalleryViewController:(RJHomeGalleryViewController *)homeGalleryViewController wantsPlayForClass:(RJParseClass *)klass autoPlay:(BOOL)autoPlay {
@@ -59,23 +70,23 @@
 #pragma mark - Private Protocols - RJSortOptionsViewControllerDelegate
 
 - (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectCategory:(RJParseCategory *)category {
-    [SVProgressHUD show];
+    [self.titleView.spinner startAnimating];
     [self.galleryViewController switchToClassesForCategory:category completion:^{
-        [SVProgressHUD dismiss];
+        [self.titleView.spinner stopAnimating];
     }];
 }
 
 - (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectNewCategoryType:(RJParseCategoryType)categoryType {
-    [SVProgressHUD show];
+    [self.titleView.spinner startAnimating];
     [self.galleryViewController switchToNewClassesForCategoryType:categoryType withCompletion:^{
-        [SVProgressHUD dismiss];
+        [self.titleView.spinner stopAnimating];
     }];
 }
 
 - (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectPopularCategoryType:(RJParseCategoryType)categoryType {
-    [SVProgressHUD show];
+    [self.titleView.spinner startAnimating];
     [self.galleryViewController switchToPopularClassesForCategoryType:categoryType withCompletion:^{
-        [SVProgressHUD dismiss];
+        [self.titleView.spinner stopAnimating];
     }];
 }
 
@@ -123,17 +134,22 @@
     galleryView.translatesAutoresizingMaskIntoConstraints = NO;
     UIView *sortOptionsView = self.sortOptionsViewController.view;
     sortOptionsView.translatesAutoresizingMaskIntoConstraints = NO;
+    UIView *spacer = self.spacer;
+    spacer.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addSubview:galleryView];
     [self.view addSubview:sortOptionsView];
+    [self.view addSubview:spacer];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(galleryView, sortOptionsView);
+    NSDictionary *views = NSDictionaryOfVariableBindings(galleryView, sortOptionsView, spacer);
     [self.view addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[galleryView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[spacer]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[sortOptionsView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[sortOptionsView(50)][galleryView]|" options:0 metrics:nil views:views]];
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[sortOptionsView(50)][spacer(1)][galleryView]|" options:0 metrics:nil views:views]];
 }
 
 - (void)reloadWithCompletion:(void (^)(BOOL))completion {
@@ -143,11 +159,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    RJHomeTitleView *titleView = [[RJHomeTitleView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.view.bounds), 44.0f)];
-    [titleView.settingsButton addTarget:self action:@selector(settingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    _titleView = [[RJHomeTitleView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.view.bounds), 44.0f)];
+    [_titleView.settingsButton addTarget:self action:@selector(settingsButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(titleViewTapRecognized:)];
-    [titleView.titleView addGestureRecognizer:tapRecognizer];
-    self.navigationItem.titleView = titleView;
+    [_titleView.titleView addGestureRecognizer:tapRecognizer];
+    self.navigationItem.titleView = _titleView;
     
     [self.galleryViewController willMoveToParentViewController:self];
     [self.sortOptionsViewController willMoveToParentViewController:self];
