@@ -68,6 +68,9 @@
 		B7FF385B1B55EAE900083FE3 /* RJExerciseStepsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF385A1B55EAE900083FE3 /* RJExerciseStepsViewController.m */; };
 		B7FF385F1B55EB1E00083FE3 /* RJExerciseStepCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF385E1B55EB1E00083FE3 /* RJExerciseStepCell.m */; };
 		B7FF38621B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38611B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m */; };
+		B7FF38651B57367600083FE3 /* RJTutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38641B57367600083FE3 /* RJTutorialViewController.m */; };
+		B7FF38691B57368F00083FE3 /* RJTutorialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38681B57368F00083FE3 /* RJTutorialCollectionViewCell.m */; };
+		B7FF386C1B577DDD00083FE3 /* RJUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF386B1B577DDD00083FE3 /* RJUserDefaults.m */; };
 		E92ED8C8EB19D17A3D85A9C0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14807AAA5D85AB30F68D5C0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -199,6 +202,12 @@
 		B7FF385E1B55EB1E00083FE3 /* RJExerciseStepCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseStepCell.m; sourceTree = "<group>"; };
 		B7FF38601B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseStepImageCacheEntity.h; sourceTree = "<group>"; };
 		B7FF38611B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseStepImageCacheEntity.m; sourceTree = "<group>"; };
+		B7FF38631B57367600083FE3 /* RJTutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTutorialViewController.h; sourceTree = "<group>"; };
+		B7FF38641B57367600083FE3 /* RJTutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTutorialViewController.m; sourceTree = "<group>"; };
+		B7FF38671B57368F00083FE3 /* RJTutorialCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTutorialCollectionViewCell.h; sourceTree = "<group>"; };
+		B7FF38681B57368F00083FE3 /* RJTutorialCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTutorialCollectionViewCell.m; sourceTree = "<group>"; };
+		B7FF386A1B577DDD00083FE3 /* RJUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJUserDefaults.h; sourceTree = "<group>"; };
+		B7FF386B1B577DDD00083FE3 /* RJUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJUserDefaults.m; sourceTree = "<group>"; };
 		D14807AAA5D85AB30F68D5C0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEF9143C93AF01973D41B40A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -283,6 +292,7 @@
 		233386971AFD0CA900181446 /* Main Pages */ = {
 			isa = PBXGroup;
 			children = (
+				B7FF38661B57367A00083FE3 /* Tutorial */,
 				B7F9CE541B2DDD9D00968559 /* RJSettingsViewController.h */,
 				B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */,
 				B77C4CE21B2B77A00088393D /* Class Pages */,
@@ -359,6 +369,8 @@
 			children = (
 				B7F9CE571B2E146100968559 /* RJCreditsHelper.h */,
 				B7F9CE581B2E146100968559 /* RJCreditsHelper.m */,
+				B7FF386A1B577DDD00083FE3 /* RJUserDefaults.h */,
+				B7FF386B1B577DDD00083FE3 /* RJUserDefaults.m */,
 				B756B5C11B2A5D5F0088E918 /* Authentication */,
 				233386981AFD0CC400181446 /* Categories */,
 				23E63FB41B1E9BD0008C8E66 /* Custom Generic UI Elements */,
@@ -511,6 +523,17 @@
 				B7FF385A1B55EAE900083FE3 /* RJExerciseStepsViewController.m */,
 			);
 			name = "Exercise Steps";
+			sourceTree = "<group>";
+		};
+		B7FF38661B57367A00083FE3 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				B7FF38671B57368F00083FE3 /* RJTutorialCollectionViewCell.h */,
+				B7FF38681B57368F00083FE3 /* RJTutorialCollectionViewCell.m */,
+				B7FF38631B57367600083FE3 /* RJTutorialViewController.h */,
+				B7FF38641B57367600083FE3 /* RJTutorialViewController.m */,
+			);
+			name = Tutorial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -668,6 +691,7 @@
 				B77C4CF71B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m in Sources */,
 				2333869C1AFD506A00181446 /* RJGalleryCellAccessoriesView.m in Sources */,
 				2356ECF71B1FA02200DB5B66 /* RJMixpanelConstants.m in Sources */,
+				B7FF38691B57368F00083FE3 /* RJTutorialCollectionViewCell.m in Sources */,
 				B7FF385F1B55EB1E00083FE3 /* RJExerciseStepCell.m in Sources */,
 				2353FCB91AFCAFD700669E64 /* RJClassImageCacheEntity.m in Sources */,
 				2353FCB11AFC82C500669E64 /* RJTrackImageCacheEntity.m in Sources */,
@@ -691,6 +715,7 @@
 				B77C4CEB1B2B78540088393D /* RJClassDetailsViewController.m in Sources */,
 				2333869F1AFD5AA200181446 /* NSString+Temporal.m in Sources */,
 				B756B5CA1B2A5F550088E918 /* RJAuthenticationViewController.m in Sources */,
+				B7FF38651B57367600083FE3 /* RJTutorialViewController.m in Sources */,
 				B7FF385B1B55EAE900083FE3 /* RJExerciseStepsViewController.m in Sources */,
 				B756B5CD1B2A9C3F0088E918 /* RJClassCommentsViewController.m in Sources */,
 				23E463EE1AF87268008194D6 /* RJImageCacheManager.m in Sources */,
@@ -701,6 +726,7 @@
 				B77C4CE81B2B78430088393D /* RJPlayingClassViewController.m in Sources */,
 				2353FCBC1AFCB17500669E64 /* RJGalleryCell+FastImageCache.m in Sources */,
 				2353FCA91AFC537B00669E64 /* RJHomeNavigationViewController.m in Sources */,
+				B7FF386C1B577DDD00083FE3 /* RJUserDefaults.m in Sources */,
 				23040EB41AFAE85A00852D94 /* RJHomeGalleryViewController.m in Sources */,
 				23040EA41AFADFD800852D94 /* RJGalleryCell.m in Sources */,
 				23E63FB01B1E8CFF008C8E66 /* RJHomeViewController.m in Sources */,

@@ -13,10 +13,12 @@
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJPlayingClassNavigationController.h"
+#import "RJTutorialViewController.h"
+#import "RJUserDefaults.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 
-@interface RJHomeNavigationViewController () <RJHomeViewControllerDelegate, RJPlayingClassViewControllerDelegate>
+@interface RJHomeNavigationViewController () <RJHomeViewControllerDelegate, RJPlayingClassViewControllerDelegate, RJTutorialViewControllerDelegate>
 
 @property (nonatomic, strong, readonly) RJPlayingClassNavigationController *currentClassViewController;
 
@@ -35,6 +37,13 @@
         _currentClassViewController.playingClassViewController.delegate = self;
     }
     return _currentClassViewController;
+}
+
+#pragma mark - Private Protocols - RJTutorialViewControllerDelegate
+
+- (void)tutorialViewControllerDidFinish:(RJTutorialViewController *)tutoralViewController {
+    [RJUserDefaults saveDidShowTutorial];
+    [[tutoralViewController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Private Protocols - RJPlayingClassViewControllerDelegate
@@ -189,6 +198,16 @@
     self.currentClassViewController.playingClassViewController.minimized = YES;
     self.currentClassViewController.view.frame = [self minimizedFrameForCurrentClassViewController];
     [self.view addSubview:self.currentClassViewController.view];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if ([RJUserDefaults shouldShowTutorialOnLaunch]) {
+        RJTutorialViewController *tutorial = [[RJTutorialViewController alloc] init];
+        tutorial.tutorialDelegate = self;
+        [self presentViewController:tutorial animated:NO completion:nil];
+    }
 }
 
 @end
