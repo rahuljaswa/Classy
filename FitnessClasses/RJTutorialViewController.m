@@ -135,8 +135,6 @@ typedef NS_ENUM(NSInteger, TutorialPage) {
             break;
     }
     
-    [cell.button sizeToFit];
-    
     return cell;
 }
 
