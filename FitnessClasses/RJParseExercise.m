@@ -12,6 +12,9 @@
 @implementation RJParseExercise
 
 @dynamic image;
+@dynamic primaryEquipment;
+@dynamic primaryMuscles;
+@dynamic secondaryMuscles;
 @dynamic steps;
 @dynamic title;
 

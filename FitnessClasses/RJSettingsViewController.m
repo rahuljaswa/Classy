@@ -7,6 +7,8 @@
 //
 
 #import "RJAuthenticationViewController.h"
+#import "RJCreateExerciseViewController.h"
+#import "RJCreateSelfPacedClassViewController.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJSettingsViewController.h"
@@ -256,6 +258,28 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+#pragma mark - Private Instance Methods
+
+- (void)createButtonPressed:(UIBarButtonItem *)barButtonItem {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [alertController addAction:
+     [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
+    
+    [alertController addAction:
+     [UIAlertAction actionWithTitle:NSLocalizedString(@"New Exercise", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        RJCreateExerciseViewController *createViewController = [[RJCreateExerciseViewController alloc] init];
+        [[self navigationController] pushViewController:createViewController animated:YES];
+    }]];
+    [alertController addAction:
+     [UIAlertAction actionWithTitle:NSLocalizedString(@"New Self-Paced Workout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        RJCreateSelfPacedClassViewController *createViewController = [[RJCreateSelfPacedClassViewController alloc] init];
+        [[self navigationController] pushViewController:createViewController animated:YES];
+    }]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 #pragma mark - Public Instance Methods
 
 - (void)viewDidLayoutSubviews {
@@ -271,6 +295,11 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
     [super viewDidLoad];
     
     self.navigationItem.title = [NSLocalizedString(@"Settings", nil) uppercaseString];
+    
+    if (self.currentUser.admin) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createButtonPressed:)];
+        [self.navigationItem setRightBarButtonItem:item];
+    }
     
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     self.tableView.separatorColor = styleManager.themeTextColor;

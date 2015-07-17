@@ -11,12 +11,12 @@
 
 @interface RJParseUser : PFUser
 
+@property (nonatomic, assign) BOOL admin;
 @property (nonatomic, strong) NSArray *appStoreCreditEarnDates;
 @property (nonatomic, strong) NSArray *classesPurchased;
 @property (nonatomic, strong) NSNumber *creditPurchases;
 @property (nonatomic, strong) NSNumber *creditsAvailable;
 @property (nonatomic, strong) NSArray *facebookCreditEarnDates;
-@property (nonatomic, assign) BOOL instructor;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) BOOL showAllEarnCreditsOptions;
 @property (nonatomic, strong) NSNumber *tips;

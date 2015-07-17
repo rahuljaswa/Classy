@@ -201,7 +201,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     
     if ([RJUserDefaults shouldShowTutorialOnLaunch]) {
         RJTutorialViewController *tutorial = [[RJTutorialViewController alloc] init];

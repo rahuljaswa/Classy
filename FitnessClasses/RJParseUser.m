@@ -11,12 +11,12 @@
 
 @implementation RJParseUser
 
+@dynamic admin;
 @dynamic appStoreCreditEarnDates;
 @dynamic classesPurchased;
 @dynamic creditPurchases;
 @dynamic creditsAvailable;
 @dynamic facebookCreditEarnDates;
-@dynamic instructor;
 @dynamic name;
 @dynamic profilePicture;
 @dynamic showAllEarnCreditsOptions;

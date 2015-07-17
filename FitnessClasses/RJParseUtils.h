@@ -8,19 +8,27 @@
 
 #import "RJCreditsHelper.h"
 #import "RJParseCategory.h"
+#import "RJParseClass.h"
 #import <Foundation/Foundation.h>
 
 
 @class RJParseCategory;
 @class RJParseClass;
+@class RJParseExerciseEquipment;
 @class RJParseUser;
 
 @interface RJParseUtils : NSObject
 
 + (void)completeEarnCreditsOption:(RJCreditsHelperEarnCreditsOption)option completion:(void (^)(BOOL success))completion;
 
++ (void)createExerciseWithName:(NSString *)name primaryEquipment:(RJParseExerciseEquipment *)primaryEquipment primaryMuscles:(NSArray *)primaryMuscles secondaryMuscles:(NSArray *)secondaryMuscles completion:(void (^)(BOOL success))completion;
++ (void)createClassWithName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructions:(NSArray *)instructions completion:(void (^)(BOOL success))completion;
+
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *categories))completion;
 + (void)fetchAllInstructorsWithCompletion:(void (^)(NSArray *instructors))completion;
++ (void)fetchAllEquipmentWithCompletion:(void (^)(NSArray *equipment))completion;
++ (void)fetchAllExercisesWithCompletion:(void (^)(NSArray *exercises))completion;
++ (void)fetchAllMusclesWithCompletion:(void (^)(NSArray *muscles))completion;
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassesForInstructor:(RJParseUser *)instructor completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassWithId:(NSString *)objectId completion:(void (^)(RJParseClass *klass))completion;

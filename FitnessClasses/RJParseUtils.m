@@ -9,6 +9,7 @@
 #import "RJParseCategory.h"
 #import "RJParseClass.h"
 #import "RJParseComment.h"
+#import "RJParseExercise.h"
 #import "RJParseLike.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
@@ -65,6 +66,40 @@
     }];
 }
 
+#pragma mark - Public Class Methods - Creating
+
++ (void)createExerciseWithName:(NSString *)name primaryEquipment:(RJParseExerciseEquipment *)primaryEquipment primaryMuscles:(NSArray *)primaryMuscles secondaryMuscles:(NSArray *)secondaryMuscles completion:(void (^)(BOOL))completion {
+    RJParseExercise *exercise = [RJParseExercise object];
+    exercise.title = name;
+    exercise.primaryEquipment = primaryEquipment;
+    exercise.primaryMuscles = primaryMuscles;
+    exercise.secondaryMuscles = secondaryMuscles;
+    [exercise saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSLog(@"Error creating exercise\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(succeeded);
+        }
+    }];
+}
+
++ (void)createClassWithName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructions:(NSArray *)instructions completion:(void (^)(BOOL))completion {
+    RJParseClass *class = [RJParseClass object];
+    class.classType = @(classType);
+    class.name = name;
+    class.category = category;
+    class.instructions = instructions;
+    [class saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSLog(@"Error creating class\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(succeeded);
+        }
+    }];
+}
+
 #pragma mark - Public Class Methods - Fetching
 
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *))completion {
@@ -86,6 +121,46 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all instructors\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(objects);
+        }
+    }];
+}
+
++ (void)fetchAllEquipmentWithCompletion:(void (^)(NSArray *))completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"ExerciseEquipment"];
+    [query orderByDescending:@"name"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!objects) {
+            NSLog(@"Error fetching all equipment\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(objects);
+        }
+    }];
+}
+
++ (void)fetchAllExercisesWithCompletion:(void (^)(NSArray *))completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"Exercise"];
+    [query orderByDescending:@"name"];
+    query.limit = 1000;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!objects) {
+            NSLog(@"Error fetching all exercises\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(objects);
+        }
+    }];
+}
+
++ (void)fetchAllMusclesWithCompletion:(void (^)(NSArray *))completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"Muscle"];
+    [query orderByDescending:@"name"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!objects) {
+            NSLog(@"Error fetching all muscles\n\n%@", [error localizedDescription]);
         }
         if (completion) {
             completion(objects);

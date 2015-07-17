@@ -33,6 +33,7 @@ PODS:
   - Parse (1.7.2.1):
     - Bolts/Tasks (>= 1.1.5)
   - SVProgressHUD (1.1.3)
+  - SZTextView (1.2.1)
   - Touchpose (1.2.0)
 
 DEPENDENCIES:
@@ -44,6 +45,7 @@ DEPENDENCIES:
   - Mixpanel
   - Parse
   - SVProgressHUD
+  - SZTextView
   - Touchpose
 
 SPEC CHECKSUMS:
@@ -56,6 +58,7 @@ SPEC CHECKSUMS:
   Mixpanel: 93c4825025e6380ced273ed7178496282e385077
   Parse: 8213b05b52768b34b87e1e41fd9efc88a9933f3f
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  SZTextView: 906df45afd3c1b24fc5252088d5ef8061513c238
   Touchpose: 219ef3dc3d1932b384ea502ec6df2f003667129b
 
 COCOAPODS: 0.37.2
