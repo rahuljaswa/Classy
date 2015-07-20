@@ -223,7 +223,7 @@ typedef NS_ENUM(NSInteger, Section) {
             RJLabelCell *labelCell = (RJLabelCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kLabelCellID forIndexPath:indexPath];
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.accessoryView.image = nil;
-            labelCell.textLabel.text = NSLocalizedString(@"Create Exercise", nil);
+            labelCell.textLabel.text = NSLocalizedString(@"Create Class", nil);
             labelCell.textLabel.textColor = styleManager.tintBlueColor;
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -279,7 +279,7 @@ typedef NS_ENUM(NSInteger, Section) {
             
             if (validates) {
                 [SVProgressHUD show];
-                [RJParseUtils createClassWithName:self.name classType:kRJParseClassTypeSelfPaced category:category instructions:self.exerciseInstructions completion:^(BOOL success) {
+                [RJParseUtils createClassWithName:self.name classType:kRJParseClassTypeSelfPaced category:category instructor:nil trackInstructions:nil exerciseInstructions:self.exerciseInstructions completion:^(BOOL success) {
                     if (success) {
                         self.name = nil;
                         _categoryViewController = nil;

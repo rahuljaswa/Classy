@@ -15,10 +15,11 @@
 #import "RJParseClass.h"
 #import "RJParseExercise.h"
 #import "RJParseExerciseInstruction.h"
+#import "RJParseTrack.h"
+#import "RJParseTrackInstruction.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJSoundCloudAPIClient.h"
-#import "RJSoundCloudTrack.h"
 #import "RJStyleManager.h"
 #import "RJTrackImageCacheEntity.h"
 #import "RJUserImageCacheEntity.h"
@@ -44,7 +45,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 
 @property (nonatomic, assign, readwrite) NSInteger playbackTime;
 
-@property (nonatomic, strong, readwrite) RJSoundCloudTrack *currentTrack;
+@property (nonatomic, strong, readwrite) RJParseTrack *currentTrack;
 
 @property (nonatomic, strong, readonly) UICollectionView *collectionView;
 
@@ -57,6 +58,8 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 @property (nonatomic, strong, readonly) UIImageView *trackArtwork;
 @property (nonatomic, strong, readonly) UIButton *trackAttributionLogo;
 @property (nonatomic, strong, readonly) UILabel *trackTitle;
+
+@property (nonatomic, strong, readonly) NSArray *sortedExerciseInstructions;
 
 @property (nonatomic, assign, getter=shouldIgnorePlayerChanges) BOOL ignorePlayerChanges;
 
@@ -71,7 +74,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     return self.player.rate != 0.0f;
 }
 
-- (void)setCurrentTrack:(RJSoundCloudTrack *)currentTrack {
+- (void)setCurrentTrack:(RJParseTrack *)currentTrack {
     _currentTrack = currentTrack;
     if ([self.delegate respondsToSelector:@selector(choreographedPlayingClassViewControllerTrackDidChange:)]) {
         [self.delegate choreographedPlayingClassViewControllerTrackDidChange:self];
@@ -89,6 +92,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 - (void)setKlass:(RJParseClass *)klass withStartPoint:(NSInteger)startPoint autoPlay:(BOOL)autoPlay {
     [self clearCurrentClass];
     _klass = klass;
+    _sortedExerciseInstructions = [klass.exerciseInstructions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"startPoint" ascending:YES]]];
     _playbackTime = startPoint;
     [self fetchCurrentTrackInfo];
     [self updateClassViewFields];
@@ -146,7 +150,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 #pragma mark - Private Protocols - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    RJParseExerciseInstruction *instruction = self.klass.instructions[indexPath.item];
+    RJParseExerciseInstruction *instruction = self.sortedExerciseInstructions[indexPath.item];
     RJParseExercise *exercise = instruction.exercise;
     if (exercise.steps && ([exercise.steps count] > 0)) {
         RJExerciseStepsViewController *stepsViewController = [[RJExerciseStepsViewController alloc] init];
@@ -164,7 +168,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.klass.instructions count];
+    return [self.sortedExerciseInstructions count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -192,7 +196,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 - (void)configureCell:(RJExerciseInstructionCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     
-    RJParseExerciseInstruction *instruction = self.klass.instructions[indexPath.item];
+    RJParseExerciseInstruction *instruction = self.sortedExerciseInstructions[indexPath.item];
     cell.exerciseInstruction = instruction;
     cell.backgroundColor = styleManager.themeBackgroundColor;
     
@@ -215,14 +219,14 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     NSString *titleLabelString = [instruction.exercise.title uppercaseString];
     
     if (self.playbackTime >= startPoint)  {
-        if (indexPath.item == ([self.klass.instructions count] - 1)) {
+        if (indexPath.item == ([self.sortedExerciseInstructions count] - 1)) {
             cell.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleLabelString attributes:
                                               @{
                                                 NSForegroundColorAttributeName : styleManager.accentColor,
                                                 NSFontAttributeName : styleManager.mediumBoldFont
                                                 }];
         } else {
-            RJParseExerciseInstruction *nextInstruction = self.klass.instructions[indexPath.item + 1];
+            RJParseExerciseInstruction *nextInstruction = self.sortedExerciseInstructions[indexPath.item + 1];
             NSInteger nextInstructionStartPoint = [nextInstruction.startPoint integerValue];
             if (self.playbackTime < nextInstructionStartPoint) {
                 cell.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleLabelString attributes:
@@ -249,7 +253,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 }
 
 - (void)speakUtteranceIfNecessary {
-    for (RJParseExerciseInstruction *instruction in self.klass.instructions) {
+    for (RJParseExerciseInstruction *instruction in self.sortedExerciseInstructions) {
         if ([instruction.startPoint integerValue] == (NSInteger)self.playbackTime) {
             NSString *utteranceString = [NSString stringWithFormat:@"%@ for %@", instruction.exercise.title, instruction.allLevelsQuantity];
             AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:utteranceString];
@@ -263,23 +267,22 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     _classStarted = YES;
     
     NSMutableArray *audioQueue = [[NSMutableArray alloc] init];
-    NSUInteger numberOfAudioQueueTracks = [self.klass.audioQueue count];
-    for (NSUInteger i = 0; i < numberOfAudioQueueTracks; i++) {
-        NSArray *track = self.klass.audioQueue[i];
-        NSInteger trackStartPoint = [[track firstObject] integerValue];
+    NSUInteger numberOfTracks = [self.klass.trackInstructions count];
+    for (NSUInteger i = 0; i < numberOfTracks; i++) {
+        RJParseTrackInstruction *trackInstruction = self.klass.trackInstructions[i];
+        NSInteger trackInstructionStartPoint = [trackInstruction.startPoint integerValue];
         
-        NSInteger trackEndPoint;
-        if (i == (numberOfAudioQueueTracks - 1)) {
-            trackEndPoint = [self.klass.length integerValue];
+        NSInteger trackInstructionEndPoint;
+        if (i == (numberOfTracks - 1)) {
+            trackInstructionEndPoint = self.klass.length;
         } else {
-            NSArray *nextTrack = self.klass.audioQueue[i+1];
-            trackEndPoint = ([[nextTrack firstObject] integerValue] - 1);
+            RJParseTrackInstruction *nextTrackInstruction = self.klass.trackInstructions[i+1];
+            trackInstructionEndPoint = ([nextTrackInstruction.startPoint integerValue] - 1);
         }
-        BOOL trackEndsAfterStartPoint = (trackEndPoint >= self.playbackTime);
-        BOOL trackStartsAtOrAfterStartPoint = (trackStartPoint >= self.playbackTime);
+        BOOL trackEndsAfterStartPoint = (trackInstructionEndPoint >= self.playbackTime);
+        BOOL trackStartsAtOrAfterStartPoint = (trackInstructionStartPoint >= self.playbackTime);
         if (trackStartsAtOrAfterStartPoint || (!trackStartsAtOrAfterStartPoint && trackEndsAfterStartPoint)) {
-            NSString *trackID = [track lastObject];
-            NSURL *trackURL = [[RJSoundCloudAPIClient sharedAPIClient] authenticatingStreamURLWithTrackID:trackID];
+            NSURL *trackURL = [[RJSoundCloudAPIClient sharedAPIClient] authenticatingStreamURLWithStreamURL:trackInstruction.track.streamURL];
             AVPlayerItem *trackPlayerItem = [AVPlayerItem playerItemWithURL:trackURL];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidFinish:) name:AVPlayerItemDidPlayToEndTimeNotification object:trackPlayerItem];
             [audioQueue addObject:trackPlayerItem];
@@ -287,7 +290,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     }
     
     self.player = [AVQueuePlayer queuePlayerWithItems:audioQueue];
-    self.player.volume = 0.5f;
+    self.player.volume = 0.8f;
     [self.player addObserver:self forKeyPath:@"status" options:0 context:nil];
     
     [RJParseUtils incrementPlaysForClass:klass completion:nil];
@@ -339,7 +342,7 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     if (self.currentTrack) {
         [self.trackAttributionLogo setImage:[UIImage tintableImageNamed:@"soundCloudIcon"] forState:UIControlStateNormal];
         NSURL *url = [NSURL URLWithString:self.currentTrack.artworkURL];
-        RJTrackImageCacheEntity *trackEntity = [[RJTrackImageCacheEntity alloc] initWithTrackImageURL:url objectID:self.currentTrack.trackID];
+        RJTrackImageCacheEntity *trackEntity = [[RJTrackImageCacheEntity alloc] initWithTrackImageURL:url objectID:self.currentTrack.objectId];
         [self.trackArtwork setImageEntity:trackEntity formatName:kRJTrackImageFormatCardSquare16BitBGR placeholder:nil];
     } else {
         [self.trackAttributionLogo setImage:nil forState:UIControlStateNormal];
@@ -351,22 +354,22 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 }
 
 - (NSInteger)currentTrackIndex {
-    NSInteger audioQueueCount = [self.klass.audioQueue count];
-    for (NSUInteger i = 0; i < audioQueueCount; i++) {
-        NSArray *track = self.klass.audioQueue[i];
-        NSInteger trackStartPoint = [[track firstObject] integerValue];
+    NSInteger trackInstructionsCount = [self.klass.trackInstructions count];
+    for (NSUInteger i = 0; i < trackInstructionsCount; i++) {
+        RJParseTrackInstruction *trackInstruction = self.klass.trackInstructions[i];
+        NSInteger trackInstructionStartPoint = [trackInstruction.startPoint integerValue];
         
-        BOOL playbackTimeIsAtOrAfterTrackStartPoint = (self.playbackTime >= trackStartPoint);
-        BOOL nextTrackStartsAfterCurrentPlaybackTime;
-        if (i == (audioQueueCount - 1)) {
-            nextTrackStartsAfterCurrentPlaybackTime = YES;
+        BOOL playbackTimeIsAtOrAfterTrackInstructionStartPoint = (self.playbackTime >= trackInstructionStartPoint);
+        BOOL nextTrackInstructionStartsAfterCurrentPlaybackTime;
+        if (i == (trackInstructionsCount - 1)) {
+            nextTrackInstructionStartsAfterCurrentPlaybackTime = YES;
         } else {
-            NSArray *nextTrack = self.klass.audioQueue[i+1];
-            NSInteger nextTrackStartPoint = [[nextTrack firstObject] integerValue];
-            nextTrackStartsAfterCurrentPlaybackTime = (nextTrackStartPoint > self.playbackTime);
+            RJParseTrackInstruction *nextTrackInstruction = self.klass.trackInstructions[i+1];
+            NSInteger nextTrackInstructionStartPoint = [nextTrackInstruction.startPoint integerValue];
+            nextTrackInstructionStartsAfterCurrentPlaybackTime = (nextTrackInstructionStartPoint > self.playbackTime);
         }
         
-        if (playbackTimeIsAtOrAfterTrackStartPoint && nextTrackStartsAfterCurrentPlaybackTime) {
+        if (playbackTimeIsAtOrAfterTrackInstructionStartPoint && nextTrackInstructionStartsAfterCurrentPlaybackTime) {
             return i;
         }
     }
@@ -375,16 +378,8 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 }
 
 - (void)fetchCurrentTrackInfo {
-    NSArray *currentTrack = self.klass.audioQueue[[self currentTrackIndex]];
-    RJSoundCloudAPIClient *apiClient = [RJSoundCloudAPIClient sharedAPIClient];
-    [apiClient getTrackWithTrackID:[currentTrack lastObject]
-                           success:^(RJSoundCloudTrack *track) {
-                               self.currentTrack = track;
-                               [self updateClassViewFields];
-                           }
-                           failure:^(NSError *error) {
-                               
-                           }];
+    self.currentTrack = [self.klass.trackInstructions[[self currentTrackIndex]] track];
+    [self updateClassViewFields];
 }
 
 - (void)playerItemDidFinish:(NSNotification *)notification {
@@ -404,9 +399,11 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 - (void)trackAttributionButtonPressed:(UIButton *)button {
     if (self.currentTrack) {
         UIApplication *application = [UIApplication sharedApplication];
-        NSURL *url = [NSURL URLWithString:self.currentTrack.permalinkURL];
-        if ([application canOpenURL:url]) {
-            [application openURL:url];
+        if (self.currentTrack.permalinkURL) {
+            NSURL *url = [NSURL URLWithString:self.currentTrack.permalinkURL];
+            if ([application canOpenURL:url]) {
+                [application openURL:url];
+            }
         }
     }
 }
@@ -536,7 +533,15 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ((object == self.player) && [keyPath isEqualToString:@"status"] && (self.player.status == AVPlayerStatusReadyToPlay)) {
-        [self.player.currentItem seekToTime:CMTimeMake(self.playbackTime, 1) completionHandler:^(BOOL finished) {
+        NSInteger timeToSeekInCurrentItem = 0;
+        for (RJParseTrackInstruction *trackInstruction in self.klass.trackInstructions) {
+            NSInteger trackInstructionStartPoint = [trackInstruction.startPoint integerValue];
+            NSInteger trackInstructionEndPoint = (trackInstructionStartPoint + [trackInstruction.track.length integerValue]);
+            if ((trackInstructionStartPoint <= self.playbackTime) && (trackInstructionEndPoint > self.playbackTime)) {
+                timeToSeekInCurrentItem = (self.playbackTime - trackInstructionStartPoint);
+            }
+        }
+        [self.player.currentItem seekToTime:CMTimeMake(timeToSeekInCurrentItem, 1) completionHandler:^(BOOL finished) {
             [self startQueues];
         }];
     }

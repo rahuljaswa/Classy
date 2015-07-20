@@ -7,6 +7,7 @@
 //
 
 #import "RJAuthenticationViewController.h"
+#import "RJCreateChoreographedClassViewController.h"
 #import "RJCreateExerciseViewController.h"
 #import "RJCreateSelfPacedClassViewController.h"
 #import "RJParseUser.h"
@@ -274,6 +275,11 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
     [alertController addAction:
      [UIAlertAction actionWithTitle:NSLocalizedString(@"New Self-Paced Workout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         RJCreateSelfPacedClassViewController *createViewController = [[RJCreateSelfPacedClassViewController alloc] init];
+        [[self navigationController] pushViewController:createViewController animated:YES];
+    }]];
+    [alertController addAction:
+     [UIAlertAction actionWithTitle:NSLocalizedString(@"New Choreographed Workout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        RJCreateChoreographedClassViewController *createViewController = [[RJCreateChoreographedClassViewController alloc] init];
         [[self navigationController] pushViewController:createViewController animated:YES];
     }]];
     

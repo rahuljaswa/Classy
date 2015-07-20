@@ -181,7 +181,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
             cell.textLabel.textColor = styleManager.themeTextColor;
             break;
         }
-        case kSectionCreate:
+        case kSectionCreate: {
             cell.style = kRJLabelCellStyleTextLabel;
             cell.accessoryView.image = nil;
             cell.textLabel.text = NSLocalizedString(@"Create Exercise", nil);
@@ -191,6 +191,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
             cell.topBorder.backgroundColor = styleManager.themeTextColor;
             cell.bottomBorder.backgroundColor = styleManager.themeTextColor;
             break;
+        }
         default:
             break;
     }

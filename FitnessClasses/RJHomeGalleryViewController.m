@@ -135,17 +135,19 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
         galleryCell.accessoriesView = accessoriesView;
     }
     
-    NSUInteger totalSeconds = [class.length unsignedIntegerValue];
-    NSString *lengthString = [NSString hhmmaaForTotalSeconds:totalSeconds];
     NSString *summaryText = nil;
     if (class.instructor && class.category) {
-        summaryText = [NSString stringWithFormat:@" %@ | %@ | %@ ", class.instructor.name, class.category.name, lengthString];
+        summaryText = [NSString stringWithFormat:@" %@ | %@ ", class.instructor.name, class.category.name];
     } else if (class.instructor) {
-        summaryText = [NSString stringWithFormat:@" %@ | %@ ", class.instructor.name, lengthString];
+        summaryText = [NSString stringWithFormat:@" %@ ", class.instructor.name];
     } else if (class.category) {
-        summaryText = [NSString stringWithFormat:@" %@ | %@ ", class.category.name, lengthString];
-    } else {
-        summaryText = [NSString stringWithFormat:@" %@ ", lengthString];
+        summaryText = [NSString stringWithFormat:@" %@ ", class.category.name];
+    }
+    
+    NSUInteger totalSeconds = class.length;
+    if (class.length > 0) {
+        NSString *lengthString = [NSString hhmmaaForTotalSeconds:totalSeconds];
+        summaryText = [summaryText stringByAppendingString:[NSString stringWithFormat:@"| %@ ", lengthString]];
     }
     
     NSUInteger classCost = [class.creditsCost unsignedIntegerValue];

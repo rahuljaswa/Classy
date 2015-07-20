@@ -10,11 +10,12 @@
 #import "RJChoreographedPlayingClassViewController.h"
 #import "RJClassDetailsViewController.h"
 #import "RJClassSummaryView.h"
+#import "RJCreditsHelper.h"
 #import "RJParseClass.h"
+#import "RJParseTrack.h"
 #import "RJPlayingClassViewController.h"
 #import "RJSoundCloudTrack.h"
 #import "RJStackedTitleView.h"
-#import "RJCreditsHelper.h"
 #import "RJSelfPacedPlayingClassViewController.h"
 #import "RJStyleManager.h"
 #import "RJTrackImageCacheEntity.h"
@@ -119,15 +120,15 @@
 #pragma mark - Private Protocols - RJChoreographedPlayingClassViewControllerDelegate
 
 - (void)choreographedPlayingClassViewControllerPlaybackTimeDidChange:(RJChoreographedPlayingClassViewController *)choreographedPlayingClassViewController {
-    NSUInteger totalTime = [choreographedPlayingClassViewController.klass.length unsignedIntegerValue];
+    NSUInteger totalTime = choreographedPlayingClassViewController.klass.length;
     self.titleView.detailTextLabel.text = [NSString stringWithFormat:@"%@ / %@", [NSString hhmmaaForTotalSeconds:choreographedPlayingClassViewController.playbackTime], [NSString hhmmaaForTotalSeconds:totalTime]];
+    self.summaryView.track.text = choreographedPlayingClassViewController.currentTrack.title;
 }
 
 - (void)choreographedPlayingClassViewControllerTrackDidChange:(RJChoreographedPlayingClassViewController *)choreographedPlayingClassViewController {
-    self.summaryView.track.text = choreographedPlayingClassViewController.currentTrack.title;
     if (choreographedPlayingClassViewController.currentTrack) {
         NSURL *url = [NSURL URLWithString:choreographedPlayingClassViewController.currentTrack.artworkURL];
-        RJTrackImageCacheEntity *trackEntity = [[RJTrackImageCacheEntity alloc] initWithTrackImageURL:url objectID:choreographedPlayingClassViewController.currentTrack.trackID];
+        RJTrackImageCacheEntity *trackEntity = [[RJTrackImageCacheEntity alloc] initWithTrackImageURL:url objectID:choreographedPlayingClassViewController.currentTrack.objectId];
         [self.summaryView.trackArtwork setImageEntity:trackEntity formatName:kRJTrackImageFormatCardSquare16BitBGR placeholder:nil];
     } else {
         self.summaryView.trackArtwork.image = nil;

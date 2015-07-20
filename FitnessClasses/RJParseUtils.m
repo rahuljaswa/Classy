@@ -21,13 +21,14 @@
 #pragma mark - Private Class Methods
 
 + (void)updateClassQueryWithIncludedKeys:(PFQuery *)query {
-    [query includeKey:@"audioQueue"];
+    [query includeKey:@"exerciseInstructions"];
+    [query includeKey:@"exerciseInstructions.exercise"];
+    [query includeKey:@"exerciseInstructions.exercise.steps"];
+    [query includeKey:@"trackInstructions"];
+    [query includeKey:@"trackInstructions.track"];
     [query includeKey:@"instructionQueue"];
     [query includeKey:@"category"];
     [query includeKey:@"instructor"];
-    [query includeKey:@"instructions"];
-    [query includeKey:@"instructions.exercise"];
-    [query includeKey:@"instructions.exercise.steps"];
     [query includeKey:@"comments"];
     [query includeKey:@"comments.creator"];
     [query includeKey:@"likes"];
@@ -84,12 +85,14 @@
     }];
 }
 
-+ (void)createClassWithName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructions:(NSArray *)instructions completion:(void (^)(BOOL))completion {
++ (void)createClassWithName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructor:(RJParseUser *)instructor trackInstructions:(NSArray *)trackInstructions exerciseInstructions:(NSArray *)exerciseInstructions completion:(void (^)(BOOL))completion {
     RJParseClass *class = [RJParseClass object];
     class.classType = @(classType);
+    class.instructor = instructor;
     class.name = name;
     class.category = category;
-    class.instructions = instructions;
+    class.trackInstructions = trackInstructions;
+    class.exerciseInstructions = exerciseInstructions;
     [class saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error creating class\n\n%@", [error localizedDescription]);
@@ -116,7 +119,7 @@
 }
 
 + (void)fetchAllInstructorsWithCompletion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"User"];
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
     [query whereKey:@"instructor" equalTo:@(YES)];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {

@@ -23,13 +23,13 @@
 
 
 @class RJParseClass;
-@class RJSoundCloudTrack;
+@class RJParseTrack;
 
 @interface RJChoreographedPlayingClassViewController : UIViewController
 
 @property (nonatomic, assign, getter=hasClassStarted, readonly) BOOL classStarted;
 @property (nonatomic, assign, getter=isClassPlaying, readonly) BOOL classPlaying;
-@property (nonatomic, strong, readonly) RJSoundCloudTrack *currentTrack;
+@property (nonatomic, strong, readonly) RJParseTrack *currentTrack;
 @property (nonatomic, weak) id<RJChoreographedPlayingClassViewControllerDelegate> delegate;
 @property (nonatomic, strong, readonly) RJParseClass *klass;
 @property (nonatomic, assign, readonly) NSInteger playbackTime;

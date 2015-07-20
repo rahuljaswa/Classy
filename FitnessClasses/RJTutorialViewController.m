@@ -10,6 +10,7 @@
 #import "RJStyleManager.h"
 #import "RJTutorialCollectionViewCell.h"
 #import "RJTutorialViewController.h"
+#import "UIColor+RJAdditions.h"
 #import "UIImage+RJAdditions.h"
 
 static NSString *const kRJTutorialViewControllerCellID = @"RJTutorialViewControllerCellID";
@@ -176,25 +177,10 @@ typedef NS_ENUM(NSInteger, TutorialPage) {
 
 #pragma mark - Private Instance Methods
 
-- (CGFloat)floatForDistance:(CGFloat)distance betweenPoint:(CGFloat)point andPoint:(CGFloat)otherPoint {
-    return (point + (distance*(otherPoint-point)));
-}
-
 - (UIColor *)colorForDistance:(CGFloat)distance betweenTutorialPage:(TutorialPage)tutorialPage andTutorialPage:(TutorialPage)otherTutorialPage {
-    
     UIColor *tutorialPageColor = [self rgbColorForTutorialPage:tutorialPage];
     UIColor *otherTutorialPageColor = [self rgbColorForTutorialPage:otherTutorialPage];
-    
-    CGFloat red, green, blue, alpha;
-    [tutorialPageColor getRed:&red green:&green blue:&blue alpha:&alpha];
-    
-    CGFloat otherRed, otherGreen, otherBlue, otherAlpha;
-    [otherTutorialPageColor getRed:&otherRed green:&otherGreen blue:&otherBlue alpha:&otherAlpha];
-    
-    return [UIColor colorWithRed:[self floatForDistance:distance betweenPoint:red andPoint:otherRed]
-                           green:[self floatForDistance:distance betweenPoint:green andPoint:otherGreen]
-                            blue:[self floatForDistance:distance betweenPoint:blue andPoint:otherBlue]
-                           alpha:[self floatForDistance:distance betweenPoint:alpha andPoint:alpha]];
+    return [UIColor colorForDistance:distance betweenColor:tutorialPageColor andColor:otherTutorialPageColor];
 }
 
 - (UIColor *)rgbColorForTutorialPage:(TutorialPage)tutorialPage {

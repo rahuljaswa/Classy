@@ -16,6 +16,7 @@
 @property (nonatomic, strong, readonly) NSString *artworkURL;
 @property (nonatomic, assign, readonly) CGFloat length;
 @property (nonatomic, strong, readonly) NSString *permalinkURL;
+@property (nonatomic, assign, readonly) BOOL streamable;
 @property (nonatomic, strong, readonly) NSString *streamURL;
 @property (nonatomic, strong, readonly) NSString *title;
 @property (nonatomic, strong, readonly) NSString *trackID;

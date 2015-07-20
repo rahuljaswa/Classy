@@ -26,20 +26,45 @@ static NSString *const kClientID = @"872e4a8be87a50cbd405c46f23763960";
     return [NSURL URLWithString:path];
 }
 
-- (void)getTrackWithTrackID:(NSString *)trackID success:(void (^)(RJSoundCloudTrack *))success failure:(void (^)(NSError *))failure {
+- (void)getTracksMatchingKeyword:(NSString *)keyword completion:(void (^)(NSArray *))completion {
+    NSString *path = [NSString stringWithFormat:@"/tracks?limit=20&q=%@", [keyword stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSDictionary *params = @{ @"client_id" : kClientID };
+    [self GET:path
+   parameters:params
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          if (completion) {
+              NSMutableArray *tracks = [[NSMutableArray alloc] init];
+              for (id jsonObject in responseObject) {
+                  RJSoundCloudTrack *track = [RJSoundCloudTrack trackWithJSONData:jsonObject];
+                  [tracks addObject:track];
+              }
+              NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(streamable == %@) && (length <= 600)", @YES];
+              completion([tracks filteredArrayUsingPredicate:predicate]);
+          }
+      }
+      failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"Error fetching tracks from SoundCloud matching keyword %@\n\n%@", keyword, [error localizedDescription]);
+          if (completion) {
+              completion(nil);
+          }
+      }];
+}
+
+- (void)getTrackWithTrackID:(NSString *)trackID completion:(void (^)(RJSoundCloudTrack *))completion {
     NSString *path = [NSString stringWithFormat:@"/tracks/%@.json", trackID];
     NSDictionary *params = @{ @"client_id" : kClientID };
     [self GET:path
    parameters:params
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-          if (success) {
+          if (completion) {
               RJSoundCloudTrack *track = [RJSoundCloudTrack trackWithJSONData:responseObject];
-              success(track);
+              completion(track);
           }
       }
       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-          if (failure) {
-              failure(error);
+          NSLog(@"Error fetching track from SoundCloud with ID %@\n\n%@", trackID, [error localizedDescription]);
+          if (completion) {
+              completion(nil);
           }
       }];
 }

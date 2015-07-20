@@ -9,6 +9,7 @@
 #import "RJSingleSelectionViewController.h"
 #import "RJParseUtils.h"
 #import "RJStyleManager.h"
+#import "RJSubtitleTableViewCell.h"
 
 static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionViewControllerCellID";
 
@@ -25,7 +26,11 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 #pragma mark - Public Properties
 
 - (NSObject *)selectedObject {
-    return [self.objects objectAtIndex:self.selectedIndexPath.row];
+    if (self.objects && self.selectedIndexPath) {
+        return [self.objects objectAtIndex:self.selectedIndexPath.row];
+    } else {
+        return nil;
+    }
 }
 
 - (void)setObjects:(NSArray *)objects {
@@ -45,13 +50,21 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSingleSelectionViewControllerCellID forIndexPath:indexPath];
+    RJSubtitleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSingleSelectionViewControllerCellID forIndexPath:indexPath];
     
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     
     cell.textLabel.text = [self.dataSource singleSelectionViewController:self titleForObject:self.objects[indexPath.item]];
     cell.textLabel.textColor = styleManager.themeTextColor;
     cell.textLabel.font = styleManager.smallBoldFont;
+    
+    if ([self.dataSource respondsToSelector:@selector(singleSelectionViewController:subtitleForObject:)]) {
+        cell.detailTextLabel.text = [self.dataSource singleSelectionViewController:self subtitleForObject:self.objects[indexPath.item]];
+        cell.detailTextLabel.textColor = styleManager.themeTextColor;
+        cell.detailTextLabel.font = styleManager.smallFont;
+    } else {
+        cell.detailTextLabel.text = nil;
+    }
     
     if ([self.selectedIndexPath isEqual:indexPath]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -85,12 +98,21 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 
 #pragma mark - Public Instance Methods
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    UIEdgeInsets insets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0.0f, 44.0f, 0.0f);
+    if (!UIEdgeInsetsEqualToEdgeInsets(self.tableView.contentInset, insets)) {
+        self.tableView.contentInset = insets;
+        self.tableView.scrollIndicatorInsets = insets;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kSingleSelectionViewControllerCellID];
+    [self.tableView registerClass:[RJSubtitleTableViewCell class] forCellReuseIdentifier:kSingleSelectionViewControllerCellID];
     self.tableView.backgroundColor = styleManager.themeBackgroundColor;
     self.tableView.separatorColor = styleManager.themeTextColor;
 }

@@ -42,7 +42,7 @@ static NSString *const kCellID = @"cellID";
 #pragma mark - Private Protocols - RJExerciseInstructionCellDelegate
 
 - (void)exerciseInstructionCellDidSelectLeftSideAccessoryButton:(RJExerciseInstructionCell *)exerciseInstructionCell {
-    NSUInteger index = [self.klass.instructions indexOfObject:exerciseInstructionCell.exerciseInstruction];
+    NSUInteger index = [self.klass.exerciseInstructions indexOfObject:exerciseInstructionCell.exerciseInstruction];
     if ([self.completedSteps containsIndex:index]) {
         exerciseInstructionCell.leftSideAccessoryButton.selected = NO;
         [self.completedSteps removeIndex:index];
@@ -55,7 +55,7 @@ static NSString *const kCellID = @"cellID";
 #pragma mark - Private Protocols - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    RJParseExerciseInstruction *instruction = self.klass.instructions[indexPath.item];
+    RJParseExerciseInstruction *instruction = self.klass.exerciseInstructions[indexPath.item];
     RJParseExercise *exercise = instruction.exercise;
     if (exercise.steps && ([exercise.steps count] > 0)) {
         RJExerciseStepsViewController *stepsViewController = [[RJExerciseStepsViewController alloc] init];
@@ -73,7 +73,7 @@ static NSString *const kCellID = @"cellID";
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.klass.instructions count];
+    return [self.klass.exerciseInstructions count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -109,7 +109,7 @@ static NSString *const kCellID = @"cellID";
 - (void)configureCell:(RJExerciseInstructionCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     
-    cell.exerciseInstruction = self.klass.instructions[indexPath.item];
+    cell.exerciseInstruction = self.klass.exerciseInstructions[indexPath.item];
     
     cell.backgroundColor = styleManager.themeBackgroundColor;
     

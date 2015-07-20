@@ -7,19 +7,20 @@
 //
 
 #import "RJParseClass.h"
+#import "RJParseTrack.h"
+#import "RJParseTrackInstruction.h"
 
 
 @implementation RJParseClass
 
-@dynamic audioQueue;
+@dynamic trackInstructions;
 @dynamic category;
 @dynamic classType;
 @dynamic comments;
 @dynamic creditsCost;
 @dynamic creditsSaleCost;
 @dynamic coverArtURL;
-@dynamic instructionQueue;
-@dynamic instructions;
+@dynamic exerciseInstructions;
 @dynamic instructor;
 @dynamic length;
 @dynamic likes;
@@ -32,6 +33,19 @@
 
 - (RJParseClassType)formattedClassType {
     return (RJParseClassType)[self.classType integerValue];
+}
+
+#pragma mark - Public Instance Methods
+
+- (NSInteger)length {
+    NSInteger latestPointInDuration = 0;
+    for (RJParseTrackInstruction *trackInstruction in self.trackInstructions) {
+        NSInteger trackLatestPointInDuration = ([trackInstruction.startPoint integerValue] + [trackInstruction.track.length integerValue]);
+        if (trackLatestPointInDuration > latestPointInDuration) {
+            latestPointInDuration = trackLatestPointInDuration;
+        }
+    }
+    return latestPointInDuration;
 }
 
 #pragma mark - Public Class Methods

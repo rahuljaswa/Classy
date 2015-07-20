@@ -24,6 +24,10 @@
 
 - (NSString *)singleSelectionViewController:(RJSingleSelectionViewController *)viewController titleForObject:(NSObject *)object;
 
+@optional
+
+- (NSString *)singleSelectionViewController:(RJSingleSelectionViewController *)viewController subtitleForObject:(NSObject *)object;
+
 @end
 
 

@@ -15,6 +15,7 @@
 @property (nonatomic, strong, readwrite) NSString *artworkURL;
 @property (nonatomic, assign, readwrite) CGFloat length;
 @property (nonatomic, strong, readwrite) NSString *permalinkURL;
+@property (nonatomic, assign, readwrite) BOOL streamable;
 @property (nonatomic, strong, readwrite) NSString *streamURL;
 @property (nonatomic, strong, readwrite) NSString *title;
 @property (nonatomic, strong, readwrite) NSString *trackID;
@@ -29,8 +30,9 @@
 + (instancetype)trackWithJSONData:(NSDictionary *)data {
     RJSoundCloudTrack *track = [[self alloc] init];
     track.artist = data[@"user"][@"username"];
-    track.length = [data[@"duration"] floatValue];
+    track.length = ([data[@"duration"] floatValue]/1000);
     track.permalinkURL = data[@"permalink_url"];
+    track.streamable = [data[@"streamable"] boolValue];
     track.title = data[@"title"];
     track.trackID = [data[@"id"] stringValue];
     
