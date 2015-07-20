@@ -20,7 +20,6 @@ typedef NS_ENUM(NSInteger, TutorialPage) {
     kTutorialPageChoreographed,
     kTutorialPageSelfPaced,
     kTutorialPageGetStarted,
-    kTutorialPageStarting,
     kNumTutorialPages
 };
 
@@ -124,14 +123,6 @@ typedef NS_ENUM(NSInteger, TutorialPage) {
             cell.button.layer.borderWidth = 1.0f;
             cell.button.userInteractionEnabled = YES;
             break;
-        case kTutorialPageStarting:
-            cell.textLabel.text = nil;
-            cell.detailTextLabel.text = nil;
-            cell.imageView.image = nil;
-            [cell.button setTitle:nil forState:UIControlStateNormal];
-            cell.button.layer.borderWidth = 0.0f;
-            cell.button.userInteractionEnabled = NO;
-            break;
         default:
             break;
     }
@@ -150,15 +141,11 @@ typedef NS_ENUM(NSInteger, TutorialPage) {
     
     self.button.userInteractionEnabled = (leftPage == rightPage);
     
-    if (rightPage == kTutorialPageStarting) {
-        [self.tutorialDelegate tutorialViewControllerDidFinish:self];
-    } else {
-        CGFloat distance = (fmodf(xOffset, pageWidth)/pageWidth);
-        if (rightPage == kTutorialPageGetStarted) {
-            self.button.alpha = (distance == 0.0f) ? 0.0f : (1.0f-distance);
-        }
-        self.collectionView.backgroundColor = [self colorForDistance:distance betweenTutorialPage:leftPage andTutorialPage:rightPage];
+    CGFloat distance = (fmodf(xOffset, pageWidth)/pageWidth);
+    if (rightPage == kTutorialPageGetStarted) {
+        self.button.alpha = (distance == 0.0f) ? 0.0f : (1.0f-distance);
     }
+    self.collectionView.backgroundColor = [self colorForDistance:distance betweenTutorialPage:leftPage andTutorialPage:rightPage];
 }
 
 #pragma mark - Private Protocols - UICollectionViewDelegateFlowLayout
@@ -196,9 +183,6 @@ typedef NS_ENUM(NSInteger, TutorialPage) {
             rgbColor = [UIColor colorWithRed:244.0f/255.0f green:86.0f/255.0f blue:86.0f/255.0f alpha:1.0f];
             break;
         case kTutorialPageGetStarted:
-            rgbColor = [RJStyleManager sharedInstance].accentColor;
-            break;
-        case kTutorialPageStarting:
             rgbColor = [RJStyleManager sharedInstance].accentColor;
             break;
         default:
