@@ -16,7 +16,6 @@
 #import "RJParseExercise.h"
 #import "RJParseExerciseInstruction.h"
 #import "RJParseTrack.h"
-#import "RJParseTrackInstruction.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJSoundCloudAPIClient.h"
@@ -33,6 +32,8 @@
 @import AVFoundation.AVTime;
 
 static NSString *const kChoreographedPlayingClassViewControllerCellID = @"ChoreographedPlayingClassViewControllerCellID";
+static const CGFloat kPlayerNonUtteranceVolume = 1.0f;
+static const CGFloat kPlayerUtteranceVolume = 0.4f;
 
 
 @interface RJChoreographedPlayingClassViewController () <AVSpeechSynthesizerDelegate, RJExerciseInstructionCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
@@ -114,6 +115,34 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
         _synthesizer.delegate = self;
     }
     return _synthesizer;
+}
+
+#pragma mark - Private Protocols - AVSpeechSynthesizerDelegate
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didStartSpeechUtterance:(AVSpeechUtterance *)utterance {
+    self.player.volume = kPlayerUtteranceVolume;
+}
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance *)utterance {
+    self.player.volume = kPlayerNonUtteranceVolume;
+}
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didPauseSpeechUtterance:(AVSpeechUtterance *)utterance {
+    self.player.volume = kPlayerNonUtteranceVolume;
+}
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didContinueSpeechUtterance:(AVSpeechUtterance *)utterance {
+    self.player.volume = kPlayerUtteranceVolume;
+}
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didCancelSpeechUtterance:(AVSpeechUtterance *)utterance {
+    self.player.volume = kPlayerNonUtteranceVolume;
+}
+
+- (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer willSpeakRangeOfSpeechString:(NSRange)characterRange utterance:(AVSpeechUtterance *)utterance {
+    if (NSLocationInRange(0, characterRange)) {
+        self.player.volume = kPlayerUtteranceVolume;
+    }
 }
 
 #pragma mark - Private Protocols - RJExerciseInstructionCellDelegate
@@ -266,31 +295,16 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 - (void)startClass:(RJParseClass *)klass {
     _classStarted = YES;
     
-    NSMutableArray *audioQueue = [[NSMutableArray alloc] init];
-    NSUInteger numberOfTracks = [self.klass.trackInstructions count];
-    for (NSUInteger i = 0; i < numberOfTracks; i++) {
-        RJParseTrackInstruction *trackInstruction = self.klass.trackInstructions[i];
-        NSInteger trackInstructionStartPoint = [trackInstruction.startPoint integerValue];
-        
-        NSInteger trackInstructionEndPoint;
-        if (i == (numberOfTracks - 1)) {
-            trackInstructionEndPoint = self.klass.length;
-        } else {
-            RJParseTrackInstruction *nextTrackInstruction = self.klass.trackInstructions[i+1];
-            trackInstructionEndPoint = ([nextTrackInstruction.startPoint integerValue] - 1);
-        }
-        BOOL trackEndsAfterStartPoint = (trackInstructionEndPoint >= self.playbackTime);
-        BOOL trackStartsAtOrAfterStartPoint = (trackInstructionStartPoint >= self.playbackTime);
-        if (trackStartsAtOrAfterStartPoint || (!trackStartsAtOrAfterStartPoint && trackEndsAfterStartPoint)) {
-            NSURL *trackURL = [[RJSoundCloudAPIClient sharedAPIClient] authenticatingStreamURLWithStreamURL:trackInstruction.track.streamURL];
-            AVPlayerItem *trackPlayerItem = [AVPlayerItem playerItemWithURL:trackURL];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidFinish:) name:AVPlayerItemDidPlayToEndTimeNotification object:trackPlayerItem];
-            [audioQueue addObject:trackPlayerItem];
-        }
+    NSArray *tracks = [self tracksForCurrentPlaybackTime];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    for (RJParseTrack *track in tracks) {
+        NSURL *trackURL = [[RJSoundCloudAPIClient sharedAPIClient] authenticatingStreamURLWithStreamURL:track.streamURL];
+        AVPlayerItem *trackPlayerItem = [AVPlayerItem playerItemWithURL:trackURL];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidFinish:) name:AVPlayerItemDidPlayToEndTimeNotification object:trackPlayerItem];
+        [items addObject:trackPlayerItem];
     }
     
-    self.player = [AVQueuePlayer queuePlayerWithItems:audioQueue];
-    self.player.volume = 0.8f;
+    self.player = [AVQueuePlayer queuePlayerWithItems:items];
     [self.player addObserver:self forKeyPath:@"status" options:0 context:nil];
     
     [RJParseUtils incrementPlaysForClass:klass completion:nil];
@@ -326,6 +340,19 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
     }];
 }
 
+- (NSArray *)tracksForCurrentPlaybackTime {
+    NSMutableArray *tracks = [[NSMutableArray alloc] init];
+    NSUInteger trackStartPoint = 0;
+    for (RJParseTrack *track in self.klass.tracks) {
+        NSInteger trackEndPoint = (trackStartPoint + [track.length integerValue]);
+        if (trackEndPoint >= self.playbackTime) {
+            [tracks addObject:track];
+        }
+        trackStartPoint = trackEndPoint;
+    }
+    return tracks;
+}
+
 - (void)updateClassViewFields {
     self.trackTitle.text = self.currentTrack.title;
     self.trackArtist.text = self.currentTrack.artist;
@@ -354,31 +381,22 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 }
 
 - (NSInteger)currentTrackIndex {
-    NSInteger trackInstructionsCount = [self.klass.trackInstructions count];
-    for (NSUInteger i = 0; i < trackInstructionsCount; i++) {
-        RJParseTrackInstruction *trackInstruction = self.klass.trackInstructions[i];
-        NSInteger trackInstructionStartPoint = [trackInstruction.startPoint integerValue];
-        
-        BOOL playbackTimeIsAtOrAfterTrackInstructionStartPoint = (self.playbackTime >= trackInstructionStartPoint);
-        BOOL nextTrackInstructionStartsAfterCurrentPlaybackTime;
-        if (i == (trackInstructionsCount - 1)) {
-            nextTrackInstructionStartsAfterCurrentPlaybackTime = YES;
-        } else {
-            RJParseTrackInstruction *nextTrackInstruction = self.klass.trackInstructions[i+1];
-            NSInteger nextTrackInstructionStartPoint = [nextTrackInstruction.startPoint integerValue];
-            nextTrackInstructionStartsAfterCurrentPlaybackTime = (nextTrackInstructionStartPoint > self.playbackTime);
-        }
-        
-        if (playbackTimeIsAtOrAfterTrackInstructionStartPoint && nextTrackInstructionStartsAfterCurrentPlaybackTime) {
+    NSInteger trackStartPoint = 0;
+    NSInteger tracksCount = [self.klass.tracks count];
+    for (NSUInteger i = 0; i < tracksCount; i++) {
+        RJParseTrack *track = self.klass.tracks[i];
+        NSInteger trackEndPoint = (trackStartPoint + [track.length integerValue]);
+        if ((trackStartPoint <= self.playbackTime) && (trackEndPoint >= self.playbackTime)) {
             return i;
         }
+        trackStartPoint = trackEndPoint;
     }
     
     return NSNotFound;
 }
 
 - (void)fetchCurrentTrackInfo {
-    self.currentTrack = [self.klass.trackInstructions[[self currentTrackIndex]] track];
+    self.currentTrack = self.klass.tracks[[self currentTrackIndex]];
     [self updateClassViewFields];
 }
 
@@ -533,14 +551,17 @@ static NSString *const kChoreographedPlayingClassViewControllerCellID = @"Choreo
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ((object == self.player) && [keyPath isEqualToString:@"status"] && (self.player.status == AVPlayerStatusReadyToPlay)) {
+        RJParseTrack *firstTrackToPlay = [[self tracksForCurrentPlaybackTime] firstObject];
         NSInteger timeToSeekInCurrentItem = 0;
-        for (RJParseTrackInstruction *trackInstruction in self.klass.trackInstructions) {
-            NSInteger trackInstructionStartPoint = [trackInstruction.startPoint integerValue];
-            NSInteger trackInstructionEndPoint = (trackInstructionStartPoint + [trackInstruction.track.length integerValue]);
-            if ((trackInstructionStartPoint <= self.playbackTime) && (trackInstructionEndPoint > self.playbackTime)) {
-                timeToSeekInCurrentItem = (self.playbackTime - trackInstructionStartPoint);
+        NSInteger trackStartPoint = 0;
+        for (RJParseTrack *track in self.klass.tracks) {
+            if ([track.objectId isEqualToString:firstTrackToPlay.objectId]) {
+                timeToSeekInCurrentItem = (self.playbackTime - trackStartPoint);
+                break;
             }
+            trackStartPoint += [track.length integerValue];
         }
+
         [self.player.currentItem seekToTime:CMTimeMake(timeToSeekInCurrentItem, 1) completionHandler:^(BOOL finished) {
             [self startQueues];
         }];

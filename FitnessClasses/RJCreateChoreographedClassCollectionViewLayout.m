@@ -11,24 +11,23 @@
 #import "RJCreateChoreographedClassViewController.h"
 #import "RJParseExerciseInstruction.h"
 #import "RJParseTrack.h"
-#import "RJParseTrackInstruction.h"
 
 static CGFloat kTopMargin = 30.0f;
 static CGFloat kBottomMargin = 30.0f;
 static CGFloat kDefaultCellHeight = 44.0f;
-static NSInteger kTrackInstructionDefaultLength = 180;
+static NSInteger kTrackDefaultLength = 180;
 
 
 @interface RJCreateChoreographedClassCollectionViewLayout ()
 
 @property (nonatomic, strong) NSArray *addExerciseInstructionsAttributes;
-@property (nonatomic, strong) NSArray *addTrackInstructionsAttributes;
+@property (nonatomic, strong) NSArray *addTracksAttributes;
 @property (nonatomic, strong) NSArray *categoryAttributes;
 @property (nonatomic, strong) NSArray *createAttributes;
 @property (nonatomic, strong) NSArray *exerciseInstructionsAttributes;
 @property (nonatomic, strong) NSArray *instructorAttributes;
 @property (nonatomic, strong) NSArray *nameAttributes;
-@property (nonatomic, strong) NSArray *trackInstructionsAttributes;
+@property (nonatomic, strong) NSArray *tracksAttributes;
 
 @end
 
@@ -38,12 +37,12 @@ static NSInteger kTrackInstructionDefaultLength = 180;
 #pragma mark - Private Instance Methods
 
 - (CGFloat)lengthForDuration:(NSInteger)duration {
-    return (((CGFloat)duration)*2.2f);
+    return (((CGFloat)duration)*2.4f);
 }
 
 - (CGFloat)yForSection:(RJCreateChoreographedClassViewControllerSection)section {
     if (section == kRJCreateChoreographedClassViewControllerSectionExerciseInstructions) {
-        return [self yForSection:kRJCreateChoreographedClassViewControllerSectionTrackInstructions];
+        return [self yForSection:kRJCreateChoreographedClassViewControllerSectionTracks];
     } else {
         return (kTopMargin+section*(kDefaultCellHeight+kTopMargin));
     }
@@ -55,9 +54,9 @@ static NSInteger kTrackInstructionDefaultLength = 180;
     [allLayoutAttributes addObjectsFromArray:self.createAttributes];
     [allLayoutAttributes addObjectsFromArray:self.nameAttributes];
     [allLayoutAttributes addObjectsFromArray:self.instructorAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.addTrackInstructionsAttributes];
+    [allLayoutAttributes addObjectsFromArray:self.addTracksAttributes];
     [allLayoutAttributes addObjectsFromArray:self.addExerciseInstructionsAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.trackInstructionsAttributes];
+    [allLayoutAttributes addObjectsFromArray:self.tracksAttributes];
     [allLayoutAttributes addObjectsFromArray:self.exerciseInstructionsAttributes];
     return allLayoutAttributes;
 }
@@ -68,9 +67,9 @@ static NSInteger kTrackInstructionDefaultLength = 180;
         ([self.instructorAttributes count] != 1) ||
         ([self.categoryAttributes count] != 1) ||
         ([self.addExerciseInstructionsAttributes count] != 1) ||
-        ([self.addTrackInstructionsAttributes count] != 1) ||
+        ([self.addTracksAttributes count] != 1) ||
         ([classViewController.exerciseInstructions count] != [self.exerciseInstructionsAttributes count]) ||
-        ([classViewController.trackInstructions count] != [self.trackInstructionsAttributes count]))
+        ([classViewController.tracks count] != [self.tracksAttributes count]))
     {
         [self cacheItemLayoutAttributes];
     }
@@ -81,16 +80,16 @@ static NSInteger kTrackInstructionDefaultLength = 180;
     NSMutableArray *categoryAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *instructorAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *addExerciseInstructionsAttributes = [[NSMutableArray alloc] init];
-    NSMutableArray *addTrackInstructionsAttributes = [[NSMutableArray alloc] init];
+    NSMutableArray *addTracksAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *exerciseInstructionsAttributes = [[NSMutableArray alloc] init];
-    NSMutableArray *trackInstructionsAttributes = [[NSMutableArray alloc] init];
+    NSMutableArray *tracksAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *createAttributes = [[NSMutableArray alloc] init];
     
     RJCreateChoreographedClassViewController *classViewController = (RJCreateChoreographedClassViewController *)self.collectionView.dataSource;
     
     NSUInteger numberOfSections = [classViewController numberOfSectionsInCollectionView:self.collectionView];
     
-    CGFloat trackInstructionsCellWidth = CGRectGetWidth(self.collectionView.bounds)/2.0f;
+    CGFloat tracksCellWidth = CGRectGetWidth(self.collectionView.bounds)/2.0f;
     CGFloat exerciseInstructionsCellWidth = CGRectGetWidth(self.collectionView.bounds)/2.0f;
     
     for (NSUInteger i = 0; i < numberOfSections; i++) {
@@ -119,11 +118,11 @@ static NSInteger kTrackInstructionDefaultLength = 180;
                 [categoryAttributes addObject:layoutAttribute];
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionAddTrackInstruction: {
+            case kRJCreateChoreographedClassViewControllerSectionAddTrack: {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
                 UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                 layoutAttribute.frame = CGRectMake(0.0f, yForSection, CGRectGetWidth(self.collectionView.bounds), kDefaultCellHeight);
-                [addTrackInstructionsAttributes addObject:layoutAttribute];
+                [addTracksAttributes addObject:layoutAttribute];
                 break;
             }
             case kRJCreateChoreographedClassViewControllerSectionAddExerciseInstruction: {
@@ -139,22 +138,25 @@ static NSInteger kTrackInstructionDefaultLength = 180;
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:j inSection:section];
                     RJParseExerciseInstruction *instruction = [classViewController.exerciseInstructions objectAtIndex:j];
                     UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-                    layoutAttribute.frame = CGRectMake(trackInstructionsCellWidth, baseY + [self lengthForDuration:[instruction.startPoint integerValue]], exerciseInstructionsCellWidth, [self lengthForDuration:30]);
+                    layoutAttribute.frame = CGRectMake(tracksCellWidth, baseY + [self lengthForDuration:[instruction.startPoint integerValue]], exerciseInstructionsCellWidth, [self lengthForDuration:30]);
                     layoutAttribute.zIndex = indexPath.item;
                     [exerciseInstructionsAttributes addObject:layoutAttribute];
                 }
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionTrackInstructions: {
+            case kRJCreateChoreographedClassViewControllerSectionTracks: {
                 CGFloat baseY = yForSection;
+                NSInteger startPointYForTrack = 0.0f;
                 for (NSUInteger j = 0; j < numberOfItems; j++) {
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:j inSection:section];
-                    RJParseTrackInstruction *instruction = [classViewController.trackInstructions objectAtIndex:j];
+                    RJParseTrack *track = [classViewController.tracks objectAtIndex:j];
                     UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-                    NSInteger duration = instruction.track.length ? [instruction.track.length integerValue] : kTrackInstructionDefaultLength;
-                    layoutAttribute.frame = CGRectMake(0.0f, baseY + [self lengthForDuration:[instruction.startPoint integerValue]], trackInstructionsCellWidth, [self lengthForDuration:duration]);
+                    NSInteger duration = track.length ? [track.length integerValue] : kTrackDefaultLength;
+                    NSInteger lengthForDuration = [self lengthForDuration:duration];
+                    layoutAttribute.frame = CGRectMake(0.0f, baseY + startPointYForTrack, tracksCellWidth, lengthForDuration);
                     layoutAttribute.zIndex = indexPath.item;
-                    [trackInstructionsAttributes addObject:layoutAttribute];
+                    [tracksAttributes addObject:layoutAttribute];
+                    startPointYForTrack += lengthForDuration;
                 }
                 break;
             }
@@ -174,9 +176,9 @@ static NSInteger kTrackInstructionDefaultLength = 180;
     self.createAttributes = createAttributes;
     self.nameAttributes = nameAttributes;
     self.instructorAttributes = instructorAttributes;
-    self.addTrackInstructionsAttributes = addTrackInstructionsAttributes;
+    self.addTracksAttributes = addTracksAttributes;
     self.addExerciseInstructionsAttributes = addExerciseInstructionsAttributes;
-    self.trackInstructionsAttributes = trackInstructionsAttributes;
+    self.tracksAttributes = tracksAttributes;
     self.exerciseInstructionsAttributes = exerciseInstructionsAttributes;
 }
 

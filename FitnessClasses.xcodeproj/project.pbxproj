@@ -68,11 +68,10 @@
 		B7CC27CA1B58CC800076EC41 /* RJCreateSelfPacedExerciseInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27C91B58CC800076EC41 /* RJCreateSelfPacedExerciseInstructionCell.m */; };
 		B7CC27CD1B58CFE70076EC41 /* RJCreateSelfPacedClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27CC1B58CFE70076EC41 /* RJCreateSelfPacedClassViewController.m */; };
 		B7CC27D11B5C3FC10076EC41 /* RJCreateChoreographedClassCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27D01B5C3FC10076EC41 /* RJCreateChoreographedClassCollectionViewLayout.m */; };
-		B7CC27D41B5C403E0076EC41 /* RJCreateChoreographedClassTrackInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27D31B5C403E0076EC41 /* RJCreateChoreographedClassTrackInstructionCell.m */; };
+		B7CC27D41B5C403E0076EC41 /* RJCreateChoreographedClassTrackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27D31B5C403E0076EC41 /* RJCreateChoreographedClassTrackCell.m */; };
 		B7CC27D71B5C40A90076EC41 /* RJCreateChoreographedClassExerciseInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27D61B5C40A90076EC41 /* RJCreateChoreographedClassExerciseInstructionCell.m */; };
 		B7CC27DA1B5C478F0076EC41 /* RJCreateChoreographedClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27D91B5C478F0076EC41 /* RJCreateChoreographedClassViewController.m */; };
 		B7CC27DD1B5C4B110076EC41 /* RJParseTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27DC1B5C4B110076EC41 /* RJParseTrack.m */; };
-		B7CC27E01B5C4B520076EC41 /* RJParseTrackInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27DF1B5C4B520076EC41 /* RJParseTrackInstruction.m */; };
 		B7CC27E31B5C7EDD0076EC41 /* RJArithmeticHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27E21B5C7EDD0076EC41 /* RJArithmeticHelper.m */; };
 		B7CC27E61B5C98670076EC41 /* RJTrackSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27E51B5C98670076EC41 /* RJTrackSelectorViewController.m */; };
 		B7CC27E91B5C998E0076EC41 /* RJLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27E81B5C998E0076EC41 /* RJLoadingTableViewCell.m */; };
@@ -221,16 +220,14 @@
 		B7CC27CC1B58CFE70076EC41 /* RJCreateSelfPacedClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateSelfPacedClassViewController.m; sourceTree = "<group>"; };
 		B7CC27CF1B5C3FC10076EC41 /* RJCreateChoreographedClassCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateChoreographedClassCollectionViewLayout.h; sourceTree = "<group>"; };
 		B7CC27D01B5C3FC10076EC41 /* RJCreateChoreographedClassCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateChoreographedClassCollectionViewLayout.m; sourceTree = "<group>"; };
-		B7CC27D21B5C403E0076EC41 /* RJCreateChoreographedClassTrackInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateChoreographedClassTrackInstructionCell.h; sourceTree = "<group>"; };
-		B7CC27D31B5C403E0076EC41 /* RJCreateChoreographedClassTrackInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateChoreographedClassTrackInstructionCell.m; sourceTree = "<group>"; };
+		B7CC27D21B5C403E0076EC41 /* RJCreateChoreographedClassTrackCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateChoreographedClassTrackCell.h; sourceTree = "<group>"; };
+		B7CC27D31B5C403E0076EC41 /* RJCreateChoreographedClassTrackCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateChoreographedClassTrackCell.m; sourceTree = "<group>"; };
 		B7CC27D51B5C40A90076EC41 /* RJCreateChoreographedClassExerciseInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateChoreographedClassExerciseInstructionCell.h; sourceTree = "<group>"; };
 		B7CC27D61B5C40A90076EC41 /* RJCreateChoreographedClassExerciseInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateChoreographedClassExerciseInstructionCell.m; sourceTree = "<group>"; };
 		B7CC27D81B5C478F0076EC41 /* RJCreateChoreographedClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateChoreographedClassViewController.h; sourceTree = "<group>"; };
 		B7CC27D91B5C478F0076EC41 /* RJCreateChoreographedClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateChoreographedClassViewController.m; sourceTree = "<group>"; };
 		B7CC27DB1B5C4B110076EC41 /* RJParseTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseTrack.h; sourceTree = "<group>"; };
 		B7CC27DC1B5C4B110076EC41 /* RJParseTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseTrack.m; sourceTree = "<group>"; };
-		B7CC27DE1B5C4B520076EC41 /* RJParseTrackInstruction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseTrackInstruction.h; sourceTree = "<group>"; };
-		B7CC27DF1B5C4B520076EC41 /* RJParseTrackInstruction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseTrackInstruction.m; sourceTree = "<group>"; };
 		B7CC27E11B5C7EDD0076EC41 /* RJArithmeticHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJArithmeticHelper.h; sourceTree = "<group>"; };
 		B7CC27E21B5C7EDD0076EC41 /* RJArithmeticHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJArithmeticHelper.m; sourceTree = "<group>"; };
 		B7CC27E41B5C98670076EC41 /* RJTrackSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTrackSelectorViewController.h; sourceTree = "<group>"; };
@@ -333,8 +330,6 @@
 				B7CC27C61B58A01F0076EC41 /* RJParseMuscle.m */,
 				B7CC27DB1B5C4B110076EC41 /* RJParseTrack.h */,
 				B7CC27DC1B5C4B110076EC41 /* RJParseTrack.m */,
-				B7CC27DE1B5C4B520076EC41 /* RJParseTrackInstruction.h */,
-				B7CC27DF1B5C4B520076EC41 /* RJParseTrackInstruction.m */,
 				23040EBC1AFB11AC00852D94 /* RJParseUser.h */,
 				23040EBD1AFB11AC00852D94 /* RJParseUser.m */,
 				23040EB51AFB0BE400852D94 /* RJParseUtils.h */,
@@ -604,8 +599,8 @@
 				B7CC27D61B5C40A90076EC41 /* RJCreateChoreographedClassExerciseInstructionCell.m */,
 				B7CC27D81B5C478F0076EC41 /* RJCreateChoreographedClassViewController.h */,
 				B7CC27D91B5C478F0076EC41 /* RJCreateChoreographedClassViewController.m */,
-				B7CC27D21B5C403E0076EC41 /* RJCreateChoreographedClassTrackInstructionCell.h */,
-				B7CC27D31B5C403E0076EC41 /* RJCreateChoreographedClassTrackInstructionCell.m */,
+				B7CC27D21B5C403E0076EC41 /* RJCreateChoreographedClassTrackCell.h */,
+				B7CC27D31B5C403E0076EC41 /* RJCreateChoreographedClassTrackCell.m */,
 				B7CC27E41B5C98670076EC41 /* RJTrackSelectorViewController.h */,
 				B7CC27E51B5C98670076EC41 /* RJTrackSelectorViewController.m */,
 			);
@@ -825,7 +820,7 @@
 				B7CC27C11B589F260076EC41 /* RJSingleSelectionViewController.m in Sources */,
 				23631A871AF86D9200E49935 /* AppDelegate.m in Sources */,
 				23040EA71AFAE01D00852D94 /* UIImageView+FastImageCache.m in Sources */,
-				B7CC27D41B5C403E0076EC41 /* RJCreateChoreographedClassTrackInstructionCell.m in Sources */,
+				B7CC27D41B5C403E0076EC41 /* RJCreateChoreographedClassTrackCell.m in Sources */,
 				B7CC27C71B58A01F0076EC41 /* RJParseMuscle.m in Sources */,
 				B7CC27DD1B5C4B110076EC41 /* RJParseTrack.m in Sources */,
 				B7FF384A1B54764300083FE3 /* RJParseExerciseStep.m in Sources */,
@@ -860,7 +855,6 @@
 				B77C4CF11B2B8D4D0088393D /* RJStackedTitleView.m in Sources */,
 				B7CC27CD1B58CFE70076EC41 /* RJCreateSelfPacedClassViewController.m in Sources */,
 				2353FCB21AFC82C500669E64 /* RJUserImageCacheEntity.m in Sources */,
-				B7CC27E01B5C4B520076EC41 /* RJParseTrackInstruction.m in Sources */,
 				B7F9CE591B2E146100968559 /* RJCreditsHelper.m in Sources */,
 				23040EBE1AFB11AC00852D94 /* RJParseUser.m in Sources */,
 				B756B5D61B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m in Sources */,

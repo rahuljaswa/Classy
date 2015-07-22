@@ -20,7 +20,6 @@ typedef NS_ENUM(NSInteger, RJParseClassType) {
 
 @interface RJParseClass : PFObject <PFSubclassing>
 
-@property (nonatomic, strong) NSArray *trackInstructions;
 @property (nonatomic, strong) RJParseCategory *category;
 @property (nonatomic, strong) NSNumber *classType;
 @property (nonatomic, strong) NSArray *comments;
@@ -32,6 +31,7 @@ typedef NS_ENUM(NSInteger, RJParseClassType) {
 @property (nonatomic, strong) NSArray *likes;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSNumber *plays;
+@property (nonatomic, strong) NSArray *tracks;
 
 @property (nonatomic, assign) NSInteger length;
 @property (nonatomic, assign) RJParseClassType formattedClassType;

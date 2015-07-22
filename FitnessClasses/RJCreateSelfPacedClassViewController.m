@@ -279,7 +279,7 @@ typedef NS_ENUM(NSInteger, Section) {
             
             if (validates) {
                 [SVProgressHUD show];
-                [RJParseUtils createClassWithName:self.name classType:kRJParseClassTypeSelfPaced category:category instructor:nil trackInstructions:nil exerciseInstructions:self.exerciseInstructions completion:^(BOOL success) {
+                [RJParseUtils createClassWithName:self.name classType:kRJParseClassTypeSelfPaced category:category instructor:nil tracks:nil exerciseInstructions:self.exerciseInstructions completion:^(BOOL success) {
                     if (success) {
                         self.name = nil;
                         _categoryViewController = nil;

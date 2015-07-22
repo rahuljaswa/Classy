@@ -13,9 +13,9 @@ typedef NS_ENUM(NSInteger, RJCreateChoreographedClassViewControllerSection) {
     kRJCreateChoreographedClassViewControllerSectionInstructor,
     kRJCreateChoreographedClassViewControllerSectionCategory,
     kRJCreateChoreographedClassViewControllerSectionCreate,
-    kRJCreateChoreographedClassViewControllerSectionAddTrackInstruction,
+    kRJCreateChoreographedClassViewControllerSectionAddTrack,
     kRJCreateChoreographedClassViewControllerSectionAddExerciseInstruction,
-    kRJCreateChoreographedClassViewControllerSectionTrackInstructions,
+    kRJCreateChoreographedClassViewControllerSectionTracks,
     kRJCreateChoreographedClassViewControllerSectionExerciseInstructions,
     kNumRJCreateChoreographedClassViewControllerSections
 };
@@ -24,6 +24,6 @@ typedef NS_ENUM(NSInteger, RJCreateChoreographedClassViewControllerSection) {
 @interface RJCreateChoreographedClassViewController : UICollectionViewController
 
 @property (nonatomic, strong, readonly) NSMutableArray *exerciseInstructions;
-@property (nonatomic, strong, readonly) NSMutableArray *trackInstructions;
+@property (nonatomic, strong, readonly) NSMutableArray *tracks;
 
 @end

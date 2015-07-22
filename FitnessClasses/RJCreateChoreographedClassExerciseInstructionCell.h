@@ -14,6 +14,7 @@
 @protocol RJCreateChoreographedClassExerciseInstructionCellDelegate <NSObject>
 
 - (void)createChoreographedClassExerciseInstructionCellDidPressExerciseButton:(RJCreateChoreographedClassExerciseInstructionCell *)cell;
+- (void)createChoreographedClassExerciseInstructionCellDidPressTrashButton:(RJCreateChoreographedClassExerciseInstructionCell *)cell;
 - (void)createChoreographedClassExerciseInstructionCellQuantityTextFieldDidChange:(RJCreateChoreographedClassExerciseInstructionCell *)cell;
 - (void)createChoreographedClassExerciseInstructionCellStartPointDidChange:(RJCreateChoreographedClassExerciseInstructionCell *)cell;
 
@@ -31,6 +32,9 @@
 @property (nonatomic, strong, readonly) UIButton *exerciseButton;
 @property (nonatomic, strong, readonly) UITextField *quantityTextField;
 @property (nonatomic, strong, readonly) UITextField *startPointTextField;
+@property (nonatomic, strong, readonly) UIButton *trashButton;
+
+@property (nonatomic, strong, readonly) UIView *buttonsAreaBackground;
 
 @property (nonatomic, strong, readonly) UIView *bottomBorder;
 @property (nonatomic, strong, readonly) UIView *topBorder;

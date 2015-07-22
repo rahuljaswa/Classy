@@ -121,6 +121,12 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
     }
 }
 
+- (void)trashButtonPressed:(UIButton *)button {
+    if ([self.delegate respondsToSelector:@selector(createChoreographedClassExerciseInstructionCellDidPressTrashButton:)]) {
+        [self.delegate createChoreographedClassExerciseInstructionCellDidPressTrashButton:self];
+    }
+}
+
 #pragma mark - Public Instance Methods
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -132,10 +138,6 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
         _numberOfHours = 0;
         _numberOfMinutes = 0;
         _numberOfSeconds = 0;
-        
-        _exerciseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_exerciseButton addTarget:self action:@selector(exerciseButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:_exerciseButton];
         
         _startPointTextField = [[UITextField alloc] initWithFrame:CGRectZero];
         _startPointTextField.tintColor = [UIColor clearColor];
@@ -149,28 +151,31 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
         _quantityTextField.delegate = self;
         [self.contentView addSubview:_quantityTextField];
         
+        _buttonsAreaBackground = [[UIView alloc] initWithFrame:CGRectZero];
+        [self.contentView addSubview:_buttonsAreaBackground];
+        
         _topBorder = [[UIView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_topBorder];
         
         _bottomBorder = [[UIView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_bottomBorder];
         
-        _exerciseButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _buttonsAreaBackground.translatesAutoresizingMaskIntoConstraints = NO;
         _startPointTextField.translatesAutoresizingMaskIntoConstraints = NO;
         _quantityTextField.translatesAutoresizingMaskIntoConstraints = NO;
         _topBorder.translatesAutoresizingMaskIntoConstraints = NO;
         _bottomBorder.translatesAutoresizingMaskIntoConstraints = NO;
         
-        NSDictionary *views = NSDictionaryOfVariableBindings(_exerciseButton, _startPointTextField, _quantityTextField, _topBorder, _bottomBorder);
+        NSDictionary *views = NSDictionaryOfVariableBindings(_buttonsAreaBackground, _startPointTextField, _quantityTextField, _topBorder, _bottomBorder);
         NSDictionary *metrics = @{
                                   @"quantityTextFieldHeight" : @(kQuantityTextFieldHeight),
                                   @"borderHeight" : @(kBorderHeight)
                                   };
         
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_topBorder(borderHeight)][_startPointTextField][_exerciseButton][_quantityTextField][_bottomBorder(borderHeight)]|" options:0 metrics:metrics views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_topBorder(borderHeight)][_buttonsAreaBackground][_startPointTextField][_quantityTextField][_bottomBorder(borderHeight)]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_exerciseButton]|" options:0 metrics:metrics views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonsAreaBackground]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_startPointTextField]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
@@ -182,7 +187,28 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
         [self.contentView addConstraint:
          [NSLayoutConstraint constraintWithItem:_startPointTextField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeHeight multiplier:0.3 constant:0.0f]];
         [self.contentView addConstraint:
-         [NSLayoutConstraint constraintWithItem:_exerciseButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeHeight multiplier:0.3 constant:0.0f]];
+         [NSLayoutConstraint constraintWithItem:_buttonsAreaBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:30.0f]];
+        
+        _trashButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_trashButton addTarget:self action:@selector(trashButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [_buttonsAreaBackground addSubview:_trashButton];
+        
+        _exerciseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_exerciseButton addTarget:self action:@selector(exerciseButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [_buttonsAreaBackground addSubview:_exerciseButton];
+
+        _trashButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _exerciseButton.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        NSDictionary *buttonsViews = NSDictionaryOfVariableBindings(_trashButton, _exerciseButton);
+        [_buttonsAreaBackground addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_exerciseButton]|" options:0 metrics:nil views:buttonsViews]];
+        [_buttonsAreaBackground addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_trashButton]|" options:0 metrics:nil views:buttonsViews]];
+        [_buttonsAreaBackground addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_exerciseButton]" options:0 metrics:nil views:buttonsViews]];
+        [_buttonsAreaBackground addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_trashButton]|" options:0 metrics:nil views:buttonsViews]];
     }
     return self;
 }

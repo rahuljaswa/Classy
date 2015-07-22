@@ -24,8 +24,7 @@
     [query includeKey:@"exerciseInstructions"];
     [query includeKey:@"exerciseInstructions.exercise"];
     [query includeKey:@"exerciseInstructions.exercise.steps"];
-    [query includeKey:@"trackInstructions"];
-    [query includeKey:@"trackInstructions.track"];
+    [query includeKey:@"tracks"];
     [query includeKey:@"instructionQueue"];
     [query includeKey:@"category"];
     [query includeKey:@"instructor"];
@@ -85,13 +84,13 @@
     }];
 }
 
-+ (void)createClassWithName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructor:(RJParseUser *)instructor trackInstructions:(NSArray *)trackInstructions exerciseInstructions:(NSArray *)exerciseInstructions completion:(void (^)(BOOL))completion {
++ (void)createClassWithName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructor:(RJParseUser *)instructor tracks:(NSArray *)tracks exerciseInstructions:(NSArray *)exerciseInstructions completion:(void (^)(BOOL))completion {
     RJParseClass *class = [RJParseClass object];
     class.classType = @(classType);
     class.instructor = instructor;
     class.name = name;
     class.category = category;
-    class.trackInstructions = trackInstructions;
+    class.tracks = tracks;
     class.exerciseInstructions = exerciseInstructions;
     [class saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {

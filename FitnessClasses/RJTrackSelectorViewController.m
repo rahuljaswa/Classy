@@ -12,6 +12,7 @@
 #import "RJSoundCloudAPIClient.h"
 #import "RJSoundCloudTrack.h"
 #import "RJTrackSelectorViewController.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 @import AVFoundation.AVPlayer;
 @import AVFoundation.AVPlayerItem;
 
@@ -19,13 +20,12 @@ static NSString *const kRJTrackSelectorViewControllerSearchResultsCellID = @"RJT
 static NSString *const kRJTrackSelectorControllerLoadingCell = @"RJLoadingCellID";
 
 
-@interface RJTrackSelectorViewController () <UISearchBarDelegate, RJSingleSelectionViewControllerDataSource>
-
-@property (nonatomic, strong, readonly) UISearchBar *searchBar;
+@interface RJTrackSelectorViewController () <NSURLConnectionDelegate, UISearchBarDelegate, RJSingleSelectionViewControllerDataSource>
 
 @property (nonatomic, strong) AVPlayer *player;
-
+@property (nonatomic, strong, readonly) UISearchBar *searchBar;
 @property (nonatomic, assign, getter=isSearching) BOOL searching;
+@property (nonatomic, strong) NSIndexPath *checkingIndexPath;
 
 @end
 
@@ -86,8 +86,36 @@ static NSString *const kRJTrackSelectorControllerLoadingCell = @"RJLoadingCellID
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"Verifying track...", nil) maskType:SVProgressHUDMaskTypeClear];
+    
+    NSString *trackSteamURL = [self.objects[indexPath.item] streamURL];
+    NSURL *authenticatedTrackStreamURL = [[RJSoundCloudAPIClient sharedAPIClient] authenticatingStreamURLWithStreamURL:trackSteamURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:authenticatedTrackStreamURL];
+    [request setHTTPMethod:@"HEAD"];
+    
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    [connection start];
+    
+    self.checkingIndexPath = indexPath;
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self.view endEditing:YES];
+}
+
+#pragma mark - Private Protocols - NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    if ([(NSHTTPURLResponse *)response statusCode] == 200) {
+        [super tableView:self.tableView didSelectRowAtIndexPath:self.checkingIndexPath];
+        [SVProgressHUD dismiss];
+    } else {
+        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Track is broken", nil)];
+    }
+    self.checkingIndexPath = nil;
 }
 
 #pragma mark - Private Instance Methods

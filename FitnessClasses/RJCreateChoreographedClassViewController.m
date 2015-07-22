@@ -10,12 +10,11 @@
 #import "RJCreateChoreographedClassCollectionViewLayout.h"
 #import "RJCreateChoreographedClassExerciseInstructionCell.h"
 #import "RJCreateChoreographedClassViewController.h"
-#import "RJCreateChoreographedClassTrackInstructionCell.h"
+#import "RJCreateChoreographedClassTrackCell.h"
 #import "RJLabelCell.h"
 #import "RJParseExercise.h"
 #import "RJParseExerciseInstruction.h"
 #import "RJParseTrack.h"
-#import "RJParseTrackInstruction.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJSingleSelectionViewController.h"
@@ -24,14 +23,15 @@
 #import "RJStyleManager.h"
 #import "RJTrackSelectorViewController.h"
 #import "UIColor+RJAdditions.h"
+#import "UIImage+RJAdditions.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kLabelCellID = @"LabelCellID";
 static NSString *const kExerciseInstructionCellID = @"ExerciseInstructionCellID";
-static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
+static NSString *const kTrackCellID = @"TrackCellID";
 
 
-@interface RJCreateChoreographedClassViewController () <RJCreateChoreographedClassExerciseInstructionCellDelegate, RJCreateChoreographedClassTrackInstructionCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UITextFieldDelegate>
+@interface RJCreateChoreographedClassViewController () <RJCreateChoreographedClassExerciseInstructionCellDelegate, RJCreateChoreographedClassTrackCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) NSString *name;
 
@@ -104,9 +104,8 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
     } else if (viewController == self.categoryViewController) {
         [self.collectionView reloadData];
     } else if ([viewController isKindOfClass:[RJTrackSelectorViewController class]]) {
-        RJParseTrackInstruction *instruction = self.trackInstructions[viewController.view.tag];
+        RJParseTrack *track = self.tracks[viewController.view.tag];
         RJSoundCloudTrack *soundCloudTrack = (RJSoundCloudTrack *)object;
-        RJParseTrack *track = [RJParseTrack object];
         track.artist = soundCloudTrack.artist;
         track.length = @((NSInteger)soundCloudTrack.length);
         track.soundCloudTrackID = soundCloudTrack.trackID;
@@ -114,7 +113,6 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
         track.artworkURL = soundCloudTrack.artworkURL;
         track.streamURL = soundCloudTrack.streamURL;
         track.permalinkURL = soundCloudTrack.permalinkURL;
-        instruction.track = track;
         [self.collectionView reloadData];
     } else if (viewController == self.exerciseViewController) {
         RJParseExerciseInstruction *instruction = self.exerciseInstructions[viewController.view.tag];
@@ -145,6 +143,14 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
     [[self navigationController] pushViewController:self.exerciseViewController animated:YES];
 }
 
+- (void)createChoreographedClassExerciseInstructionCellDidPressTrashButton:(RJCreateChoreographedClassExerciseInstructionCell *)cell {
+    if ([self.exerciseInstructions count] > 1) {
+        NSUInteger index = [self.exerciseInstructions indexOfObject:cell.instruction];
+        [self.exerciseInstructions removeObjectAtIndex:index];
+        [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:kRJCreateChoreographedClassViewControllerSectionExerciseInstructions]]];
+    }
+}
+
 - (void)createChoreographedClassExerciseInstructionCellStartPointDidChange:(RJCreateChoreographedClassExerciseInstructionCell *)cell {
     NSUInteger index = [self.exerciseInstructions indexOfObject:cell.instruction];
     RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
@@ -158,19 +164,40 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
     exerciseInstruction.allLevelsQuantity = cell.quantityTextField.text;
 }
 
-#pragma mark - Private Protocols - RJCreateChoreographedClassTrackInstructionCellDelegate
+#pragma mark - Private Protocols - RJCreateChoreographedClassTrackCellDelegate
 
-- (void)createChoreographedClassTrackInstructionCellStartPointDidChange:(RJCreateChoreographedClassTrackInstructionCell *)cell {
-    NSUInteger index = [self.trackInstructions indexOfObject:cell.instruction];
-    RJParseTrackInstruction *trackInstruction = self.trackInstructions[index];
-    trackInstruction.startPoint = @(cell.startPoint);
-    [self.collectionView.collectionViewLayout invalidateLayout];
+- (void)createChoreographedClassTrackCellDownButtonPressed:(RJCreateChoreographedClassTrackCell *)cell {
+    NSUInteger index = [self.tracks indexOfObject:cell.track];
+    if (index != ([self.tracks count] - 1)) {
+        [self.tracks exchangeObjectAtIndex:index withObjectAtIndex:(index+1)];
+        NSIndexPath *initialIndexPath = [NSIndexPath indexPathForItem:index inSection:kRJCreateChoreographedClassViewControllerSectionTracks];
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:(index+1) inSection:kRJCreateChoreographedClassViewControllerSectionTracks];
+        [self.collectionView moveItemAtIndexPath:initialIndexPath toIndexPath:newIndexPath];
+    }
 }
 
-- (void)createChoreographedClassTrackInstructionCellTrackButtonPressed:(RJCreateChoreographedClassTrackInstructionCell *)cell {
+- (void)createChoreographedClassTrackCellUpButtonPressed:(RJCreateChoreographedClassTrackCell *)cell {
+    NSUInteger index = [self.tracks indexOfObject:cell.track];
+    if (index != 0) {
+        [self.tracks exchangeObjectAtIndex:index withObjectAtIndex:(index-1)];
+        NSIndexPath *initialIndexPath = [NSIndexPath indexPathForItem:index inSection:kRJCreateChoreographedClassViewControllerSectionTracks];
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:(index-1) inSection:kRJCreateChoreographedClassViewControllerSectionTracks];
+        [self.collectionView moveItemAtIndexPath:initialIndexPath toIndexPath:newIndexPath];
+    }
+}
+
+- (void)createChoreographedClassTrackCellTrashButtonPressed:(RJCreateChoreographedClassTrackCell *)cell {
+    if ([self.tracks count] > 1) {
+        NSUInteger index = [self.tracks indexOfObject:cell.track];
+        [self.tracks removeObjectAtIndex:index];
+        [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:kRJCreateChoreographedClassViewControllerSectionTracks]]];
+    }
+}
+
+- (void)createChoreographedClassTrackCellTrackButtonPressed:(RJCreateChoreographedClassTrackCell *)cell {
     RJTrackSelectorViewController *trackSelector = [[RJTrackSelectorViewController alloc] init];
     trackSelector.delegate = self;
-    trackSelector.view.tag = [self.trackInstructions indexOfObject:cell.instruction];
+    trackSelector.view.tag = [self.tracks indexOfObject:cell.track];
     [[self navigationController] pushViewController:trackSelector animated:YES];
 }
 
@@ -194,7 +221,7 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
         case kRJCreateChoreographedClassViewControllerSectionCategory:
             numberOfItems = 1;
             break;
-        case kRJCreateChoreographedClassViewControllerSectionAddTrackInstruction:
+        case kRJCreateChoreographedClassViewControllerSectionAddTrack:
             numberOfItems = 1;
             break;
         case kRJCreateChoreographedClassViewControllerSectionAddExerciseInstruction:
@@ -203,8 +230,8 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
         case kRJCreateChoreographedClassViewControllerSectionExerciseInstructions:
             numberOfItems = [self.exerciseInstructions count];
             break;
-        case kRJCreateChoreographedClassViewControllerSectionTrackInstructions:
-            numberOfItems = [self.trackInstructions count];
+        case kRJCreateChoreographedClassViewControllerSectionTracks:
+            numberOfItems = [self.tracks count];
             break;
         case kRJCreateChoreographedClassViewControllerSectionCreate:
             numberOfItems = 1;
@@ -270,12 +297,12 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
             cell = labelCell;
             break;
         }
-        case kRJCreateChoreographedClassViewControllerSectionAddTrackInstruction: {
+        case kRJCreateChoreographedClassViewControllerSectionAddTrack: {
             RJLabelCell *labelCell = (RJLabelCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kLabelCellID forIndexPath:indexPath];
             labelCell.selectedBackgroundView.backgroundColor = styleManager.tintLightGrayColor;
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.accessoryView.image = nil;
-            labelCell.textLabel.text = NSLocalizedString(@"Add Track Instruction", nil);
+            labelCell.textLabel.text = NSLocalizedString(@"Add Track", nil);
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;
             labelCell.textLabel.textColor = styleManager.themeTextColor;
@@ -303,39 +330,69 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
             instructionCell.delegate = self;
             instructionCell.topBorder.backgroundColor = styleManager.themeTextColor;
             instructionCell.bottomBorder.backgroundColor = styleManager.themeTextColor;
+            instructionCell.buttonsAreaBackground.backgroundColor = styleManager.tintLightGrayColor;
             RJParseExerciseInstruction *instruction = self.exerciseInstructions[indexPath.item];
             instructionCell.instruction = instruction;
             NSString *exerciseButtonTitle = instruction.exercise ? instruction.exercise.title : NSLocalizedString(@"Exercise", nil);
             [instructionCell.exerciseButton setTitle:exerciseButtonTitle forState:UIControlStateNormal];
             [instructionCell.exerciseButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
             instructionCell.exerciseButton.titleLabel.font = styleManager.smallBoldFont;
+            instructionCell.exerciseButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
             instructionCell.quantityTextField.placeholder = NSLocalizedString(@"Quantity", nil);
             instructionCell.quantityTextField.text = instruction.allLevelsQuantity;
             instructionCell.quantityTextField.textAlignment = NSTextAlignmentCenter;
             instructionCell.quantityTextField.textColor = styleManager.themeTextColor;
             instructionCell.quantityTextField.font = styleManager.smallFont;
             instructionCell.quantityTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+            [instructionCell.trashButton setImage:[UIImage tintableImageNamed:@"trashIcon"] forState:UIControlStateNormal];
+            instructionCell.trashButton.contentMode = UIViewContentModeScaleAspectFit;
+            instructionCell.trashButton.tintColor = styleManager.themeTextColor;
+            instructionCell.trashButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
             instructionCell.startPointTextField.textAlignment = NSTextAlignmentCenter;
             instructionCell.startPointTextField.font = styleManager.smallFont;
             instructionCell.backgroundView.backgroundColor = [self colorForObject:instruction];
             cell = instructionCell;
             break;
         }
-        case kRJCreateChoreographedClassViewControllerSectionTrackInstructions: {
-            RJCreateChoreographedClassTrackInstructionCell *instructionCell = [collectionView dequeueReusableCellWithReuseIdentifier:kTrackInstructionCellID forIndexPath:indexPath];
-            instructionCell.delegate = self;
-            RJParseTrackInstruction *instruction = self.trackInstructions[indexPath.item];
-            instructionCell.instruction = instruction;
-            NSString *trackButtonTitle = instruction.track ? instruction.track.title : NSLocalizedString(@"Track", nil);
-            [instructionCell.trackButton setTitle:trackButtonTitle forState:UIControlStateNormal];
-            instructionCell.trackButton.titleLabel.font = styleManager.smallBoldFont;
-            [instructionCell.trackButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
-            instructionCell.startPointTextField.textAlignment = NSTextAlignmentCenter;
-            instructionCell.startPointTextField.font = styleManager.smallFont;
-            instructionCell.topBorder.backgroundColor = styleManager.themeTextColor;
-            instructionCell.bottomBorder.backgroundColor = styleManager.themeTextColor;
-            instructionCell.backgroundView.backgroundColor = [self colorForObject:instruction];
-            cell = instructionCell;
+        case kRJCreateChoreographedClassViewControllerSectionTracks: {
+            RJCreateChoreographedClassTrackCell *trackCell = [collectionView dequeueReusableCellWithReuseIdentifier:kTrackCellID forIndexPath:indexPath];
+            trackCell.delegate = self;
+            RJParseTrack *track = self.tracks[indexPath.item];
+            trackCell.track = track;
+            
+            NSInteger startPoint = 0;
+            for (NSInteger i = 0; i < indexPath.item; i++) {
+                RJParseTrack *previousTrack = self.tracks[i];
+                startPoint += [previousTrack.length integerValue];
+            }
+            trackCell.startPoint = startPoint;
+            
+            NSString *trackButtonTitle = track.title ? track.title : NSLocalizedString(@"Track", nil);
+            [trackCell.trackButton setTitle:trackButtonTitle forState:UIControlStateNormal];
+            trackCell.trackButton.titleLabel.font = styleManager.smallBoldFont;
+            [trackCell.trackButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
+            trackCell.trackButton.titleLabel.numberOfLines = 0;
+            trackCell.trackButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            trackCell.trackButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+            trackCell.timingLabel.textAlignment = NSTextAlignmentCenter;
+            trackCell.timingLabel.font = styleManager.smallFont;
+            trackCell.buttonsAreaBackground.backgroundColor = styleManager.tintLightGrayColor;
+            trackCell.upButton.contentMode = UIViewContentModeScaleAspectFit;
+            [trackCell.upButton setImage:[UIImage tintableImageNamed:@"upIcon"] forState:UIControlStateNormal];
+            trackCell.upButton.tintColor = styleManager.themeTextColor;
+            trackCell.upButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+            [trackCell.downButton setImage:[UIImage tintableImageNamed:@"downIcon"] forState:UIControlStateNormal];
+            trackCell.downButton.contentMode = UIViewContentModeScaleAspectFit;
+            trackCell.downButton.tintColor = styleManager.themeTextColor;
+            trackCell.downButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+            [trackCell.trashButton setImage:[UIImage tintableImageNamed:@"trashIcon"] forState:UIControlStateNormal];
+            trackCell.trashButton.contentMode = UIViewContentModeScaleAspectFit;
+            trackCell.trashButton.tintColor = styleManager.themeTextColor;
+            trackCell.trashButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+            trackCell.topBorder.backgroundColor = styleManager.themeTextColor;
+            trackCell.bottomBorder.backgroundColor = styleManager.themeTextColor;
+            trackCell.backgroundView.backgroundColor = [self colorForObject:track];
+            cell = trackCell;
             break;
         }
         case kRJCreateChoreographedClassViewControllerSectionCreate: {
@@ -375,15 +432,17 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
             [[self navigationController] pushViewController:self.categoryViewController animated:YES];
             break;
         }
-        case kRJCreateChoreographedClassViewControllerSectionAddTrackInstruction: {
-            RJParseTrackInstruction *newInstruction = [RJParseTrackInstruction object];
-            [self.trackInstructions addObject:newInstruction];
-            NSUInteger newIndex = [self.trackInstructions indexOfObject:newInstruction];
-            [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:newIndex inSection:kRJCreateChoreographedClassViewControllerSectionTrackInstructions]]];
+        case kRJCreateChoreographedClassViewControllerSectionAddTrack: {
+            RJParseTrack *newTrack = [RJParseTrack object];
+            [self.tracks addObject:newTrack];
+            NSUInteger newIndex = [self.tracks indexOfObject:newTrack];
+            [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:newIndex inSection:kRJCreateChoreographedClassViewControllerSectionTracks]]];
             break;
         }
         case kRJCreateChoreographedClassViewControllerSectionAddExerciseInstruction: {
             RJParseExerciseInstruction *newInstruction = [RJParseExerciseInstruction object];
+            RJParseExerciseInstruction *lastInstruction = [[self sortedExerciseInstructions] lastObject];
+            newInstruction.startPoint = @(([lastInstruction.startPoint integerValue] + 60));
             [self.exerciseInstructions addObject:newInstruction];
             NSUInteger newIndex = [self.exerciseInstructions indexOfObject:newInstruction];
             [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:newIndex inSection:kRJCreateChoreographedClassViewControllerSectionExerciseInstructions]]];
@@ -392,36 +451,35 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
         case kRJCreateChoreographedClassViewControllerSectionExerciseInstructions: {
             break;
         }
-        case kRJCreateChoreographedClassViewControllerSectionTrackInstructions: {
+        case kRJCreateChoreographedClassViewControllerSectionTracks: {
             break;
         }
         case kRJCreateChoreographedClassViewControllerSectionCreate: {
             RJParseCategory *category = (RJParseCategory *)self.categoryViewController.selectedObject;
             RJParseUser *instructor = (RJParseUser *)self.instructorViewController.selectedObject;
-            BOOL validates = (self.name && category && instructor && ([self.exerciseInstructions count] > 0) && ([self.trackInstructions count] > 0));
+            BOOL validates = (self.name && category && instructor && ([self.exerciseInstructions count] > 0) && ([self.tracks count] > 0));
             for (RJParseExerciseInstruction *instruction in self.exerciseInstructions) {
                 if (!instruction.exercise || !instruction.allLevelsQuantity || !instruction.startPoint) {
                     validates = NO;
                     break;
                 }
             }
-            for (RJParseTrackInstruction *instruction in self.trackInstructions) {
-                if (!instruction.track || !instruction.startPoint) {
+            for (RJParseTrack *track in self.tracks) {
+                if (!track.soundCloudTrackID) {
                     validates = NO;
-                    break;
                 }
             }
             
             if (validates) {
                 [SVProgressHUD show];
-                [RJParseUtils createClassWithName:self.name classType:kRJParseClassTypeChoreographed category:category instructor:instructor trackInstructions:self.trackInstructions exerciseInstructions:self.exerciseInstructions completion:^(BOOL success) {
+                [RJParseUtils createClassWithName:self.name classType:kRJParseClassTypeChoreographed category:category instructor:instructor tracks:self.tracks exerciseInstructions:[self sortedExerciseInstructions] completion:^(BOOL success) {
                     if (success) {
                         self.name = nil;
                         _categoryViewController = nil;
                         _exerciseViewController = nil;
                         _instructorViewController = nil;
                         [self preloadSupplementaryViewControllers];
-                        [self resetExerciseInstructionsAndTrackInstructions];
+                        [self resetExerciseInstructionsAndTracks];
                         [self.collectionView reloadData];
                         [SVProgressHUD showSuccessWithStatus:nil];
                     } else {
@@ -463,19 +521,21 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
     return [UIColor colorForDistance:distance betweenColor:minimumColor andColor:maximumColor];
 }
 
-- (void)resetExerciseInstructionsAndTrackInstructions {
+- (void)resetExerciseInstructionsAndTracks {
     RJParseExerciseInstruction *exerciseInstruction = [RJParseExerciseInstruction object];
     exerciseInstruction.startPoint = @(0);
-    RJParseTrackInstruction *trackInstruction = [RJParseTrackInstruction object];
-    trackInstruction.startPoint = @(0);
     _exerciseInstructions = [[NSMutableArray alloc] initWithObjects:exerciseInstruction, nil];
-    _trackInstructions = [[NSMutableArray alloc] initWithObjects:trackInstruction, nil];
+    RJParseTrack *track = [RJParseTrack object];
+    _tracks = [[NSMutableArray alloc] initWithObjects:track, nil];
 }
 
 - (void)preloadSupplementaryViewControllers {
     [self categoryViewController];
     [self exerciseViewController];
     [self instructorViewController];
+}
+- (NSArray *)sortedExerciseInstructions {
+    return [self.exerciseInstructions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"startPoint" ascending:YES]]];
 }
 
 #pragma mark - Public Instance Methods
@@ -484,7 +544,7 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
     RJCreateChoreographedClassCollectionViewLayout *layout = [[RJCreateChoreographedClassCollectionViewLayout alloc] init];
     self = [super initWithCollectionViewLayout:layout];
     if (self) {
-        [self resetExerciseInstructionsAndTrackInstructions];
+        [self resetExerciseInstructionsAndTracks];
         [self preloadSupplementaryViewControllers];
     }
     return self;
@@ -506,7 +566,7 @@ static NSString *const kTrackInstructionCellID = @"TrackInstructionCellID";
     
     [self.collectionView registerClass:[RJLabelCell class] forCellWithReuseIdentifier:kLabelCellID];
     [self.collectionView registerClass:[RJCreateChoreographedClassExerciseInstructionCell class] forCellWithReuseIdentifier:kExerciseInstructionCellID];
-    [self.collectionView registerClass:[RJCreateChoreographedClassTrackInstructionCell class] forCellWithReuseIdentifier:kTrackInstructionCellID];
+    [self.collectionView registerClass:[RJCreateChoreographedClassTrackCell class] forCellWithReuseIdentifier:kTrackCellID];
     
     self.collectionView.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
     self.collectionView.bounces = YES;
