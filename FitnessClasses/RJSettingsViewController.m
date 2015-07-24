@@ -8,7 +8,7 @@
 
 #import "RJAuthenticationViewController.h"
 #import "RJCreateEditChoreographedClassViewController.h"
-#import "RJCreateEditExerciseViewController.h"
+#import "RJCreateExerciseViewController.h"
 #import "RJCreateEditSelfPacedClassViewController.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
@@ -269,7 +269,7 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
     
     [alertController addAction:
      [UIAlertAction actionWithTitle:NSLocalizedString(@"New Exercise", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        RJCreateEditExerciseViewController *createViewController = [[RJCreateEditExerciseViewController alloc] init];
+        RJCreateExerciseViewController *createViewController = [[RJCreateExerciseViewController alloc] init];
         [[self navigationController] pushViewController:createViewController animated:YES];
     }]];
     [alertController addAction:

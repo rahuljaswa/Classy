@@ -20,23 +20,15 @@ static NSString *const kRJTrackSelectorViewControllerSearchResultsCellID = @"RJT
 static NSString *const kRJTrackSelectorControllerLoadingCell = @"RJLoadingCellID";
 
 
-@interface RJTrackSelectorViewController () <NSURLConnectionDelegate, UISearchBarDelegate, RJSingleSelectionViewControllerDataSource>
+@interface RJTrackSelectorViewController () <NSURLConnectionDelegate, RJSingleSelectionViewControllerDataSource>
 
 @property (nonatomic, strong) AVPlayer *player;
-@property (nonatomic, strong, readonly) UISearchBar *searchBar;
-@property (nonatomic, assign, getter=isSearching) BOOL searching;
 @property (nonatomic, strong) NSIndexPath *checkingIndexPath;
 
 @end
 
 
 @implementation RJTrackSelectorViewController
-
-#pragma mark - Private Instance Methods - Search Results Updating
-
-- (void)updateSearchResultsForString:(NSString *)text {
-    [self.tableView reloadData];
-}
 
 #pragma mark - Private Protocols - RJSingleSelectionViewControllerDataSource
 
@@ -57,19 +49,6 @@ static NSString *const kRJTrackSelectorControllerLoadingCell = @"RJLoadingCellID
         self.objects = tracks;
         [self.tableView reloadData];
     }];
-}
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [self updateSearchResultsForString:searchText];
-}
-
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-    self.searching = YES;
-    return YES;
-}
-
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
-    self.searching = NO;
-    return YES;
 }
 
 #pragma mark - Public Protocols - UITableViewDelegate
@@ -153,27 +132,9 @@ static NSString *const kRJTrackSelectorControllerLoadingCell = @"RJLoadingCellID
     self = [super init];
     if (self) {
         self.dataSource = self;
-        
-        RJStyleManager *styleManager = [RJStyleManager sharedInstance];
-        
-        _searchBar = [[UISearchBar alloc] init];
-        _searchBar.delegate = self;
-        _searchBar.tintColor = styleManager.tintBlueColor;
-        _searchBar.barStyle = UIBarStyleBlack;
-        _searchBar.showsCancelButton = NO;
+        self.incrementalSearchEnabled = NO;
     }
     return self;
-}
-
-- (void)viewDidLayoutSubviews {
-    if (!self.isSearching) {
-        [super viewDidLayoutSubviews];
-    }
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.navigationItem.titleView = self.searchBar;
 }
 
 @end

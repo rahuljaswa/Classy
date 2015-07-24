@@ -26,6 +26,7 @@
 
 @optional
 
+- (NSArray *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController resultsForSearchString:(NSString *)searchString objects:(NSArray *)objects;
 - (NSString *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController subtitleForObject:(NSObject *)object;
 
 @end
@@ -33,12 +34,15 @@
 
 @class PFObject;
 
-@interface RJSinglePFObjectSelectionViewController : UITableViewController
+@interface RJSinglePFObjectSelectionViewController : UITableViewController <UISearchBarDelegate>
 
 @property (nonatomic, weak) id<RJSingleSelectionViewControllerDataSource> dataSource;
 @property (nonatomic, weak) id<RJSingleSelectionViewControllerDelegate> delegate;
 
 @property (nonatomic, strong) PFObject *selectedObject;
 @property (nonatomic, strong) NSArray *objects;
+
+@property (nonatomic, strong, readonly) UISearchBar *searchBar;
+@property (nonatomic, assign, getter=isIncrementalSearchEnabled) BOOL incrementalSearchEnabled;
 
 @end

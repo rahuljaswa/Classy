@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, Section) {
 - (RJSinglePFObjectSelectionViewController *)categoryViewController {
     if (!_categoryViewController) {
         _categoryViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
-        _categoryViewController.navigationItem.title = [NSLocalizedString(@"Pick Category", nil) uppercaseString];
+        _categoryViewController.incrementalSearchEnabled = YES;
         _categoryViewController.dataSource = self;
         [RJParseUtils fetchAllCategoriesWithCompletion:^(NSArray *equipment) {
             _categoryViewController.objects = equipment;
@@ -93,6 +93,21 @@ typedef NS_ENUM(NSInteger, Section) {
         RJParseExercise *exercise = (RJParseExercise *)object;
         return exercise.title;
     }
+}
+
+- (NSArray *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController resultsForSearchString:(NSString *)searchString objects:(NSArray *)objects {
+    NSIndexSet *matchingIndexes = [objects indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *string = nil;
+        if (viewController == self.categoryViewController) {
+            RJParseCategory *category = obj;
+            string = category.name;
+        } else {
+            RJParseExercise *exercise = obj;
+            string = exercise.title;
+        }
+        return ([string rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound);
+    }];
+    return [objects objectsAtIndexes:matchingIndexes];
 }
 
 #pragma mark - Private Protocols - UITextFieldDelegate
@@ -380,10 +395,10 @@ typedef NS_ENUM(NSInteger, Section) {
 
 - (void)createEditSelfPacedExerciseInstructionCellExerciseButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
     RJSinglePFObjectSelectionViewController *exerciseViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
+    exerciseViewController.incrementalSearchEnabled = YES;
     exerciseViewController.view.tag = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
     exerciseViewController.dataSource = self;
     exerciseViewController.delegate = self;
-    exerciseViewController.navigationItem.title = [NSLocalizedString(@"Pick Exercise", nil) uppercaseString];
     if (self.exercises) {
         exerciseViewController.objects = self.exercises;
     } else {

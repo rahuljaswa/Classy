@@ -59,7 +59,7 @@
 		B77C4CF71B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF61B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m */; };
 		B77C4CFA1B2BACC60088393D /* UINavigationItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */; };
 		B77C4CFD1B2BBD900088393D /* RJHomeTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */; };
-		B7CC27B81B58905C0076EC41 /* RJCreateEditExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27B71B58905C0076EC41 /* RJCreateEditExerciseViewController.m */; };
+		B7CC27B81B58905C0076EC41 /* RJCreateExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */; };
 		B7CC27BB1B5891BE0076EC41 /* RJLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27BA1B5891BE0076EC41 /* RJLabelCell.m */; };
 		B7CC27BE1B589EF30076EC41 /* RJMusclesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27BD1B589EF30076EC41 /* RJMusclesViewController.m */; };
 		B7CC27C11B589F260076EC41 /* RJSinglePFObjectSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27C01B589F260076EC41 /* RJSinglePFObjectSelectionViewController.m */; };
@@ -202,8 +202,8 @@
 		B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+RJAdditions.m"; sourceTree = "<group>"; };
 		B77C4CFB1B2BBD900088393D /* RJHomeTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeTitleView.h; sourceTree = "<group>"; };
 		B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeTitleView.m; sourceTree = "<group>"; };
-		B7CC27B61B58905C0076EC41 /* RJCreateEditExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditExerciseViewController.h; sourceTree = "<group>"; };
-		B7CC27B71B58905C0076EC41 /* RJCreateEditExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditExerciseViewController.m; sourceTree = "<group>"; };
+		B7CC27B61B58905C0076EC41 /* RJCreateExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateExerciseViewController.h; sourceTree = "<group>"; };
+		B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateExerciseViewController.m; sourceTree = "<group>"; };
 		B7CC27B91B5891BE0076EC41 /* RJLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJLabelCell.h; sourceTree = "<group>"; };
 		B7CC27BA1B5891BE0076EC41 /* RJLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJLabelCell.m; sourceTree = "<group>"; };
 		B7CC27BC1B589EF30076EC41 /* RJMusclesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJMusclesViewController.h; sourceTree = "<group>"; };
@@ -578,12 +578,12 @@
 			isa = PBXGroup;
 			children = (
 				B7CC27CE1B5C3F800076EC41 /* Choreographed Class */,
-				B7CC27B61B58905C0076EC41 /* RJCreateEditExerciseViewController.h */,
-				B7CC27B71B58905C0076EC41 /* RJCreateEditExerciseViewController.m */,
 				B7CC27CB1B58CFE70076EC41 /* RJCreateEditSelfPacedClassViewController.h */,
 				B7CC27CC1B58CFE70076EC41 /* RJCreateEditSelfPacedClassViewController.m */,
 				B7CC27C81B58CC800076EC41 /* RJCreateEditSelfPacedExerciseInstructionCell.h */,
 				B7CC27C91B58CC800076EC41 /* RJCreateEditSelfPacedExerciseInstructionCell.m */,
+				B7CC27B61B58905C0076EC41 /* RJCreateExerciseViewController.h */,
+				B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */,
 				B7CC27BC1B589EF30076EC41 /* RJMusclesViewController.h */,
 				B7CC27BD1B589EF30076EC41 /* RJMusclesViewController.m */,
 			);
@@ -862,7 +862,7 @@
 				B756B5D31B2A9EC10088E918 /* RJParseLike.m in Sources */,
 				23040EA11AFADFB000852D94 /* RJGalleryViewController.m in Sources */,
 				B77C4CF41B2BA0BE0088393D /* RJPlayingClassNavigationController.m in Sources */,
-				B7CC27B81B58905C0076EC41 /* RJCreateEditExerciseViewController.m in Sources */,
+				B7CC27B81B58905C0076EC41 /* RJCreateExerciseViewController.m in Sources */,
 				23040EBB1AFB119A00852D94 /* RJParseCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

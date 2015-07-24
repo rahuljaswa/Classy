@@ -1,12 +1,12 @@
 //
-//  RJCreateEditExerciseViewController.m
+//  RJCreateExerciseViewController.m
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/16/15.
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJCreateEditExerciseViewController.h"
+#import "RJCreateExerciseViewController.h"
 #import "RJLabelCell.h"
 #import "RJMusclesViewController.h"
 #import "RJParseExerciseEquipment.h"
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
 };
 
 
-@interface RJCreateEditExerciseViewController () <RJSingleSelectionViewControllerDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate>
+@interface RJCreateExerciseViewController () <RJSingleSelectionViewControllerDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate>
 
 @property (nonatomic, strong) NSString *name;
 
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
 @end
 
 
-@implementation RJCreateEditExerciseViewController
+@implementation RJCreateExerciseViewController
 
 @synthesize equipmentViewController = _equipmentViewController;
 @synthesize primaryMusclesViewController = _primaryMusclesViewController;
@@ -57,7 +57,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
 - (RJSinglePFObjectSelectionViewController *)equipmentViewController {
     if (!_equipmentViewController) {
         _equipmentViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
-        _equipmentViewController.navigationItem.title = [NSLocalizedString(@"Pick Equipment", nil) uppercaseString];
+        _equipmentViewController.incrementalSearchEnabled = YES;
         _equipmentViewController.dataSource = self;
         [RJParseUtils fetchAllEquipmentWithCompletion:^(NSArray *equipment) {
             _equipmentViewController.objects = equipment;
@@ -85,6 +85,14 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
 - (NSString *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController titleForObject:(NSObject *)object {
     RJParseExerciseEquipment *equipment = (RJParseExerciseEquipment *)object;
     return equipment.name;
+}
+
+- (NSArray *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController resultsForSearchString:(NSString *)searchString objects:(NSArray *)objects {
+    NSIndexSet *matchingIndexes = [objects indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        RJParseExerciseEquipment *equipment = obj;
+        return ([equipment.name rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound);
+    }];
+    return [objects objectsAtIndexes:matchingIndexes];
 }
 
 #pragma mark - Private Protocols - UITextFieldDelegate

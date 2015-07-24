@@ -1,5 +1,5 @@
 //
-//  RJCreateEditExerciseViewController.h
+//  RJCreateExerciseViewController.h
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/16/15.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface RJCreateEditExerciseViewController : UICollectionViewController
+@interface RJCreateExerciseViewController : UICollectionViewController
 
 @end

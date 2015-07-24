@@ -66,7 +66,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
 - (RJSinglePFObjectSelectionViewController *)categoryViewController {
     if (!_categoryViewController) {
         _categoryViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
-        _categoryViewController.navigationItem.title = [NSLocalizedString(@"Pick Category", nil) uppercaseString];
+        _categoryViewController.incrementalSearchEnabled = YES;
         _categoryViewController.delegate = self;
         _categoryViewController.dataSource = self;
         [RJParseUtils fetchAllCategoriesWithCompletion:^(NSArray *equipment) {
@@ -79,7 +79,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
 - (RJSinglePFObjectSelectionViewController *)exerciseViewController {
     if (!_exerciseViewController) {
         _exerciseViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
-        _exerciseViewController.navigationItem.title = [NSLocalizedString(@"Pick Exercise", nil) uppercaseString];
+        _exerciseViewController.incrementalSearchEnabled = YES;
         _exerciseViewController.delegate = self;
         _exerciseViewController.dataSource = self;
         [RJParseUtils fetchAllExercisesWithCompletion:^(NSArray *exercises) {
@@ -92,7 +92,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
 - (RJSinglePFObjectSelectionViewController *)instructorViewController {
     if (!_instructorViewController) {
         _instructorViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
-        _instructorViewController.navigationItem.title = [NSLocalizedString(@"Pick Instructor", nil) uppercaseString];
+        _instructorViewController.incrementalSearchEnabled = YES;
         _instructorViewController.delegate = self;
         _instructorViewController.dataSource = self;
         [RJParseUtils fetchAllInstructorsWithCompletion:^(NSArray *instructors) {
@@ -147,6 +147,24 @@ static NSString *const kTrackCellID = @"TrackCellID";
         RJParseExercise *exercise = (RJParseExercise *)object;
         return exercise.title;
     }
+}
+
+- (NSArray *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController resultsForSearchString:(NSString *)searchString objects:(NSArray *)objects {
+    NSIndexSet *matchingIndexes = [objects indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *string = nil;
+        if (viewController == self.categoryViewController) {
+            RJParseCategory *category = obj;
+            string = category.name;
+        } else if (viewController == self.instructorViewController) {
+            RJParseUser *instructor = obj;
+            string = instructor.name;
+        } else {
+            RJParseExercise *exercise = obj;
+            string = exercise.title;
+        }
+        return ([string rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound);
+    }];
+    return [objects objectsAtIndexes:matchingIndexes];
 }
 
 #pragma mark - Private Protocols - RJCreateEditChoreographedClassExerciseInstructionCellDelegate
