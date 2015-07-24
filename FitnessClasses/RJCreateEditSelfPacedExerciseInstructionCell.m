@@ -1,23 +1,23 @@
 //
-//  RJCreateSelfPacedExerciseInstructionCell.m
+//  RJCreateEditSelfPacedExerciseInstructionCell.m
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/16/15.
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJCreateSelfPacedExerciseInstructionCell.h"
+#import "RJCreateEditSelfPacedExerciseInstructionCell.h"
 #import <SZTextView/SZTextView.h>
 
 
-@interface RJCreateSelfPacedExerciseInstructionCell () <UITextViewDelegate>
+@interface RJCreateEditSelfPacedExerciseInstructionCell () <UITextViewDelegate>
 
 @property (nonatomic, assign, getter = hasSetupStaticConstraints) BOOL setupStaticConstraints;
 
 @end
 
 
-@implementation RJCreateSelfPacedExerciseInstructionCell
+@implementation RJCreateEditSelfPacedExerciseInstructionCell
 
 #pragma mark - Public Class Methods
 
@@ -29,30 +29,30 @@
 
 - (void)textViewDidChange:(UITextView *)textView {
     if (textView == self.beginnerQuantityTextView) {
-        [self.delegate createSelfPacedExerciseInstructionCellBeginnerQuantityTextViewDidChange:self];
+        [self.delegate createEditSelfPacedExerciseInstructionCellBeginnerQuantityTextViewDidChange:self];
     } else if (textView == self.intermediateQuantityTextView) {
-        [self.delegate createSelfPacedExerciseInstructionCellIntermediateQuantityTextViewDidChange:self];
+        [self.delegate createEditSelfPacedExerciseInstructionCellIntermediateQuantityTextViewDidChange:self];
     } else if (textView == self.advancedQuantityTextView) {
-        [self.delegate createSelfPacedExerciseInstructionCellAdvancedQuantityTextViewDidChange:self];
+        [self.delegate createEditSelfPacedExerciseInstructionCellAdvancedQuantityTextViewDidChange:self];
     }
 }
 
 #pragma mark - Private Instance Methods
 
 - (void)exerciseButtonPressed:(UIButton *)button {
-    [self.delegate createSelfPacedExerciseInstructionCellExerciseButtonPressed:self];
+    [self.delegate createEditSelfPacedExerciseInstructionCellExerciseButtonPressed:self];
 }
 
 - (void)downButtonPressed:(UIButton *)button {
-    [self.delegate createSelfPacedExerciseInstructionCellDownButtonPressed:self];
+    [self.delegate createEditSelfPacedExerciseInstructionCellDownButtonPressed:self];
 }
 
 - (void)upButtonPressed:(UIButton *)button {
-    [self.delegate createSelfPacedExerciseInstructionCellUpButtonPressed:self];
+    [self.delegate createEditSelfPacedExerciseInstructionCellUpButtonPressed:self];
 }
 
 - (void)trashButtonPressed:(UIButton *)button {
-    [self.delegate createSelfPacedExerciseInstructionCellTrashButtonPressed:self];
+    [self.delegate createEditSelfPacedExerciseInstructionCellTrashButtonPressed:self];
 }
 
 #pragma mark - Public Instance Methods

@@ -24,6 +24,8 @@
 + (void)createExerciseWithName:(NSString *)name primaryEquipment:(RJParseExerciseEquipment *)primaryEquipment primaryMuscles:(NSArray *)primaryMuscles secondaryMuscles:(NSArray *)secondaryMuscles completion:(void (^)(BOOL success))completion;
 + (void)createClassWithName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructor:(RJParseUser *)instructor tracks:(NSArray *)tracks exerciseInstructions:(NSArray *)exerciseInstructions completion:(void (^)(BOOL))completion;
 
++ (void)updateClass:(RJParseClass *)klass withName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructor:(RJParseUser *)instructor tracks:(NSArray *)tracks exerciseInstructions:(NSArray *)exerciseInstructions completion:(void (^)(BOOL))completion;
+
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *categories))completion;
 + (void)fetchAllInstructorsWithCompletion:(void (^)(NSArray *instructors))completion;
 + (void)fetchAllEquipmentWithCompletion:(void (^)(NSArray *equipment))completion;

@@ -391,13 +391,15 @@ static const CGFloat kPlayerUtteranceVolume = 0.4f;
         }
         trackStartPoint = trackEndPoint;
     }
-    
     return NSNotFound;
 }
 
 - (void)fetchCurrentTrackInfo {
-    self.currentTrack = self.klass.tracks[[self currentTrackIndex]];
-    [self updateClassViewFields];
+    NSInteger currentTrackIndex = [self currentTrackIndex];
+    if (currentTrackIndex != NSNotFound) {
+        self.currentTrack = self.klass.tracks[currentTrackIndex];
+        [self updateClassViewFields];
+    }
 }
 
 - (void)playerItemDidFinish:(NSNotification *)notification {

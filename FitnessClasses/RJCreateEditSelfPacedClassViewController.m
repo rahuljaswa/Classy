@@ -1,21 +1,21 @@
 //
-//  RJSingleSelectionViewController.m
+//  RJCreateEditSelfPacedClassViewController.m
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/16/15.
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJCreateSelfPacedClassViewController.h"
-#import "RJCreateSelfPacedExerciseInstructionCell.h"
-#import "RJSingleSelectionViewController.h"
+#import "RJCreateEditSelfPacedClassViewController.h"
+#import "RJCreateEditSelfPacedExerciseInstructionCell.h"
+#import "RJSinglePFObjectSelectionViewController.h"
 #import "RJLabelCell.h"
 #import "RJMusclesViewController.h"
 #import "RJParseCategory.h"
 #import "RJParseExercise.h"
 #import "RJParseExerciseInstruction.h"
 #import "RJParseUtils.h"
-#import "RJSingleSelectionViewController.h"
+#import "RJSinglePFObjectSelectionViewController.h"
 #import "RJStyleManager.h"
 #import "UIImage+RJAdditions.h"
 #import <SZTextView/SZTextView.h>
@@ -36,25 +36,36 @@ typedef NS_ENUM(NSInteger, Section) {
 };
 
 
-@interface RJCreateSelfPacedClassViewController () <RJCreateSelfPacedExerciseInstructionCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
+@interface RJCreateEditSelfPacedClassViewController () <RJCreateEditSelfPacedExerciseInstructionCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
 
-@property (nonatomic, strong, readonly) RJSingleSelectionViewController *categoryViewController;
+@property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *categoryViewController;
 @property (nonatomic, strong, readonly) NSMutableArray *exerciseInstructions;
 @property (nonatomic, strong) NSArray *exercises;
+
 @property (nonatomic, strong) NSString *name;
 
 @end
 
 
-@implementation RJCreateSelfPacedClassViewController
+@implementation RJCreateEditSelfPacedClassViewController
 
 @synthesize categoryViewController = _categoryViewController;
 
+#pragma mark - Public Properties
+
+- (void)setKlass:(RJParseClass *)klass {
+    _klass = klass;
+    self.name = _klass.name;
+    _exerciseInstructions = [[NSMutableArray alloc] initWithArray:_klass.exerciseInstructions];
+    self.categoryViewController.selectedObject = _klass.category;
+    [self.collectionView reloadData];
+}
+
 #pragma mark - Private Properties
 
-- (RJSingleSelectionViewController *)categoryViewController {
+- (RJSinglePFObjectSelectionViewController *)categoryViewController {
     if (!_categoryViewController) {
-        _categoryViewController = [[RJSingleSelectionViewController alloc] init];
+        _categoryViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
         _categoryViewController.navigationItem.title = [NSLocalizedString(@"Pick Category", nil) uppercaseString];
         _categoryViewController.dataSource = self;
         [RJParseUtils fetchAllCategoriesWithCompletion:^(NSArray *equipment) {
@@ -66,7 +77,7 @@ typedef NS_ENUM(NSInteger, Section) {
 
 #pragma mark - Private Protocols - RJSingleSelectionViewControllerDelegate
 
-- (void)singleSelectionViewController:(RJSingleSelectionViewController *)viewController didSelectObject:(NSObject *)object {
+- (void)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController didSelectObject:(NSObject *)object {
     RJParseExerciseInstruction *instruction = self.exerciseInstructions[viewController.view.tag];
     instruction.exercise = (RJParseExercise *)object;
     [self.collectionView reloadData];
@@ -74,7 +85,7 @@ typedef NS_ENUM(NSInteger, Section) {
 
 #pragma mark - Private Protocols - RJSingleSelectionViewControllerDataSource
 
-- (NSString *)singleSelectionViewController:(RJSingleSelectionViewController *)viewController titleForObject:(NSObject *)object {
+- (NSString *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController titleForObject:(NSObject *)object {
     if (viewController == self.categoryViewController) {
         RJParseCategory *category = (RJParseCategory *)object;
         return category.name;
@@ -171,7 +182,7 @@ typedef NS_ENUM(NSInteger, Section) {
             break;
         }
         case kSectionInstructions: {
-            RJCreateSelfPacedExerciseInstructionCell *instructionCell = (RJCreateSelfPacedExerciseInstructionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kCreateExerciseInstructionCellID forIndexPath:indexPath];
+            RJCreateEditSelfPacedExerciseInstructionCell *instructionCell = (RJCreateEditSelfPacedExerciseInstructionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kCreateExerciseInstructionCellID forIndexPath:indexPath];
             instructionCell.delegate = self;
             RJParseExerciseInstruction *instruction = self.exerciseInstructions[indexPath.item];
             instructionCell.exerciseInstruction = instruction;
@@ -223,7 +234,7 @@ typedef NS_ENUM(NSInteger, Section) {
             RJLabelCell *labelCell = (RJLabelCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kLabelCellID forIndexPath:indexPath];
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.accessoryView.image = nil;
-            labelCell.textLabel.text = NSLocalizedString(@"Create Class", nil);
+            labelCell.textLabel.text = self.klass ? NSLocalizedString(@"Update Class", nil) : NSLocalizedString(@"Create Class", nil);
             labelCell.textLabel.textColor = styleManager.tintBlueColor;
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -279,17 +290,28 @@ typedef NS_ENUM(NSInteger, Section) {
             
             if (validates) {
                 [SVProgressHUD show];
-                [RJParseUtils createClassWithName:self.name classType:kRJParseClassTypeSelfPaced category:category instructor:nil tracks:nil exerciseInstructions:self.exerciseInstructions completion:^(BOOL success) {
-                    if (success) {
-                        self.name = nil;
-                        _categoryViewController = nil;
-                        _exerciseInstructions = [[NSMutableArray alloc] initWithObjects:[RJParseExerciseInstruction object], nil];
-                        [self.collectionView reloadData];
-                        [SVProgressHUD showSuccessWithStatus:nil];
-                    } else {
-                        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error. Try again!", nil)];
-                    }
-                }];
+                if (self.klass) {
+                    [RJParseUtils updateClass:self.klass withName:self.name classType:kRJParseClassTypeSelfPaced category:category instructor:nil tracks:nil exerciseInstructions:self.exerciseInstructions completion:^(BOOL success) {
+                        if (success) {
+                            [SVProgressHUD showSuccessWithStatus:nil];
+                            [[self navigationController] popViewControllerAnimated:YES];
+                        } else {
+                            [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error. Try again!", nil)];
+                        }
+                    }];
+                } else {
+                    [RJParseUtils createClassWithName:self.name classType:kRJParseClassTypeSelfPaced category:category instructor:nil tracks:nil exerciseInstructions:self.exerciseInstructions completion:^(BOOL success) {
+                        if (success) {
+                            self.name = nil;
+                            _categoryViewController = nil;
+                            _exerciseInstructions = [[NSMutableArray alloc] initWithObjects:[RJParseExerciseInstruction object], nil];
+                            [self.collectionView reloadData];
+                            [SVProgressHUD showSuccessWithStatus:nil];
+                        } else {
+                            [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error. Try again!", nil)];
+                        }
+                    }];
+                }
             } else {
                 [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Missing info", nil)];
             }
@@ -328,25 +350,25 @@ typedef NS_ENUM(NSInteger, Section) {
 
 #pragma mark - Private Protocols - RJCreateSelfPacedExerciseInstructionCellDelegate
 
-- (void)createSelfPacedExerciseInstructionCellAdvancedQuantityTextViewDidChange:(RJCreateSelfPacedExerciseInstructionCell *)cell {
+- (void)createEditSelfPacedExerciseInstructionCellAdvancedQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
     NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
     RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
     exerciseInstruction.advancedQuantity = cell.advancedQuantityTextView.text;
 }
 
-- (void)createSelfPacedExerciseInstructionCellBeginnerQuantityTextViewDidChange:(RJCreateSelfPacedExerciseInstructionCell *)cell {
+- (void)createEditSelfPacedExerciseInstructionCellBeginnerQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
     NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
     RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
     exerciseInstruction.beginnerQuantity = cell.beginnerQuantityTextView.text;
 }
 
-- (void)createSelfPacedExerciseInstructionCellIntermediateQuantityTextViewDidChange:(RJCreateSelfPacedExerciseInstructionCell *)cell {
+- (void)createEditSelfPacedExerciseInstructionCellIntermediateQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
     NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
     RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
     exerciseInstruction.intermediateQuantity = cell.intermediateQuantityTextView.text;
 }
 
-- (void)createSelfPacedExerciseInstructionCellDownButtonPressed:(RJCreateSelfPacedExerciseInstructionCell *)cell {
+- (void)createEditSelfPacedExerciseInstructionCellDownButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
     NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
     if (index != ([self.exerciseInstructions count] - 1)) {
         [self.exerciseInstructions exchangeObjectAtIndex:index withObjectAtIndex:(index+1)];
@@ -356,8 +378,8 @@ typedef NS_ENUM(NSInteger, Section) {
     }
 }
 
-- (void)createSelfPacedExerciseInstructionCellExerciseButtonPressed:(RJCreateSelfPacedExerciseInstructionCell *)cell {
-    RJSingleSelectionViewController *exerciseViewController = [[RJSingleSelectionViewController alloc] init];
+- (void)createEditSelfPacedExerciseInstructionCellExerciseButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
+    RJSinglePFObjectSelectionViewController *exerciseViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
     exerciseViewController.view.tag = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
     exerciseViewController.dataSource = self;
     exerciseViewController.delegate = self;
@@ -372,7 +394,7 @@ typedef NS_ENUM(NSInteger, Section) {
     [[self navigationController] pushViewController:exerciseViewController animated:YES];
 }
 
-- (void)createSelfPacedExerciseInstructionCellUpButtonPressed:(RJCreateSelfPacedExerciseInstructionCell *)cell {
+- (void)createEditSelfPacedExerciseInstructionCellUpButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
     NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
     if (index != 0) {
         [self.exerciseInstructions exchangeObjectAtIndex:index withObjectAtIndex:(index-1)];
@@ -382,7 +404,7 @@ typedef NS_ENUM(NSInteger, Section) {
     }
 }
 
-- (void)createSelfPacedExerciseInstructionCellTrashButtonPressed:(RJCreateSelfPacedExerciseInstructionCell *)cell {
+- (void)createEditSelfPacedExerciseInstructionCellTrashButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
     if ([self.exerciseInstructions count] > 1) {
         NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
         [self.exerciseInstructions removeObjectAtIndex:index];
@@ -422,7 +444,7 @@ typedef NS_ENUM(NSInteger, Section) {
     self.navigationItem.title = [NSLocalizedString(@"Create Self-Paced Workout", nil) uppercaseString];
     
     [self.collectionView registerClass:[RJLabelCell class] forCellWithReuseIdentifier:kLabelCellID];
-    [self.collectionView registerClass:[RJCreateSelfPacedExerciseInstructionCell class] forCellWithReuseIdentifier:kCreateExerciseInstructionCellID];
+    [self.collectionView registerClass:[RJCreateEditSelfPacedExerciseInstructionCell class] forCellWithReuseIdentifier:kCreateExerciseInstructionCellID];
     self.collectionView.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
     self.collectionView.bounces = YES;
     self.collectionView.alwaysBounceVertical = YES;

@@ -40,12 +40,12 @@ static NSString *const kRJTrackSelectorControllerLoadingCell = @"RJLoadingCellID
 
 #pragma mark - Private Protocols - RJSingleSelectionViewControllerDataSource
 
-- (NSString *)singleSelectionViewController:(RJSingleSelectionViewController *)viewController titleForObject:(NSObject *)object {
+- (NSString *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController titleForObject:(NSObject *)object {
     RJSoundCloudTrack *track = (RJSoundCloudTrack *)object;
     return track.title;
 }
 
-- (NSString *)singleSelectionViewController:(RJSingleSelectionViewController *)viewController subtitleForObject:(NSObject *)object {
+- (NSString *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController subtitleForObject:(NSObject *)object {
     RJSoundCloudTrack *track = (RJSoundCloudTrack *)object;
     return [NSString stringWithFormat:@"%@ - %@", [NSString hhmmaaForTotalSeconds:track.length], track.artist];
 }

@@ -1,5 +1,5 @@
 //
-//  RJCreateChoreographedClassExerciseInstructionCell.m
+//  RJCreateEditChoreographedClassExerciseInstructionCell.m
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/19/15.
@@ -8,14 +8,14 @@
 
 #import "NSString+Temporal.h"
 #import "RJArithmeticHelper.h"
-#import "RJCreateChoreographedClassExerciseInstructionCell.h"
+#import "RJCreateEditChoreographedClassExerciseInstructionCell.h"
 #import "RJParseExerciseInstruction.h"
 
 static CGFloat const kBorderHeight = 0.5f;
 static CGFloat const kQuantityTextFieldHeight = 30.0f;
 
 
-@interface RJCreateChoreographedClassExerciseInstructionCell () <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface RJCreateEditChoreographedClassExerciseInstructionCell () <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (nonatomic, strong, readwrite) UITextField *startPointTextField;
 
@@ -26,7 +26,7 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
 @end
 
 
-@implementation RJCreateChoreographedClassExerciseInstructionCell
+@implementation RJCreateEditChoreographedClassExerciseInstructionCell
 
 #pragma mark - Public Properties
 
@@ -98,8 +98,8 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
         self.numberOfSeconds = row;
     }
     self.startPointTextField.text = [NSString hhmmaaForTotalSeconds:self.startPoint];
-    if ([self.delegate respondsToSelector:@selector(createChoreographedClassExerciseInstructionCellStartPointDidChange:)]) {
-        [self.delegate createChoreographedClassExerciseInstructionCellStartPointDidChange:self];
+    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassExerciseInstructionCellStartPointDidChange:)]) {
+        [self.delegate createEditChoreographedClassExerciseInstructionCellStartPointDidChange:self];
     }
 }
 
@@ -107,8 +107,8 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     textField.text = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if ([self.delegate respondsToSelector:@selector(createChoreographedClassExerciseInstructionCellQuantityTextFieldDidChange:)]) {
-        [self.delegate createChoreographedClassExerciseInstructionCellQuantityTextFieldDidChange:self];
+    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassExerciseInstructionCellQuantityTextFieldDidChange:)]) {
+        [self.delegate createEditChoreographedClassExerciseInstructionCellQuantityTextFieldDidChange:self];
     }
     return NO;
 }
@@ -116,14 +116,14 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
 #pragma mark - Private Instance Methods
 
 - (void)exerciseButtonPressed:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(createChoreographedClassExerciseInstructionCellDidPressExerciseButton:)]) {
-        [self.delegate createChoreographedClassExerciseInstructionCellDidPressExerciseButton:self];
+    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassExerciseInstructionCellDidPressExerciseButton:)]) {
+        [self.delegate createEditChoreographedClassExerciseInstructionCellDidPressExerciseButton:self];
     }
 }
 
 - (void)trashButtonPressed:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(createChoreographedClassExerciseInstructionCellDidPressTrashButton:)]) {
-        [self.delegate createChoreographedClassExerciseInstructionCellDidPressTrashButton:self];
+    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassExerciseInstructionCellDidPressTrashButton:)]) {
+        [self.delegate createEditChoreographedClassExerciseInstructionCellDidPressTrashButton:self];
     }
 }
 

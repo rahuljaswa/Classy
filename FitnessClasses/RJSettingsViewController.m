@@ -7,9 +7,9 @@
 //
 
 #import "RJAuthenticationViewController.h"
-#import "RJCreateChoreographedClassViewController.h"
-#import "RJCreateExerciseViewController.h"
-#import "RJCreateSelfPacedClassViewController.h"
+#import "RJCreateEditChoreographedClassViewController.h"
+#import "RJCreateEditExerciseViewController.h"
+#import "RJCreateEditSelfPacedClassViewController.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJSettingsViewController.h"
@@ -269,17 +269,17 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
     
     [alertController addAction:
      [UIAlertAction actionWithTitle:NSLocalizedString(@"New Exercise", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        RJCreateExerciseViewController *createViewController = [[RJCreateExerciseViewController alloc] init];
+        RJCreateEditExerciseViewController *createViewController = [[RJCreateEditExerciseViewController alloc] init];
         [[self navigationController] pushViewController:createViewController animated:YES];
     }]];
     [alertController addAction:
      [UIAlertAction actionWithTitle:NSLocalizedString(@"New Self-Paced Workout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        RJCreateSelfPacedClassViewController *createViewController = [[RJCreateSelfPacedClassViewController alloc] init];
+        RJCreateEditSelfPacedClassViewController *createViewController = [[RJCreateEditSelfPacedClassViewController alloc] init];
         [[self navigationController] pushViewController:createViewController animated:YES];
     }]];
     [alertController addAction:
      [UIAlertAction actionWithTitle:NSLocalizedString(@"New Choreographed Workout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        RJCreateChoreographedClassViewController *createViewController = [[RJCreateChoreographedClassViewController alloc] init];
+        RJCreateEditChoreographedClassViewController *createViewController = [[RJCreateEditChoreographedClassViewController alloc] init];
         [[self navigationController] pushViewController:createViewController animated:YES];
     }]];
     

@@ -1,17 +1,17 @@
 //
-//  RJSingleSelectionViewController.m
+//  RJCreateEditExerciseViewController.m
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/16/15.
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJCreateExerciseViewController.h"
+#import "RJCreateEditExerciseViewController.h"
 #import "RJLabelCell.h"
 #import "RJMusclesViewController.h"
 #import "RJParseExerciseEquipment.h"
 #import "RJParseUtils.h"
-#import "RJSingleSelectionViewController.h"
+#import "RJSinglePFObjectSelectionViewController.h"
 #import "RJStyleManager.h"
 #import "UIImage+RJAdditions.h"
 #import <SZTextView/SZTextView.h>
@@ -35,18 +35,18 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
 };
 
 
-@interface RJCreateExerciseViewController () <RJSingleSelectionViewControllerDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate>
+@interface RJCreateEditExerciseViewController () <RJSingleSelectionViewControllerDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate>
 
 @property (nonatomic, strong) NSString *name;
 
-@property (nonatomic, strong, readonly) RJSingleSelectionViewController *equipmentViewController;
+@property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *equipmentViewController;
 @property (nonatomic, strong, readonly) RJMusclesViewController *primaryMusclesViewController;
 @property (nonatomic, strong, readonly) RJMusclesViewController *secondaryMusclesViewController;
 
 @end
 
 
-@implementation RJCreateExerciseViewController
+@implementation RJCreateEditExerciseViewController
 
 @synthesize equipmentViewController = _equipmentViewController;
 @synthesize primaryMusclesViewController = _primaryMusclesViewController;
@@ -54,9 +54,9 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
 
 #pragma mark - Private Properties
 
-- (RJSingleSelectionViewController *)equipmentViewController {
+- (RJSinglePFObjectSelectionViewController *)equipmentViewController {
     if (!_equipmentViewController) {
-        _equipmentViewController = [[RJSingleSelectionViewController alloc] init];
+        _equipmentViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
         _equipmentViewController.navigationItem.title = [NSLocalizedString(@"Pick Equipment", nil) uppercaseString];
         _equipmentViewController.dataSource = self;
         [RJParseUtils fetchAllEquipmentWithCompletion:^(NSArray *equipment) {
@@ -82,7 +82,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
 
 #pragma mark - Private Protocols - RJSingleSelectionViewControllerDataSource
 
-- (NSString *)singleSelectionViewController:(RJSingleSelectionViewController *)viewController titleForObject:(NSObject *)object {
+- (NSString *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController titleForObject:(NSObject *)object {
     RJParseExerciseEquipment *equipment = (RJParseExerciseEquipment *)object;
     return equipment.name;
 }

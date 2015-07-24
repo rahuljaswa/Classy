@@ -1,5 +1,5 @@
 //
-//  RJCreateChoreographedClassTrackCell.h
+//  RJCreateEditChoreographedClassTrackCell.h
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/19/15.
@@ -9,21 +9,21 @@
 #import <UIKit/UIKit.h>
 
 
-@class RJCreateChoreographedClassTrackCell;
+@class RJCreateEditChoreographedClassTrackCell;
 
 @protocol RJCreateChoreographedClassTrackCellDelegate <NSObject>
 
-- (void)createChoreographedClassTrackCellDownButtonPressed:(RJCreateChoreographedClassTrackCell *)cell;
-- (void)createChoreographedClassTrackCellTrackButtonPressed:(RJCreateChoreographedClassTrackCell *)cell;
-- (void)createChoreographedClassTrackCellTrashButtonPressed:(RJCreateChoreographedClassTrackCell *)cell;
-- (void)createChoreographedClassTrackCellUpButtonPressed:(RJCreateChoreographedClassTrackCell *)cell;
+- (void)createEditChoreographedClassTrackCellDownButtonPressed:(RJCreateEditChoreographedClassTrackCell *)cell;
+- (void)createEditChoreographedClassTrackCellTrackButtonPressed:(RJCreateEditChoreographedClassTrackCell *)cell;
+- (void)createEditChoreographedClassTrackCellTrashButtonPressed:(RJCreateEditChoreographedClassTrackCell *)cell;
+- (void)createEditChoreographedClassTrackCellUpButtonPressed:(RJCreateEditChoreographedClassTrackCell *)cell;
 
 @end
 
 
 @class RJParseTrack;
 
-@interface RJCreateChoreographedClassTrackCell : UICollectionViewCell
+@interface RJCreateEditChoreographedClassTrackCell : UICollectionViewCell
 
 @property (nonatomic, assign) NSInteger startPoint;
 @property (nonatomic, strong) RJParseTrack *track;

@@ -1,5 +1,5 @@
 //
-//  RJCreateChoreographedClassTrackCell.m
+//  RJCreateEditChoreographedClassTrackCell.m
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/19/15.
@@ -8,7 +8,7 @@
 
 #import "NSString+Temporal.h"
 #import "RJArithmeticHelper.h"
-#import "RJCreateChoreographedClassTrackCell.h"
+#import "RJCreateEditChoreographedClassTrackCell.h"
 #import "RJParseTrack.h"
 
 static CGFloat const kBorderHeight = 0.5f;
@@ -16,7 +16,7 @@ static CGFloat const kTrackButtonHeight = 30.0f;
 static CGFloat const ktimingLabelHeight = 30.0f;
 
 
-@interface RJCreateChoreographedClassTrackCell ()
+@interface RJCreateEditChoreographedClassTrackCell ()
 
 @property (nonatomic, strong, readwrite) UILabel *timingLabel;
 
@@ -27,7 +27,7 @@ static CGFloat const ktimingLabelHeight = 30.0f;
 @end
 
 
-@implementation RJCreateChoreographedClassTrackCell
+@implementation RJCreateEditChoreographedClassTrackCell
 
 #pragma mark - Public Properties
 
@@ -44,26 +44,26 @@ static CGFloat const ktimingLabelHeight = 30.0f;
 #pragma mark - Private Instance Methods
 
 - (void)trackButtonPressed:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(createChoreographedClassTrackCellTrackButtonPressed:)]) {
-        [self.delegate createChoreographedClassTrackCellTrackButtonPressed:self];
+    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassTrackCellTrackButtonPressed:)]) {
+        [self.delegate createEditChoreographedClassTrackCellTrackButtonPressed:self];
     }
 }
 
 - (void)upButtonPressed:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(createChoreographedClassTrackCellUpButtonPressed:)]) {
-        [self.delegate createChoreographedClassTrackCellUpButtonPressed:self];
+    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassTrackCellUpButtonPressed:)]) {
+        [self.delegate createEditChoreographedClassTrackCellUpButtonPressed:self];
     }
 }
 
 - (void)downButtonPressed:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(createChoreographedClassTrackCellDownButtonPressed:)]) {
-        [self.delegate createChoreographedClassTrackCellDownButtonPressed:self];
+    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassTrackCellDownButtonPressed:)]) {
+        [self.delegate createEditChoreographedClassTrackCellDownButtonPressed:self];
     }
 }
 
 - (void)trashButtonPressed:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(createChoreographedClassTrackCellTrashButtonPressed:)]) {
-        [self.delegate createChoreographedClassTrackCellTrashButtonPressed:self];
+    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassTrackCellTrashButtonPressed:)]) {
+        [self.delegate createEditChoreographedClassTrackCellTrashButtonPressed:self];
     }
 }
 

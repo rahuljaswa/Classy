@@ -1,5 +1,5 @@
 //
-//  RJCreateChoreographedClassCollectionViewLayout.h
+//  RJCreateEditChoreographedClassCollectionViewLayout.h
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/19/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RJCreateChoreographedClassCollectionViewLayout : UICollectionViewLayout
+@interface RJCreateEditChoreographedClassCollectionViewLayout : UICollectionViewLayout
 
 @end

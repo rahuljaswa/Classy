@@ -1,14 +1,14 @@
 //
-//  RJCreateChoreographedClassCollectionViewLayout.m
+//  RJCreateEditChoreographedClassCollectionViewLayout.m
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/19/15.
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJCreateChoreographedClassCollectionViewLayout.h"
-#import "RJCreateChoreographedClassExerciseInstructionCell.h"
-#import "RJCreateChoreographedClassViewController.h"
+#import "RJCreateEditChoreographedClassCollectionViewLayout.h"
+#import "RJCreateEditChoreographedClassExerciseInstructionCell.h"
+#import "RJCreateEditChoreographedClassViewController.h"
 #import "RJParseExerciseInstruction.h"
 #import "RJParseTrack.h"
 
@@ -18,7 +18,7 @@ static CGFloat kDefaultCellHeight = 44.0f;
 static NSInteger kTrackDefaultLength = 180;
 
 
-@interface RJCreateChoreographedClassCollectionViewLayout ()
+@interface RJCreateEditChoreographedClassCollectionViewLayout ()
 
 @property (nonatomic, strong) NSArray *addExerciseInstructionsAttributes;
 @property (nonatomic, strong) NSArray *addTracksAttributes;
@@ -32,7 +32,7 @@ static NSInteger kTrackDefaultLength = 180;
 @end
 
 
-@implementation RJCreateChoreographedClassCollectionViewLayout
+@implementation RJCreateEditChoreographedClassCollectionViewLayout
 
 #pragma mark - Private Instance Methods
 
@@ -40,9 +40,9 @@ static NSInteger kTrackDefaultLength = 180;
     return (((CGFloat)duration)*2.4f);
 }
 
-- (CGFloat)yForSection:(RJCreateChoreographedClassViewControllerSection)section {
-    if (section == kRJCreateChoreographedClassViewControllerSectionExerciseInstructions) {
-        return [self yForSection:kRJCreateChoreographedClassViewControllerSectionTracks];
+- (CGFloat)yForSection:(RJCreateEditChoreographedClassViewControllerSection)section {
+    if (section == kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions) {
+        return [self yForSection:kRJCreateEditChoreographedClassViewControllerSectionTracks];
     } else {
         return (kTopMargin+section*(kDefaultCellHeight+kTopMargin));
     }
@@ -62,7 +62,7 @@ static NSInteger kTrackDefaultLength = 180;
 }
 
 - (void)cacheItemLayoutAttributesIfNecessary {
-    RJCreateChoreographedClassViewController *classViewController = (RJCreateChoreographedClassViewController *)self.collectionView.dataSource;
+    RJCreateEditChoreographedClassViewController *classViewController = (RJCreateEditChoreographedClassViewController *)self.collectionView.dataSource;
     if (([self.nameAttributes count] != 1) ||
         ([self.instructorAttributes count] != 1) ||
         ([self.categoryAttributes count] != 1) ||
@@ -85,7 +85,7 @@ static NSInteger kTrackDefaultLength = 180;
     NSMutableArray *tracksAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *createAttributes = [[NSMutableArray alloc] init];
     
-    RJCreateChoreographedClassViewController *classViewController = (RJCreateChoreographedClassViewController *)self.collectionView.dataSource;
+    RJCreateEditChoreographedClassViewController *classViewController = (RJCreateEditChoreographedClassViewController *)self.collectionView.dataSource;
     
     NSUInteger numberOfSections = [classViewController numberOfSectionsInCollectionView:self.collectionView];
     
@@ -93,46 +93,46 @@ static NSInteger kTrackDefaultLength = 180;
     CGFloat exerciseInstructionsCellWidth = CGRectGetWidth(self.collectionView.bounds)/2.0f;
     
     for (NSUInteger i = 0; i < numberOfSections; i++) {
-        RJCreateChoreographedClassViewControllerSection section = i;
+        RJCreateEditChoreographedClassViewControllerSection section = i;
         NSUInteger numberOfItems = [classViewController collectionView:self.collectionView numberOfItemsInSection:section];
         CGFloat yForSection = [self yForSection:section];
         switch (section) {
-            case kRJCreateChoreographedClassViewControllerSectionName: {
+            case kRJCreateEditChoreographedClassViewControllerSectionName: {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
                 UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                 layoutAttribute.frame = CGRectMake(0.0f, yForSection, CGRectGetWidth(self.collectionView.bounds), kDefaultCellHeight);
                 [nameAttributes addObject:layoutAttribute];
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionInstructor: {
+            case kRJCreateEditChoreographedClassViewControllerSectionInstructor: {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
                 UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                 layoutAttribute.frame = CGRectMake(0.0f, yForSection, CGRectGetWidth(self.collectionView.bounds), kDefaultCellHeight);
                 [instructorAttributes addObject:layoutAttribute];
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionCategory: {
+            case kRJCreateEditChoreographedClassViewControllerSectionCategory: {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
                 UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                 layoutAttribute.frame = CGRectMake(0.0f, yForSection, CGRectGetWidth(self.collectionView.bounds), kDefaultCellHeight);
                 [categoryAttributes addObject:layoutAttribute];
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionAddTrack: {
+            case kRJCreateEditChoreographedClassViewControllerSectionAddTrack: {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
                 UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                 layoutAttribute.frame = CGRectMake(0.0f, yForSection, CGRectGetWidth(self.collectionView.bounds), kDefaultCellHeight);
                 [addTracksAttributes addObject:layoutAttribute];
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionAddExerciseInstruction: {
+            case kRJCreateEditChoreographedClassViewControllerSectionAddExerciseInstruction: {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
                 UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                 layoutAttribute.frame = CGRectMake(0.0f, yForSection, CGRectGetWidth(self.collectionView.bounds), kDefaultCellHeight);
                 [addExerciseInstructionsAttributes addObject:layoutAttribute];
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionExerciseInstructions: {
+            case kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions: {
                 CGFloat baseY = yForSection;
                 for (NSUInteger j = 0; j < numberOfItems; j++) {
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:j inSection:section];
@@ -144,7 +144,7 @@ static NSInteger kTrackDefaultLength = 180;
                 }
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionTracks: {
+            case kRJCreateEditChoreographedClassViewControllerSectionTracks: {
                 CGFloat baseY = yForSection;
                 NSInteger startPointYForTrack = 0.0f;
                 for (NSUInteger j = 0; j < numberOfItems; j++) {
@@ -160,7 +160,7 @@ static NSInteger kTrackDefaultLength = 180;
                 }
                 break;
             }
-            case kRJCreateChoreographedClassViewControllerSectionCreate: {
+            case kRJCreateEditChoreographedClassViewControllerSectionCreate: {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
                 UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                 layoutAttribute.frame = CGRectMake(0.0f, yForSection, CGRectGetWidth(self.collectionView.bounds), kDefaultCellHeight);

@@ -102,6 +102,25 @@
     }];
 }
 
+#pragma mark - Public Class Methods - Updating
+
++ (void)updateClass:(RJParseClass *)klass withName:(NSString *)name classType:(RJParseClassType)classType category:(RJParseCategory *)category instructor:(RJParseUser *)instructor tracks:(NSArray *)tracks exerciseInstructions:(NSArray *)exerciseInstructions completion:(void (^)(BOOL))completion {
+    klass.classType = @(classType);
+    klass.instructor = instructor;
+    klass.name = name;
+    klass.category = category;
+    klass.tracks = tracks;
+    klass.exerciseInstructions = exerciseInstructions;
+    [klass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSLog(@"Error updating class\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(succeeded);
+        }
+    }];
+}
+
 #pragma mark - Public Class Methods - Fetching
 
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *))completion {

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJSingleSelectionViewController.h"
+#import "RJSinglePFObjectSelectionViewController.h"
 
 
 @class RJTrackSelectorViewController;
@@ -18,7 +18,7 @@
 @end
 
 
-@interface RJTrackSelectorViewController : RJSingleSelectionViewController
+@interface RJTrackSelectorViewController : RJSinglePFObjectSelectionViewController
 
 @property (nonatomic, weak) id<RJTrackSelectorViewControllerDelegate> trackSelectorDelegate;
 

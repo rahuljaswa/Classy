@@ -8,6 +8,8 @@
 
 #import "RJClassCommentsViewController.h"
 #import "RJClassDetailsViewController.h"
+#import "RJCreateEditChoreographedClassViewController.h"
+#import "RJCreateEditSelfPacedClassViewController.h"
 #import "RJParseCategory.h"
 #import "RJParseClass.h"
 #import "RJParseUser.h"
@@ -121,6 +123,26 @@
 
 #pragma mark - Private Instance Methods - Handlers
 
+- (void)editButtonPressed:(UIButton *)button {
+    RJParseClassType classType = [self.klass.classType integerValue];
+    switch (classType) {
+        case kRJParseClassTypeNone:
+            break;
+        case kRJParseClassTypeChoreographed: {
+            RJCreateEditChoreographedClassViewController *editViewController = [[RJCreateEditChoreographedClassViewController alloc] init];
+            editViewController.klass = self.klass;
+            [[self navigationController] pushViewController:editViewController animated:YES];
+            break;
+        }
+        case kRJParseClassTypeSelfPaced: {
+            RJCreateEditSelfPacedClassViewController *editViewController = [[RJCreateEditSelfPacedClassViewController alloc] init];
+            editViewController.klass = self.klass;
+            [[self navigationController] pushViewController:editViewController animated:YES];
+            break;
+        }
+    }
+}
+
 - (void)facebookButtonPressed:(UIButton *)button {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
         SLComposeViewController *composeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
@@ -216,6 +238,10 @@
     self.view.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
     
     self.navigationItem.titleView = self.titleView;
+    if ([[RJParseUser currentUser] admin]) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage tintableImageNamed:@"settingsIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPressed:)];
+        [self.navigationItem setRightBarButtonItem:item];
+    }
     
     [self.facebookButton addTarget:self action:@selector(facebookButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.twitterButton addTarget:self action:@selector(twitterButtonPressed:) forControlEvents:UIControlEventTouchUpInside];

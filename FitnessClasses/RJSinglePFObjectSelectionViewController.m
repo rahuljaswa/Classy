@@ -1,31 +1,32 @@
 //
-//  RJEquipmentViewController.m
+//  RJSinglePFObjectSelectionViewController.m
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 7/16/15.
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJSingleSelectionViewController.h"
 #import "RJParseUtils.h"
+#import "RJSinglePFObjectSelectionViewController.h"
 #import "RJStyleManager.h"
 #import "RJSubtitleTableViewCell.h"
 
 static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionViewControllerCellID";
 
 
-@interface RJSingleSelectionViewController ()
+@interface RJSinglePFObjectSelectionViewController ()
 
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
+@property (nonatomic, strong) PFObject *objectToSelect;
 
 @end
 
 
-@implementation RJSingleSelectionViewController
+@implementation RJSinglePFObjectSelectionViewController
 
 #pragma mark - Public Properties
 
-- (NSObject *)selectedObject {
+- (PFObject *)selectedObject {
     if (self.objects && self.selectedIndexPath) {
         return [self.objects objectAtIndex:self.selectedIndexPath.row];
     } else {
@@ -33,9 +34,17 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
     }
 }
 
+- (void)setSelectedObject:(PFObject *)selectedObject {
+    _objectToSelect = selectedObject;
+    if (self.objects) {
+        [self selectObjectToSelectIfNecessary];
+    }
+}
+
 - (void)setObjects:(NSArray *)objects {
     _objects = objects;
     _selectedIndexPath = nil;
+    [self selectObjectToSelectIfNecessary];
     [self.tableView reloadData];
 }
 
@@ -80,20 +89,39 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if (![indexPath isEqual:self.selectedIndexPath]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        
-        UITableViewCell *previouslySelectedCell = [tableView cellForRowAtIndexPath:self.selectedIndexPath];
-        previouslySelectedCell.accessoryType = UITableViewCellAccessoryNone;
-        
-        self.selectedIndexPath = indexPath;
-        
-        if ([self.delegate respondsToSelector:@selector(singleSelectionViewController:didSelectObject:)]) {
-            [self.delegate singleSelectionViewController:self didSelectObject:self.objects[self.selectedIndexPath.item]];
-        }
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    UITableViewCell *previouslySelectedCell = [tableView cellForRowAtIndexPath:self.selectedIndexPath];
+    previouslySelectedCell.accessoryType = UITableViewCellAccessoryNone;
+    
+    self.selectedIndexPath = indexPath;
+    
+    if ([self.delegate respondsToSelector:@selector(singleSelectionViewController:didSelectObject:)]) {
+        [self.delegate singleSelectionViewController:self didSelectObject:self.objects[self.selectedIndexPath.item]];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Private Instance Methods
+
+- (void)selectObjectToSelectIfNecessary {
+    if (self.objectToSelect && self.objects) {
+        NSInteger numberOfObjects = [self.objects count];
+        for (NSInteger i = 0; i < numberOfObjects; i++) {
+            PFObject *object = self.objects[i];
+            if ([object.objectId isEqualToString:self.objectToSelect.objectId]) {
+                self.selectedIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                [self.tableView reloadData];
+                self.objectToSelect = nil;
+                
+                if ([self.delegate respondsToSelector:@selector(singleSelectionViewController:didSelectObject:)]) {
+                    [self.delegate singleSelectionViewController:self didSelectObject:self.objects[self.selectedIndexPath.item]];
+                }
+                break;
+            }
+        }
+    }
 }
 
 #pragma mark - Public Instance Methods
