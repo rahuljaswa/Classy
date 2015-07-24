@@ -164,7 +164,7 @@
 
 + (void)fetchAllExercisesWithCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Exercise"];
-    [query orderByDescending:@"name"];
+    [query orderByDescending:@"title"];
     query.limit = 1000;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
