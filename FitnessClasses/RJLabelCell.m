@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
+#import "RJInsetLabel.h"
 #import "RJLabelCell.h"
 #import <SZTextView/SZTextView.h>
 
@@ -56,7 +57,7 @@
         _textView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
         [self.contentView addSubview:_textView];
         
-        _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _textLabel = [[RJInsetLabel alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:_textLabel];
         
         _accessoryView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -90,7 +91,7 @@
         
         NSDictionary *views = NSDictionaryOfVariableBindings(_textLabel, _accessoryView, _topBorder, _bottomBorder);
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_textLabel][_accessoryView(7)]-10-|"
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textLabel][_accessoryView(7)]|"
                                                  options:0
                                                  metrics:nil
                                                    views:views]];
@@ -129,6 +130,23 @@
     }
     
     [super updateConstraints];
+}
+
+- (CGSize)sizeThatFits:(CGSize)size {
+    CGSize sizeThatFits = CGSizeMake(size.width, 0.0f);
+    switch (self.style) {
+        case kRJLabelCellStyleTextField:
+            sizeThatFits.height += [self.textField sizeThatFits:CGSizeMake(sizeThatFits.width, CGFLOAT_MAX)].height;
+            break;
+        case kRJLabelCellStyleTextLabel:
+            sizeThatFits.width -= 7; // accessory view
+            sizeThatFits.height += [self.textLabel sizeThatFits:CGSizeMake(sizeThatFits.width, CGFLOAT_MAX)].height;
+            break;
+        case kRJLabelCellStyleTextView:
+            sizeThatFits.height += [self.textView sizeThatFits:CGSizeMake(sizeThatFits.width, CGFLOAT_MAX)].height;
+            break;
+    }
+    return sizeThatFits;
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "RJCreateEditSelfPacedClassViewController.h"
 #import "RJCreateEditSelfPacedExerciseInstructionCell.h"
+#import "RJInsetLabel.h"
 #import "RJSinglePFObjectSelectionViewController.h"
 #import "RJLabelCell.h"
 #import "RJMusclesViewController.h"
@@ -175,6 +176,7 @@ typedef NS_ENUM(NSInteger, Section) {
             RJLabelCell *labelCell = (RJLabelCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kLabelCellID forIndexPath:indexPath];
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.textLabel.text = NSLocalizedString(@"Category", nil);
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textLabel.textAlignment = NSTextAlignmentLeft;
             labelCell.accessoryView.image = [UIImage imageNamed:@"forwardIcon"];
             labelCell.topBorder.backgroundColor = styleManager.themeTextColor;
@@ -188,6 +190,7 @@ typedef NS_ENUM(NSInteger, Section) {
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.accessoryView.image = nil;
             labelCell.textLabel.text = NSLocalizedString(@"Add Instruction", nil);
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;
             labelCell.textLabel.textColor = styleManager.themeTextColor;
@@ -250,6 +253,7 @@ typedef NS_ENUM(NSInteger, Section) {
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.accessoryView.image = nil;
             labelCell.textLabel.text = self.klass ? NSLocalizedString(@"Update Class", nil) : NSLocalizedString(@"Create Class", nil);
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textLabel.textColor = styleManager.tintBlueColor;
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;

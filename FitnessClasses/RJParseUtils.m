@@ -125,7 +125,7 @@
 
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Category"];
-    [query orderByDescending:@"createdAt"];
+    [query orderByAscending:@"categoryOrder"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all categories\n\n%@", [error localizedDescription]);
@@ -192,6 +192,7 @@
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Class"];
     [query whereKey:@"category" equalTo:category];
+    [query orderByAscending:@"classOrder"];
     [self updateClassQueryWithIncludedKeys:query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {

@@ -430,18 +430,13 @@
 		23631A801AF86D9200E49935 /* FitnessClasses */ = {
 			isa = PBXGroup;
 			children = (
-				B7CC27E11B5C7EDD0076EC41 /* RJArithmeticHelper.h */,
-				B7CC27E21B5C7EDD0076EC41 /* RJArithmeticHelper.m */,
-				B7F9CE571B2E146100968559 /* RJCreditsHelper.h */,
-				B7F9CE581B2E146100968559 /* RJCreditsHelper.m */,
-				B7FF386A1B577DDD00083FE3 /* RJUserDefaults.h */,
-				B7FF386B1B577DDD00083FE3 /* RJUserDefaults.m */,
 				B756B5C11B2A5D5F0088E918 /* Authentication */,
 				233386981AFD0CC400181446 /* Categories */,
 				23E63FB41B1E9BD0008C8E66 /* Custom Generic UI Elements */,
 				23040E9E1AFADF7900852D94 /* Gallery */,
-				233386971AFD0CA900181446 /* Main Pages */,
+				B778CC051B66C8210071B884 /* Helper Files */,
 				2353FCB31AFC82D900669E64 /* Image Cache */,
+				233386971AFD0CA900181446 /* Main Pages */,
 				233386951AFD0C8000181446 /* Parse */,
 				233386961AFD0C9400181446 /* SoundCloud */,
 				233386991AFD0CD200181446 /* Style */,
@@ -553,6 +548,19 @@
 				B756B5C91B2A5F550088E918 /* RJAuthenticationViewController.m */,
 			);
 			name = Authentication;
+			sourceTree = "<group>";
+		};
+		B778CC051B66C8210071B884 /* Helper Files */ = {
+			isa = PBXGroup;
+			children = (
+				B7CC27E11B5C7EDD0076EC41 /* RJArithmeticHelper.h */,
+				B7CC27E21B5C7EDD0076EC41 /* RJArithmeticHelper.m */,
+				B7F9CE571B2E146100968559 /* RJCreditsHelper.h */,
+				B7F9CE581B2E146100968559 /* RJCreditsHelper.m */,
+				B7FF386A1B577DDD00083FE3 /* RJUserDefaults.h */,
+				B7FF386B1B577DDD00083FE3 /* RJUserDefaults.m */,
+			);
+			name = "Helper Files";
 			sourceTree = "<group>";
 		};
 		B77C4CE21B2B77A00088393D /* Class Pages */ = {

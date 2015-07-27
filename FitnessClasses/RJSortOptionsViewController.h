@@ -14,8 +14,6 @@
 
 @protocol RJSortOptionsViewControllerDelegate <NSObject>
 
-- (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectNewCategoryType:(RJParseCategoryType)categoryType;
-- (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectPopularCategoryType:(RJParseCategoryType)categoryType;
 - (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectCategory:(RJParseCategory *)category;
 
 @end

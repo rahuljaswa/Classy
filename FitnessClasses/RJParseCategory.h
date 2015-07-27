@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, RJParseCategoryType) {
 
 @interface RJParseCategory : PFObject <PFSubclassing>
 
+@property (nonatomic, strong) NSString *categoryDescription;
 @property (nonatomic, strong) NSNumber *categoryType;
 @property (nonatomic, strong) PFRelation *classes;
 @property (nonatomic, strong) PFFile *image;

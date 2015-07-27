@@ -11,6 +11,7 @@
 
 @implementation RJParseCategory
 
+@dynamic categoryDescription;
 @dynamic categoryType;
 @dynamic classes;
 @dynamic image;

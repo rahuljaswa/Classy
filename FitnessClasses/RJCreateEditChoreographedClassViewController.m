@@ -11,6 +11,7 @@
 #import "RJCreateEditChoreographedClassExerciseInstructionCell.h"
 #import "RJCreateEditChoreographedClassViewController.h"
 #import "RJCreateEditChoreographedClassTrackCell.h"
+#import "RJInsetLabel.h"
 #import "RJLabelCell.h"
 #import "RJParseExercise.h"
 #import "RJParseExerciseInstruction.h"
@@ -285,6 +286,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
             labelCell.selectedBackgroundView.backgroundColor = styleManager.tintLightGrayColor;
             labelCell.style = kRJLabelCellStyleTextField;
             labelCell.accessoryView.image = nil;
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textField.text = self.name;
             labelCell.textField.delegate = self;
             labelCell.textField.placeholder = NSLocalizedString(@"Name", nil);
@@ -303,6 +305,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
             labelCell.accessoryView.image = [UIImage imageNamed:@"forwardIcon"];
             labelCell.accessoryView.contentMode = UIViewContentModeScaleAspectFit;
             RJParseUser *instructor = (RJParseUser *)self.instructorViewController.selectedObject;
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textLabel.text = instructor ? instructor.name : NSLocalizedString(@"Instructor", nil);
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -319,6 +322,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
             labelCell.accessoryView.image = [UIImage imageNamed:@"forwardIcon"];
             labelCell.accessoryView.contentMode = UIViewContentModeScaleAspectFit;
             RJParseCategory *category = (RJParseCategory *)self.categoryViewController.selectedObject;
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textLabel.text = category ? category.name : NSLocalizedString(@"Category", nil);
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -333,6 +337,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
             labelCell.selectedBackgroundView.backgroundColor = styleManager.tintLightGrayColor;
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.accessoryView.image = nil;
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textLabel.text = NSLocalizedString(@"Add Track", nil);
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -348,6 +353,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.accessoryView.image = nil;
             labelCell.textLabel.text = NSLocalizedString(@"Add Exercise Instruction", nil);
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textLabel.font = styleManager.smallBoldFont;
             labelCell.textLabel.textAlignment = NSTextAlignmentCenter;
             labelCell.textLabel.textColor = styleManager.themeTextColor;
@@ -431,6 +437,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
             labelCell.selectedBackgroundView.backgroundColor = styleManager.tintLightGrayColor;
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.accessoryView.image = nil;
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
             labelCell.textLabel.text = self.klass ? NSLocalizedString(@"Update Class", nil) : NSLocalizedString(@"Create Class", nil);
             labelCell.textLabel.textColor = styleManager.tintBlueColor;
             labelCell.textLabel.font = styleManager.smallBoldFont;

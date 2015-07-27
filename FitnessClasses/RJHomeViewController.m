@@ -76,20 +76,6 @@
     }];
 }
 
-- (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectNewCategoryType:(RJParseCategoryType)categoryType {
-    [self.titleView.spinner startAnimating];
-    [self.galleryViewController switchToNewClassesForCategoryType:categoryType withCompletion:^{
-        [self.titleView.spinner stopAnimating];
-    }];
-}
-
-- (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectPopularCategoryType:(RJParseCategoryType)categoryType {
-    [self.titleView.spinner startAnimating];
-    [self.galleryViewController switchToPopularClassesForCategoryType:categoryType withCompletion:^{
-        [self.titleView.spinner stopAnimating];
-    }];
-}
-
 #pragma mark - Private Instance Methods
 
 - (void)settingsButtonPressed:(UIBarButtonItem *)settingsButton {

@@ -16,7 +16,7 @@
     FICImageCache *imageCache = [FICImageCache sharedImageCache];
     
     BOOL imageExists = [imageCache imageExistsForEntity:entity withFormatName:formatName];
-    if (imageExists) {
+    if (!imageExists) {
         self.image = placeholder;
     }
     

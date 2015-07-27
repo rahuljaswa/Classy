@@ -23,9 +23,10 @@
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-    CGSize computedSize = [super sizeThatFits:size];
-    computedSize.width += (self.insets.left + self.insets.right);
+    CGSize boundingSize = CGSizeMake((size.width - self.insets.left - self.insets.right), size.height);
+    CGSize computedSize = [super sizeThatFits:boundingSize];
     computedSize.height += (self.insets.top + self.insets.bottom);
+    computedSize.width += (self.insets.left + self.insets.right);
     return computedSize;
 }
 

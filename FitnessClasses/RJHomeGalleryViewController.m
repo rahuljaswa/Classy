@@ -14,6 +14,7 @@
 #import "RJGalleryCellAccessoriesView.h"
 #import "RJHomeGalleryViewController.h"
 #import "RJInsetLabel.h"
+#import "RJLabelCell.h"
 #import "RJParseCategory.h"
 #import "RJParseClass.h"
 #import "RJParseUser.h"
@@ -21,21 +22,15 @@
 #import "RJStyleManager.h"
 #import "UIImage+RJAdditions.h"
 
-typedef NS_ENUM(NSUInteger, ClassesState) {
-    kClassesStateNone,
-    kClassesStatePopular,
-    kClassesStateNew,
-    kClassesStateCategory
-};
+static NSString *const kGalleryCellID = @"GalleryCellID";
+static NSString *const kLabelCellID = @"LabelCellID";
 
 
-@interface RJHomeGalleryViewController ()
+@interface RJHomeGalleryViewController () <UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, assign, getter=hasFoundInitialClass) BOOL foundInitialClass;
 @property (nonatomic, strong) RJParseCategory *category;
-@property (nonatomic, assign) RJParseCategoryType categoryType;
 @property (nonatomic, strong, readwrite) NSArray *classes;
-@property (nonatomic, assign) ClassesState classesState;
 
 @end
 
@@ -44,8 +39,9 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
 
 #pragma mark - Private Properties
 
-- (void)setClassesState:(ClassesState)classesState category:(RJParseCategory *)category categoryType:(RJParseCategoryType)categoryType completion:(void (^)(void))completion {
-    void (^fetchCompletion)(NSArray *) = ^ (NSArray *classes) {
+- (void)setCategory:(RJParseCategory *)category completion:(void (^)(void))completion {
+    self.category = category;
+    [RJParseUtils fetchClassesForCategory:self.category completion:^(NSArray *classes) {
         self.classes = classes;
         [self.collectionView reloadData];
         
@@ -64,27 +60,7 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
         if (completion) {
             completion();
         }
-    };
-    
-    self.category = category;
-    self.categoryType = categoryType;
-    
-    switch (classesState) {
-        case kClassesStateNone:
-            break;
-        case kClassesStateCategory:
-            _classesState = classesState;
-            [RJParseUtils fetchClassesForCategory:self.category completion:fetchCompletion];
-            break;
-        case kClassesStateNew:
-            _classesState = classesState;
-            [RJParseUtils fetchNewClassesForCategoryType:self.categoryType withCompletion:fetchCompletion];
-            break;
-        case kClassesStatePopular:
-            _classesState = classesState;
-            [RJParseUtils fetchPopularClassesForCategoryType:self.categoryType withCompletion:fetchCompletion];
-            break;
-    }
+    }];
 }
 
 #pragma mark - Public Protocols - UICollectionViewDelegate
@@ -93,17 +69,146 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
     [self.homeGalleryDelegate homeGalleryViewController:self wantsPlayForClass:self.classes[indexPath.item] autoPlay:YES];
 }
 
+#pragma mark - Public Protocols - UICollectionViewDelegateFlowLayout
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(0.0f, 0.0f, 1.0f, 0.0f);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        static RJLabelCell *sizingLabelCell = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            sizingLabelCell = [[RJLabelCell alloc] initWithFrame:CGRectZero];
+        });
+        [self configureLabelCell:sizingLabelCell];
+        CGFloat height = [sizingLabelCell.textLabel sizeThatFits:CGSizeMake(CGRectGetWidth(collectionView.bounds), CGFLOAT_MAX)].height;
+        return CGSizeMake(CGRectGetWidth(collectionView.bounds), height);
+    } else {
+        CGFloat width = CGRectGetWidth(collectionView.bounds);
+        CGFloat height = width;
+        return CGSizeMake(MIN(CGRectGetWidth(collectionView.bounds), width), MIN(CGRectGetHeight(collectionView.bounds), height));
+    }
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 1.0f;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 1.0f;
+}
+
 #pragma mark - Public Protocols - UICollectionViewDatasource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.classes count];
+    if (section == 0) {
+        return !!self.category;
+    } else {
+        return [self.classes count];
+    }
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        RJLabelCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kLabelCellID forIndexPath:indexPath];
+        [self configureLabelCell:cell];
+        return cell;
+    } else {
+        RJGalleryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kGalleryCellID forIndexPath:indexPath];
+        
+        RJStyleManager *styleManager = [RJStyleManager sharedInstance];
+        
+        cell.disableDuringLoading = NO;
+        cell.mask = YES;
+        cell.backgroundView.backgroundColor = [UIColor lightGrayColor];
+        
+        RJParseClass *class = self.classes[indexPath.item];
+        
+        cell.title.font = styleManager.giantBoldFont;
+        cell.title.text = class.name;
+        
+        NSURL *url = [NSURL URLWithString:class.coverArtURL];
+        if (url) {
+            RJClassImageCacheEntity *entity = [[RJClassImageCacheEntity alloc] initWithClassImageURL:url objectID:class.objectId];
+            [cell updateWithImageEntity:entity formatName:kRJClassImageFormatCardSquare16BitBGR placeholder:nil];
+        }
+        
+        RJGalleryCellAccessoriesView *accessoriesView = (RJGalleryCellAccessoriesView *)cell.accessoriesView;
+        if (!(accessoriesView && [accessoriesView isKindOfClass:[RJGalleryCellAccessoriesView class]])) {
+            accessoriesView = [[RJGalleryCellAccessoriesView alloc] initWithFrame:cell.contentView.bounds];
+            cell.accessoriesView = accessoriesView;
+        }
+        
+        NSString *summaryText = nil;
+        if (class.instructor && class.category) {
+            summaryText = [NSString stringWithFormat:@" %@ | %@ ", class.instructor.name, class.category.name];
+        } else if (class.instructor) {
+            summaryText = [NSString stringWithFormat:@" %@ ", class.instructor.name];
+        } else if (class.category) {
+            summaryText = [NSString stringWithFormat:@" %@ ", class.category.name];
+        }
+        
+        NSUInteger totalSeconds = class.length;
+        if (class.length > 0) {
+            NSString *lengthString = [NSString hhmmaaForTotalSeconds:totalSeconds];
+            summaryText = [summaryText stringByAppendingString:[NSString stringWithFormat:@"| %@ ", lengthString]];
+        }
+        
+        NSUInteger classCost = [class.creditsCost unsignedIntegerValue];
+        NSString *classCostString = nil;
+        if (classCost == 0) {
+            classCostString = NSLocalizedString(@"| Free ", nil);
+        } else if (classCost == 1) {
+            classCostString = NSLocalizedString(@"| 1 Credit ", nil);
+        } else {
+            classCostString = [NSString stringWithFormat:NSLocalizedString(@"| %lu Credits ", nil), (unsigned long)classCost];
+        }
+        
+        accessoriesView.summary.text = [summaryText stringByAppendingString:classCostString];;
+        accessoriesView.summary.font = styleManager.verySmallFont;
+        accessoriesView.summary.textColor = cell.title.textColor;
+        accessoriesView.summary.backgroundColor = styleManager.maskColor;
+        
+        accessoriesView.playsCount.text = [NSString stringWithFormat:@" %lu", (unsigned long)[class.plays unsignedIntegerValue]];
+        accessoriesView.playsCount.font = styleManager.verySmallFont;
+        accessoriesView.playsCount.textColor = cell.title.textColor;
+        accessoriesView.playsCount.backgroundColor = styleManager.maskColor;
+        
+        [accessoriesView.playsIcon setImage:[UIImage tintableImageNamed:@"playsIcon"]];
+        accessoriesView.playsIcon.contentMode = UIViewContentModeCenter;
+        [accessoriesView.playsIcon setTintColor:cell.title.textColor];
+        accessoriesView.playsIcon.backgroundColor = styleManager.maskColor;
+        
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
+        accessoriesView.userInteractionEnabled = YES;
+        accessoriesView.tag = indexPath.item;
+        [accessoriesView addGestureRecognizer:tapRecognizer];
+        
+        return cell;
+    }
 }
 
 #pragma mark - Private Instance Methods
+
+- (void)configureLabelCell:(RJLabelCell *)labelCell {
+    RJStyleManager *styleManager = [RJStyleManager sharedInstance];
+    
+    labelCell.style = kRJLabelCellStyleTextLabel;
+    labelCell.textLabel.text = self.category.categoryDescription;
+    labelCell.textLabel.font = styleManager.smallBoldFont;
+    labelCell.textLabel.textColor = styleManager.themeTextColor;
+    labelCell.textLabel.insets = UIEdgeInsetsMake(15.0f, 15.0f, 15.0f, 15.0f);
+    labelCell.textLabel.numberOfLines = 0;
+    labelCell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    labelCell.backgroundView.backgroundColor = styleManager.tintLightGrayColor;
+}
 
 - (void)tapRecognized:(UITapGestureRecognizer *)tapGestureRecognizer {
     RJClassDetailsViewController *detailsViewController = [[RJClassDetailsViewController alloc] initWithNibName:nil bundle:nil];
@@ -113,110 +218,28 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
 
 #pragma mark - Public Instance Methods
 
-- (void)configureCell:(RJGalleryCell *)galleryCell indexPath:(NSIndexPath *)indexPath {
-    [super configureCell:galleryCell indexPath:indexPath];
-    
-    RJStyleManager *styleManager = [RJStyleManager sharedInstance];
-    
-    RJParseClass *class = self.classes[indexPath.item];
-    
-    galleryCell.title.font = styleManager.giantBoldFont;
-    galleryCell.title.text = class.name;
-    
-    NSURL *url = [NSURL URLWithString:class.coverArtURL];
-    if (url) {
-        RJClassImageCacheEntity *entity = [[RJClassImageCacheEntity alloc] initWithClassImageURL:url objectID:class.objectId];
-        [galleryCell updateWithImageEntity:entity formatName:kRJClassImageFormatCardSquare16BitBGR placeholder:nil];
-    }
-    
-    RJGalleryCellAccessoriesView *accessoriesView = (RJGalleryCellAccessoriesView *)galleryCell.accessoriesView;
-    if (!(accessoriesView && [accessoriesView isKindOfClass:[RJGalleryCellAccessoriesView class]])) {
-        accessoriesView = [[RJGalleryCellAccessoriesView alloc] initWithFrame:galleryCell.contentView.bounds];
-        galleryCell.accessoriesView = accessoriesView;
-    }
-    
-    NSString *summaryText = nil;
-    if (class.instructor && class.category) {
-        summaryText = [NSString stringWithFormat:@" %@ | %@ ", class.instructor.name, class.category.name];
-    } else if (class.instructor) {
-        summaryText = [NSString stringWithFormat:@" %@ ", class.instructor.name];
-    } else if (class.category) {
-        summaryText = [NSString stringWithFormat:@" %@ ", class.category.name];
-    }
-    
-    NSUInteger totalSeconds = class.length;
-    if (class.length > 0) {
-        NSString *lengthString = [NSString hhmmaaForTotalSeconds:totalSeconds];
-        summaryText = [summaryText stringByAppendingString:[NSString stringWithFormat:@"| %@ ", lengthString]];
-    }
-    
-    NSUInteger classCost = [class.creditsCost unsignedIntegerValue];
-    NSString *classCostString = nil;
-    if (classCost == 0) {
-        classCostString = NSLocalizedString(@"| Free ", nil);
-    } else if (classCost == 1) {
-        classCostString = NSLocalizedString(@"| 1 Credit ", nil);
-    } else {
-        classCostString = [NSString stringWithFormat:NSLocalizedString(@"| %lu Credits ", nil), (unsigned long)classCost];
-    }
-    
-    accessoriesView.summary.text = [summaryText stringByAppendingString:classCostString];;
-    accessoriesView.summary.font = styleManager.verySmallFont;
-    accessoriesView.summary.textColor = galleryCell.title.textColor;
-    accessoriesView.summary.backgroundColor = styleManager.maskColor;
-    
-    accessoriesView.playsCount.text = [NSString stringWithFormat:@" %lu", (unsigned long)[class.plays unsignedIntegerValue]];
-    accessoriesView.playsCount.font = styleManager.verySmallFont;
-    accessoriesView.playsCount.textColor = galleryCell.title.textColor;
-    accessoriesView.playsCount.backgroundColor = styleManager.maskColor;
-    
-    [accessoriesView.playsIcon setImage:[UIImage tintableImageNamed:@"playsIcon"]];
-    accessoriesView.playsIcon.contentMode = UIViewContentModeCenter;
-    [accessoriesView.playsIcon setTintColor:galleryCell.title.textColor];
-    accessoriesView.playsIcon.backgroundColor = styleManager.maskColor;
-    
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
-    accessoriesView.userInteractionEnabled = YES;
-    accessoriesView.tag = indexPath.item;
-    [accessoriesView addGestureRecognizer:tapRecognizer];
+- (instancetype)init {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    return [super initWithCollectionViewLayout:layout];
 }
 
 - (void)reloadWithCompletion:(void (^)(BOOL))completion {
-    void (^fetchCompletion)(NSArray *) = ^(NSArray *classes) {
-        self.classes = classes;
-        [self.collectionView reloadData];
-        if (completion) {
-            completion(!!classes);
-        }
-    };
-    
-    switch (self.classesState) {
-        case kClassesStateNone:
-            break;
-        case kClassesStateCategory:
-            [RJParseUtils fetchClassesForCategory:self.category completion:fetchCompletion];
-            break;
-        case kClassesStateNew:
-            [RJParseUtils fetchNewClassesForCategoryType:self.categoryType withCompletion:fetchCompletion];
-            break;
-        case kClassesStatePopular:
-            [RJParseUtils fetchPopularClassesForCategoryType:self.categoryType withCompletion:fetchCompletion];
-            break;
+    if (self.category) {
+        [RJParseUtils fetchClassesForCategory:self.category completion:^(NSArray *classes) {
+            self.classes = classes;
+            [self.collectionView reloadData];
+            if (completion) {
+                completion(!!classes);
+            }
+        }];
     }
 }
 
 - (void)switchToClassesForCategory:(RJParseCategory *)category completion:(void (^)(void))completion {
-    if (!((self.classesState == kClassesStateCategory) && ([self.category isEqual:category]))) {
-        [self setClassesState:kClassesStateCategory category:category categoryType:kRJParseCategoryTypeNone completion:completion];
+    if (![self.category isEqual:category]) {
+        [self setCategory:category completion:completion];
     }
-}
-
-- (void)switchToPopularClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(void))completion {
-    [self setClassesState:kClassesStatePopular category:nil categoryType:categoryType completion:completion];
-}
-
-- (void)switchToNewClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(void))completion {
-    [self setClassesState:kClassesStateNew category:nil categoryType:categoryType completion:completion];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -231,6 +254,9 @@ typedef NS_ENUM(NSUInteger, ClassesState) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.alwaysBounceVertical = YES;
+    [self.collectionView registerClass:[RJGalleryCell class] forCellWithReuseIdentifier:kGalleryCellID];
+    [self.collectionView registerClass:[RJLabelCell class] forCellWithReuseIdentifier:kLabelCellID];
 }
 
 @end

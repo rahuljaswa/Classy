@@ -23,7 +23,7 @@
 @class RJParseCategory;
 @class RJParseClass;
 
-@interface RJHomeGalleryViewController : RJGalleryViewController
+@interface RJHomeGalleryViewController : UICollectionViewController
 
 @property (nonatomic, strong, readonly) NSArray *classes;
 @property (nonatomic, weak) id<RJHomeGalleryViewControllerDelegate> homeGalleryDelegate;
@@ -31,7 +31,5 @@
 - (void)reloadWithCompletion:(void (^)(BOOL success))completion;
 
 - (void)switchToClassesForCategory:(RJParseCategory *)category completion:(void (^)(void))completion;
-- (void)switchToPopularClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(void))completion;
-- (void)switchToNewClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(void))completion;
 
 @end

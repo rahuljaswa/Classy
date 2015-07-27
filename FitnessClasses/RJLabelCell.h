@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, RJLabelCellStyle) {
 };
 
 
+@class RJInsetLabel;
 @class SZTextView;
 
 @interface RJLabelCell : UICollectionViewCell
@@ -23,7 +24,7 @@ typedef NS_ENUM(NSUInteger, RJLabelCellStyle) {
 
 @property (nonatomic, strong, readonly) UIImageView *accessoryView;
 @property (nonatomic, strong, readonly) UITextField *textField;
-@property (nonatomic, strong, readonly) UILabel *textLabel;
+@property (nonatomic, strong, readonly) RJInsetLabel *textLabel;
 @property (nonatomic, strong, readonly) SZTextView *textView;
 
 @property (nonatomic, strong, readonly) UIView *bottomBorder;
