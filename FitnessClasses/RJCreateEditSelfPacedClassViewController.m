@@ -209,6 +209,11 @@ typedef NS_ENUM(NSInteger, Section) {
             [instructionCell.exerciseButton setTitle:title forState:UIControlStateNormal];
             [instructionCell.exerciseButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
             instructionCell.exerciseButton.titleLabel.font = styleManager.smallBoldFont;
+            instructionCell.allLevelsQuantityTextView.placeholder = NSLocalizedString(@"All levels quantity", nil);
+            instructionCell.allLevelsQuantityTextView.font = styleManager.smallFont;
+            instructionCell.allLevelsQuantityTextView.textColor = styleManager.themeTextColor;
+            instructionCell.allLevelsQuantityTextView.textAlignment = NSTextAlignmentCenter;
+            instructionCell.allLevelsQuantityTextView.text = instruction.beginnerQuantity;
             instructionCell.beginnerQuantityTextView.placeholder = NSLocalizedString(@"Beginner quantity", nil);
             instructionCell.beginnerQuantityTextView.font = styleManager.smallFont;
             instructionCell.beginnerQuantityTextView.textColor = styleManager.themeTextColor;
@@ -301,7 +306,7 @@ typedef NS_ENUM(NSInteger, Section) {
             RJParseCategory *category = (RJParseCategory *)self.categoryViewController.selectedObject;
             BOOL validates = (self.name && category && ([self.exerciseInstructions count] > 0));
             for (RJParseExerciseInstruction *instruction in self.exerciseInstructions) {
-                if (!instruction.exercise || !instruction.advancedQuantity || !instruction.intermediateQuantity || !instruction.beginnerQuantity) {
+                if (!(instruction.exercise && (instruction.allLevelsQuantity || (instruction.advancedQuantity && instruction.intermediateQuantity && instruction.beginnerQuantity)))) {
                     validates = NO;
                     break;
                 }
@@ -373,6 +378,12 @@ typedef NS_ENUM(NSInteger, Section) {
     NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
     RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
     exerciseInstruction.advancedQuantity = cell.advancedQuantityTextView.text;
+}
+
+- (void)createEditSelfPacedExerciseInstructionCellAllLevelsQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
+    NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
+    RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
+    exerciseInstruction.allLevelsQuantity = cell.allLevelsQuantityTextView.text;
 }
 
 - (void)createEditSelfPacedExerciseInstructionCellBeginnerQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {

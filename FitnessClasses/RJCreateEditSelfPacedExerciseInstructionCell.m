@@ -34,6 +34,8 @@
         [self.delegate createEditSelfPacedExerciseInstructionCellIntermediateQuantityTextViewDidChange:self];
     } else if (textView == self.advancedQuantityTextView) {
         [self.delegate createEditSelfPacedExerciseInstructionCellAdvancedQuantityTextViewDidChange:self];
+    } else if (textView == self.allLevelsQuantityTextView) {
+        [self.delegate createEditSelfPacedExerciseInstructionCellAllLevelsQuantityTextViewDidChange:self];
     }
 }
 
@@ -79,6 +81,10 @@
         [_trashButton addTarget:self action:@selector(trashButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_trashButton];
         
+        _allLevelsQuantityTextView = [[SZTextView alloc] initWithFrame:CGRectZero];
+        _allLevelsQuantityTextView.delegate = self;
+        [self.contentView addSubview:_allLevelsQuantityTextView];
+        
         _beginnerQuantityTextView = [[SZTextView alloc] initWithFrame:CGRectZero];
         _beginnerQuantityTextView.delegate = self;
         [self.contentView addSubview:_beginnerQuantityTextView];
@@ -102,6 +108,7 @@
 
 - (void)updateConstraints {
     if (!self.hasSetupStaticConstraints) {
+        _allLevelsQuantityTextView.translatesAutoresizingMaskIntoConstraints = NO;
         _beginnerQuantityTextView.translatesAutoresizingMaskIntoConstraints = NO;
         _intermediateQuantityTextView.translatesAutoresizingMaskIntoConstraints = NO;
         _advancedQuantityTextView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -112,12 +119,12 @@
         _downButton.translatesAutoresizingMaskIntoConstraints = NO;
         _trashButton.translatesAutoresizingMaskIntoConstraints = NO;
         
-        NSDictionary *views = NSDictionaryOfVariableBindings(_beginnerQuantityTextView, _intermediateQuantityTextView, _advancedQuantityTextView, _exerciseButton, _topBorder, _bottomBorder, _upButton, _downButton, _trashButton);
+        NSDictionary *views = NSDictionaryOfVariableBindings(_allLevelsQuantityTextView, _beginnerQuantityTextView, _intermediateQuantityTextView, _advancedQuantityTextView, _exerciseButton, _topBorder, _bottomBorder, _upButton, _downButton, _trashButton);
         
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_exerciseButton]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_upButton(30)][_beginnerQuantityTextView][_intermediateQuantityTextView(==_beginnerQuantityTextView)][_advancedQuantityTextView(==_beginnerQuantityTextView)][_trashButton(30)]|" options:0 metrics:nil views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_upButton(30)][_allLevelsQuantityTextView][_beginnerQuantityTextView(==_allLevelsQuantityTextView)][_intermediateQuantityTextView(==_beginnerQuantityTextView)][_advancedQuantityTextView(==_beginnerQuantityTextView)][_trashButton(30)]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_downButton][_beginnerQuantityTextView]" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
@@ -133,6 +140,8 @@
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_exerciseButton][_intermediateQuantityTextView]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_exerciseButton][_allLevelsQuantityTextView]|" options:0 metrics:nil views:views]];
+        [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_exerciseButton][_advancedQuantityTextView]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_topBorder(==0.5)]" options:0 metrics:nil views:views]];
@@ -142,6 +151,8 @@
          [NSLayoutConstraint constraintWithItem:_intermediateQuantityTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_beginnerQuantityTextView attribute:NSLayoutAttributeHeight multiplier:1.0f constant:0.0f]];
         [self.contentView addConstraint:
          [NSLayoutConstraint constraintWithItem:_advancedQuantityTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_beginnerQuantityTextView attribute:NSLayoutAttributeHeight multiplier:1.0f constant:0.0f]];
+        [self.contentView addConstraint:
+         [NSLayoutConstraint constraintWithItem:_allLevelsQuantityTextView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_beginnerQuantityTextView attribute:NSLayoutAttributeHeight multiplier:1.0f constant:0.0f]];
         
         self.setupStaticConstraints = YES;
     }

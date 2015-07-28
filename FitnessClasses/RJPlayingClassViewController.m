@@ -103,6 +103,9 @@
     
     self.summaryView.classTitle.text = [_klass.name uppercaseString];
     self.summaryView.track.text = nil;
+    if (self.klass.formattedClassType == kRJParseClassTypeSelfPaced) {
+        [self.summaryView.playPauseButton setImage:nil forState:UIControlStateNormal];
+    }
     self.titleView.textLabel.text = [_klass.name uppercaseString];
     self.titleView.detailTextLabel.text = nil;
 }

@@ -18,6 +18,7 @@
 static const CGFloat kMarginTop = 10.0f;
 static const CGFloat kMarginBottom = 10.0f;
 static const CGFloat kTitleElementsHeight = 44.0f;
+static const CGFloat kAccessoryImageWidth = 7.0f;
 static const CGFloat kButtonElementsWidth = 50.0f;
 static const CGFloat kSpacerHeight = 0.5f;
 
@@ -38,9 +39,15 @@ static const CGFloat kSpacerHeight = 0.5f;
     
     self.quantityLabelAllLevels.text = _exerciseInstruction.allLevelsQuantity;
     
-    self.quantityLabelAdvanced.attributedText = [self attributedStringForLabelText:NSLocalizedString(@"Advanced", nil) descriptionText:_exerciseInstruction.advancedQuantity];
-    self.quantityLabelBeginner.attributedText = [self attributedStringForLabelText:NSLocalizedString(@"Beginner", nil) descriptionText:_exerciseInstruction.beginnerQuantity];
-    self.quantityLabelIntermediate.attributedText = [self attributedStringForLabelText:NSLocalizedString(@"Intermediate", nil) descriptionText:_exerciseInstruction.intermediateQuantity];
+    if (!self.quantityLabelAllLevels.text) {
+        self.quantityLabelAdvanced.attributedText = [self attributedStringForLabelText:NSLocalizedString(@"Advanced", nil) descriptionText:_exerciseInstruction.advancedQuantity];
+        self.quantityLabelBeginner.attributedText = [self attributedStringForLabelText:NSLocalizedString(@"Beginner", nil) descriptionText:_exerciseInstruction.beginnerQuantity];
+        self.quantityLabelIntermediate.attributedText = [self attributedStringForLabelText:NSLocalizedString(@"Intermediate", nil) descriptionText:_exerciseInstruction.intermediateQuantity];
+    } else {
+        self.quantityLabelAdvanced.attributedText = nil;
+        self.quantityLabelBeginner.attributedText = nil;
+        self.quantityLabelIntermediate.attributedText = nil;
+    }
     
     self.titleLabel.text = [_exerciseInstruction.exercise.title uppercaseString];
     
@@ -89,6 +96,13 @@ static const CGFloat kSpacerHeight = 0.5f;
     }
 }
 
+- (void)updatePreferredMaxLayoutWidthForInsetLabel:(RJInsetLabel *)insetLabel {
+    CGFloat labelWidth = (CGRectGetWidth(self.bounds) - kButtonElementsWidth - kAccessoryImageWidth - insetLabel.insets.left - insetLabel.insets.right);
+    if (insetLabel.preferredMaxLayoutWidth != labelWidth) {
+        insetLabel.preferredMaxLayoutWidth = labelWidth;
+    }
+}
+
 #pragma mark - Public Class Methods
 
 + (BOOL)requiresConstraintBasedLayout {
@@ -117,20 +131,28 @@ static const CGFloat kSpacerHeight = 0.5f;
         UIEdgeInsets labelInsets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
         
         _quantityLabelAllLevels = [[RJInsetLabel alloc] initWithFrame:CGRectZero];
+        _quantityLabelAllLevels.lineBreakMode = NSLineBreakByWordWrapping;
+        _quantityLabelAllLevels.numberOfLines = 0;
         _quantityLabelAllLevels.insets = labelInsets;
         _quantityLabelAllLevels.textColor = styleManager.themeTextColor;
         _quantityLabelAllLevels.font = styleManager.verySmallFont;
         [self.contentView addSubview:_quantityLabelAllLevels];
         
         _quantityLabelBeginner = [[RJInsetLabel alloc] initWithFrame:CGRectZero];
+        _quantityLabelBeginner.lineBreakMode = NSLineBreakByWordWrapping;
+        _quantityLabelBeginner.numberOfLines = 0;
         _quantityLabelBeginner.insets = labelInsets;
         [self.contentView addSubview:_quantityLabelBeginner];
         
         _quantityLabelIntermediate = [[RJInsetLabel alloc] initWithFrame:CGRectZero];
+        _quantityLabelIntermediate.lineBreakMode = NSLineBreakByWordWrapping;
+        _quantityLabelIntermediate.numberOfLines = 0;
         _quantityLabelIntermediate.insets = labelInsets;
         [self.contentView addSubview:_quantityLabelIntermediate];
         
         _quantityLabelAdvanced = [[RJInsetLabel alloc] initWithFrame:CGRectZero];
+        _quantityLabelAdvanced.lineBreakMode = NSLineBreakByWordWrapping;
+        _quantityLabelAdvanced.numberOfLines = 0;
         _quantityLabelAdvanced.insets = labelInsets;
         [self.contentView addSubview:_quantityLabelAdvanced];
         
@@ -139,6 +161,8 @@ static const CGFloat kSpacerHeight = 0.5f;
         [self.contentView addSubview:_spacer];
         
         _titleLabel = [[RJInsetLabel alloc] initWithFrame:CGRectZero];
+        _titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        _titleLabel.numberOfLines = 0;
         _titleLabel.textColor = styleManager.themeTextColor;
         _titleLabel.insets = labelInsets;
         [self.contentView addSubview:_titleLabel];
@@ -148,17 +172,28 @@ static const CGFloat kSpacerHeight = 0.5f;
 
 #pragma mark - Public Instance Methods - Layout
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self updatePreferredMaxLayoutWidthForInsetLabel:self.titleLabel];
+    [self updatePreferredMaxLayoutWidthForInsetLabel:self.quantityLabelAllLevels];
+    [self updatePreferredMaxLayoutWidthForInsetLabel:self.quantityLabelAdvanced];
+    [self updatePreferredMaxLayoutWidthForInsetLabel:self.quantityLabelBeginner];
+    [self updatePreferredMaxLayoutWidthForInsetLabel:self.quantityLabelIntermediate];
+}
+
 - (CGSize)sizeThatFits:(CGSize)size {
     if (self.minimized) {
         return CGSizeMake(size.width, kTitleElementsHeight + kSpacerHeight);
     } else {
+        CGFloat labelMaxWidth = (size.width - kButtonElementsWidth - kAccessoryImageWidth);
+        CGSize labelMaxSize = CGSizeMake(labelMaxWidth, size.height);
         CGFloat height = 0.0f;
         height += kMarginTop;
-        height += [self.titleLabel sizeThatFits:size].height;
-        height += [self.quantityLabelAllLevels sizeThatFits:size].height;
-        height += [self.quantityLabelAdvanced sizeThatFits:size].height;
-        height += [self.quantityLabelBeginner sizeThatFits:size].height;
-        height += [self.quantityLabelIntermediate sizeThatFits:size].height;
+        height += [self.titleLabel sizeThatFits:labelMaxSize].height;
+        height += [self.quantityLabelAllLevels sizeThatFits:labelMaxSize].height;
+        height += [self.quantityLabelAdvanced sizeThatFits:labelMaxSize].height;
+        height += [self.quantityLabelBeginner sizeThatFits:labelMaxSize].height;
+        height += [self.quantityLabelIntermediate sizeThatFits:labelMaxSize].height;
         height += kMarginBottom;
         height += kSpacerHeight;
         return CGSizeMake(size.width, height + kSpacerHeight);
@@ -195,6 +230,7 @@ static const CGFloat kSpacerHeight = 0.5f;
         NSDictionary *metrics = @{
                                   @"titleElementsHeight" : @(kTitleElementsHeight),
                                   @"buttonElementsWidth" : @(kButtonElementsWidth),
+                                  @"accessoryImageWidth" : @(kAccessoryImageWidth),
                                   @"spacerHeight" : @(kSpacerHeight),
                                   @"marginTop" : @(kMarginTop),
                                   @"marginBottom" : @(kMarginBottom)
@@ -207,18 +243,17 @@ static const CGFloat kSpacerHeight = 0.5f;
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-marginTop-[titleLabel][quantityLabelAllLevels][quantityLabelBeginner][quantityLabelIntermediate][quantityLabelAdvanced]-marginBottom-[spacer(spacerHeight)]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[leftSideAccessoryButton(buttonElementsWidth)][titleLabel][accessoryImageView(7)]-10-|" options:0 metrics:metrics views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[leftSideAccessoryButton(buttonElementsWidth)][titleLabel][accessoryImageView(accessoryImageWidth)]-10-|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[spacer]|" options:0 metrics:metrics views:views]];
-        [self.contentView addConstraint:
-         [NSLayoutConstraint constraintWithItem:quantityLabelAdvanced attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:titleLabel attribute:NSLayoutAttributeLeft multiplier:1.0f constant:0.0f]];
-        [self.contentView addConstraint:
-         [NSLayoutConstraint constraintWithItem:quantityLabelAllLevels attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:titleLabel attribute:NSLayoutAttributeLeft multiplier:1.0f constant:0.0f]];
-        [self.contentView addConstraint:
-         [NSLayoutConstraint constraintWithItem:quantityLabelBeginner attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:titleLabel attribute:NSLayoutAttributeLeft multiplier:1.0f constant:0.0f]];
-        [self.contentView addConstraint:
-         [NSLayoutConstraint constraintWithItem:quantityLabelIntermediate attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:titleLabel attribute:NSLayoutAttributeLeft multiplier:1.0f constant:0.0f]];
-        
+        [self.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[leftSideAccessoryButton][quantityLabelAdvanced][accessoryImageView]" options:0 metrics:metrics views:views]];
+        [self.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[leftSideAccessoryButton][quantityLabelAllLevels][accessoryImageView]" options:0 metrics:metrics views:views]];
+        [self.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[leftSideAccessoryButton][quantityLabelBeginner][accessoryImageView]" options:0 metrics:metrics views:views]];
+        [self.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[leftSideAccessoryButton][quantityLabelIntermediate][accessoryImageView]" options:0 metrics:metrics views:views]];
         
         self.setupStaticConstraints = YES;
     }

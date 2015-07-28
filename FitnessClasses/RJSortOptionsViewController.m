@@ -77,7 +77,17 @@
     
     self.collectionView.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
 
-    self.itemsPerRow = 3.5f;
+    CGFloat deviceHeight = CGRectGetHeight([UIScreen mainScreen].bounds);
+    // iphone 6+ = 736.0f
+    // iphone 6 = 667
+    // iphone 5 = 568
+    // iphone 4 = 480
+    if (deviceHeight > 568.0f) {
+        self.itemsPerRow = 3.5f;
+    } else {
+        self.itemsPerRow = 2.5f;
+    }
+    
     self.spaced = NO;
     
     self.collectionView.alwaysBounceVertical = NO;

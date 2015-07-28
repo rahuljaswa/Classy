@@ -18,6 +18,7 @@
 - (void)createEditSelfPacedExerciseInstructionCellTrashButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 - (void)createEditSelfPacedExerciseInstructionCellExerciseButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 
+- (void)createEditSelfPacedExerciseInstructionCellAllLevelsQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 - (void)createEditSelfPacedExerciseInstructionCellBeginnerQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 - (void)createEditSelfPacedExerciseInstructionCellIntermediateQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 - (void)createEditSelfPacedExerciseInstructionCellAdvancedQuantityTextViewDidChange:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
@@ -36,6 +37,7 @@
 
 @property (nonatomic, strong, readonly) UIButton *exerciseButton;
 
+@property (nonatomic, strong, readonly) SZTextView *allLevelsQuantityTextView;
 @property (nonatomic, strong, readonly) SZTextView *beginnerQuantityTextView;
 @property (nonatomic, strong, readonly) SZTextView *intermediateQuantityTextView;
 @property (nonatomic, strong, readonly) SZTextView *advancedQuantityTextView;
