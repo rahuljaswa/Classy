@@ -11,7 +11,6 @@
 #import <SZTextView/SZTextView.h>
 
 static const CGFloat kAccessoryViewWidth = 7.0f;
-static const CGFloat kMarginRight = 10.0f;
 
 
 @interface RJLabelCell ()
@@ -94,11 +93,15 @@ static const CGFloat kMarginRight = 10.0f;
         
         NSDictionary *views = NSDictionaryOfVariableBindings(_textLabel, _accessoryView, _topBorder, _bottomBorder);
         NSDictionary *metrics = @{
-                                  @"accessoryViewWidth" : @(kAccessoryViewWidth),
-                                  @"marginRight" : @(kMarginRight)
+                                  @"accessoryViewWidth" : @(kAccessoryViewWidth)
                                   };
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textLabel][_accessoryView(accessoryViewWidth)]-marginRight-|"
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textLabel]|"
+                                                 options:0
+                                                 metrics:metrics
+                                                   views:views]];
+        [self.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_accessoryView(accessoryViewWidth)]|"
                                                  options:0
                                                  metrics:metrics
                                                    views:views]];
@@ -146,7 +149,7 @@ static const CGFloat kMarginRight = 10.0f;
             sizeThatFits.height += [self.textField sizeThatFits:CGSizeMake(sizeThatFits.width, CGFLOAT_MAX)].height;
             break;
         case kRJLabelCellStyleTextLabel:
-            sizeThatFits.width -= (kMarginRight + kAccessoryViewWidth);
+            sizeThatFits.width -= kAccessoryViewWidth;
             sizeThatFits.height += [self.textLabel sizeThatFits:CGSizeMake(sizeThatFits.width, CGFLOAT_MAX)].height;
             break;
         case kRJLabelCellStyleTextView:

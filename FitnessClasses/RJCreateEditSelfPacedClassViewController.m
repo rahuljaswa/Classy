@@ -176,7 +176,7 @@ typedef NS_ENUM(NSInteger, Section) {
             RJLabelCell *labelCell = (RJLabelCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kLabelCellID forIndexPath:indexPath];
             labelCell.style = kRJLabelCellStyleTextLabel;
             labelCell.textLabel.text = NSLocalizedString(@"Category", nil);
-            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
+            labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 20.0f);
             labelCell.textLabel.textAlignment = NSTextAlignmentLeft;
             labelCell.accessoryView.image = [UIImage imageNamed:@"forwardIcon"];
             labelCell.topBorder.backgroundColor = styleManager.themeTextColor;

@@ -160,7 +160,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
             break;
         case kSectionPrimaryEquipment:
             cell.style = kRJLabelCellStyleTextLabel;
-            cell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
+            cell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 20.0f);
             cell.textLabel.text = NSLocalizedString(@"Equipment", nil);
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
             cell.accessoryView.image = [UIImage imageNamed:@"forwardIcon"];
@@ -169,7 +169,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
             break;
         case kSectionMuscles: {
             cell.style = kRJLabelCellStyleTextLabel;
-            cell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 10.0f);
+            cell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 20.0f);
             cell.accessoryView.image = [UIImage imageNamed:@"forwardIcon"];
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
             
