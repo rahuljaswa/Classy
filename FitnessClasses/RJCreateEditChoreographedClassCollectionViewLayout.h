@@ -10,4 +10,6 @@
 
 @interface RJCreateEditChoreographedClassCollectionViewLayout : UICollectionViewLayout
 
++ (NSInteger)startPointForOriginY:(CGFloat)originY;
+
 @end

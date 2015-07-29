@@ -10,6 +10,9 @@
 #import "RJLabelCell.h"
 #import <SZTextView/SZTextView.h>
 
+static const CGFloat kAccessoryViewWidth = 7.0f;
+static const CGFloat kMarginRight = 10.0f;
+
 
 @interface RJLabelCell ()
 
@@ -90,40 +93,44 @@
         _bottomBorder.translatesAutoresizingMaskIntoConstraints = NO;
         
         NSDictionary *views = NSDictionaryOfVariableBindings(_textLabel, _accessoryView, _topBorder, _bottomBorder);
+        NSDictionary *metrics = @{
+                                  @"accessoryViewWidth" : @(kAccessoryViewWidth),
+                                  @"marginRight" : @(kMarginRight)
+                                  };
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textLabel][_accessoryView(7)]|"
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textLabel][_accessoryView(accessoryViewWidth)]-marginRight-|"
                                                  options:0
-                                                 metrics:nil
+                                                 metrics:metrics
                                                    views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_topBorder]|"
                                                  options:0
-                                                 metrics:nil
+                                                 metrics:metrics
                                                    views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bottomBorder]|"
                                                  options:0
-                                                 metrics:nil
+                                                 metrics:metrics
                                                    views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_textLabel]|"
                                                  options:0
-                                                 metrics:nil
+                                                 metrics:metrics
                                                    views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_accessoryView]|"
                                                  options:0
-                                                 metrics:nil
+                                                 metrics:metrics
                                                    views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_topBorder(==0.5)]"
                                                  options:0
-                                                 metrics:nil
+                                                 metrics:metrics
                                                    views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_bottomBorder(==0.5)]|"
                                                  options:0
-                                                 metrics:nil
+                                                 metrics:metrics
                                                    views:views]];
         
         self.setupStaticConstraints = YES;
@@ -139,7 +146,7 @@
             sizeThatFits.height += [self.textField sizeThatFits:CGSizeMake(sizeThatFits.width, CGFLOAT_MAX)].height;
             break;
         case kRJLabelCellStyleTextLabel:
-            sizeThatFits.width -= 7; // accessory view
+            sizeThatFits.width -= (kMarginRight + kAccessoryViewWidth);
             sizeThatFits.height += [self.textLabel sizeThatFits:CGSizeMake(sizeThatFits.width, CGFLOAT_MAX)].height;
             break;
         case kRJLabelCellStyleTextView:

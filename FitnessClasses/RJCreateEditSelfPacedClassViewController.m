@@ -494,7 +494,7 @@ typedef NS_ENUM(NSInteger, Section) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = [NSLocalizedString(@"Create Self-Paced Workout", nil) uppercaseString];
+    self.navigationItem.title = [NSLocalizedString(@"Create Workout", nil) uppercaseString];
     
     [self.collectionView registerClass:[RJLabelCell class] forCellWithReuseIdentifier:kLabelCellID];
     [self.collectionView registerClass:[RJCreateEditSelfPacedExerciseInstructionCell class] forCellWithReuseIdentifier:kCreateExerciseInstructionCellID];

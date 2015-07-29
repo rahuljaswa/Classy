@@ -21,4 +21,6 @@
 @property (nonatomic, strong) NSString *intermediateQuantity;
 @property (nonatomic, strong) NSNumber *startPoint;
 
+- (void)setRoundableStartPoint:(NSNumber *)roundableStartPoint;
+
 @end

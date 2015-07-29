@@ -13,6 +13,7 @@
 
 @protocol RJCreateEditChoreographedClassExerciseInstructionCellDelegate <NSObject>
 
+- (void)createEditChoreographedClassExerciseInstructionCellDidPressDuplicateButton:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell;
 - (void)createEditChoreographedClassExerciseInstructionCellDidPressExerciseButton:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell;
 - (void)createEditChoreographedClassExerciseInstructionCellDidPressTrashButton:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell;
 - (void)createEditChoreographedClassExerciseInstructionCellQuantityTextFieldDidChange:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell;
@@ -29,6 +30,7 @@
 
 @property (nonatomic, weak) id<RJCreateEditChoreographedClassExerciseInstructionCellDelegate> delegate;
 
+@property (nonatomic, strong, readonly) UIButton *duplicateButton;
 @property (nonatomic, strong, readonly) UIButton *exerciseButton;
 @property (nonatomic, strong, readonly) UITextField *quantityTextField;
 @property (nonatomic, strong, readonly) UITextField *startPointTextField;

@@ -32,11 +32,14 @@ static NSString *const kExerciseInstructionCellID = @"ExerciseInstructionCellID"
 static NSString *const kTrackCellID = @"TrackCellID";
 
 
-@interface RJCreateEditChoreographedClassViewController () <RJCreateEditChoreographedClassExerciseInstructionCellDelegate, RJCreateChoreographedClassTrackCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UITextFieldDelegate>
+@interface RJCreateEditChoreographedClassViewController () <RJCreateEditChoreographedClassExerciseInstructionCellDelegate, RJCreateChoreographedClassTrackCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *categoryViewController;
 @property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *exerciseViewController;
 @property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *instructorViewController;
+
+@property (nonatomic, strong) NSIndexPath *movingIndexPath;
+@property (nonatomic, strong) RJCreateEditChoreographedClassExerciseInstructionCell *movingCellSnapshot;
 
 @property (nonatomic, assign, getter=isEditMode) BOOL editMode;
 
@@ -170,6 +173,22 @@ static NSString *const kTrackCellID = @"TrackCellID";
 
 #pragma mark - Private Protocols - RJCreateEditChoreographedClassExerciseInstructionCellDelegate
 
+- (void)createEditChoreographedClassExerciseInstructionCellDidPressDuplicateButton:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell {
+    NSArray *sortedExerciseInstructions = [self sortedExerciseInstructions];
+    
+    NSUInteger index = [self.exerciseInstructions indexOfObject:cell.instruction];
+    RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
+    RJParseExerciseInstruction *newExerciseInstruction = [RJParseExerciseInstruction object];
+    newExerciseInstruction.exercise = exerciseInstruction.exercise;
+    newExerciseInstruction.allLevelsQuantity = exerciseInstruction.allLevelsQuantity;
+    NSInteger bufferForNewInstructionStartPoint = [self bufferForNewInstructionStartPointWithSortedExerciseInstructions:sortedExerciseInstructions];
+    [newExerciseInstruction setRoundableStartPoint:@([exerciseInstruction.startPoint integerValue] + bufferForNewInstructionStartPoint)];
+    
+    NSUInteger newIndex = (index + 1);
+    [self.exerciseInstructions insertObject:newExerciseInstruction atIndex:newIndex];
+    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:newIndex inSection:kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions]]];
+}
+
 - (void)createEditChoreographedClassExerciseInstructionCellDidPressExerciseButton:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell {
     self.exerciseViewController.view.tag = [self.exerciseInstructions indexOfObject:cell.instruction];
     [[self navigationController] pushViewController:self.exerciseViewController animated:YES];
@@ -186,7 +205,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
 - (void)createEditChoreographedClassExerciseInstructionCellStartPointDidChange:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell {
     NSUInteger index = [self.exerciseInstructions indexOfObject:cell.instruction];
     RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
-    exerciseInstruction.startPoint = @(cell.startPoint);
+    [exerciseInstruction setRoundableStartPoint:@(cell.startPoint)];
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
@@ -365,29 +384,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
         case kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions: {
             RJCreateEditChoreographedClassExerciseInstructionCell *instructionCell = [collectionView dequeueReusableCellWithReuseIdentifier:kExerciseInstructionCellID forIndexPath:indexPath];
             instructionCell.delegate = self;
-            instructionCell.topBorder.backgroundColor = styleManager.themeTextColor;
-            instructionCell.bottomBorder.backgroundColor = styleManager.themeTextColor;
-            instructionCell.buttonsAreaBackground.backgroundColor = styleManager.tintLightGrayColor;
-            RJParseExerciseInstruction *instruction = self.exerciseInstructions[indexPath.item];
-            instructionCell.instruction = instruction;
-            NSString *exerciseButtonTitle = instruction.exercise ? instruction.exercise.title : NSLocalizedString(@"Exercise", nil);
-            [instructionCell.exerciseButton setTitle:exerciseButtonTitle forState:UIControlStateNormal];
-            [instructionCell.exerciseButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
-            instructionCell.exerciseButton.titleLabel.font = styleManager.smallBoldFont;
-            instructionCell.exerciseButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
-            instructionCell.quantityTextField.placeholder = NSLocalizedString(@"Quantity", nil);
-            instructionCell.quantityTextField.text = instruction.allLevelsQuantity;
-            instructionCell.quantityTextField.textAlignment = NSTextAlignmentCenter;
-            instructionCell.quantityTextField.textColor = styleManager.themeTextColor;
-            instructionCell.quantityTextField.font = styleManager.smallFont;
-            instructionCell.quantityTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
-            [instructionCell.trashButton setImage:[UIImage tintableImageNamed:@"trashIcon"] forState:UIControlStateNormal];
-            instructionCell.trashButton.contentMode = UIViewContentModeScaleAspectFit;
-            instructionCell.trashButton.tintColor = styleManager.themeTextColor;
-            instructionCell.trashButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
-            instructionCell.startPointTextField.textAlignment = NSTextAlignmentCenter;
-            instructionCell.startPointTextField.font = styleManager.smallFont;
-            instructionCell.backgroundView.backgroundColor = [self colorForObject:instruction];
+            [self configureCreateEditExerciseInstructionCell:instructionCell atIndexPath:indexPath];
             cell = instructionCell;
             break;
         }
@@ -478,9 +475,11 @@ static NSString *const kTrackCellID = @"TrackCellID";
             break;
         }
         case kRJCreateEditChoreographedClassViewControllerSectionAddExerciseInstruction: {
+            NSArray *sortedExerciseInstructions = [self sortedExerciseInstructions];
+            NSInteger newStartPointBuffer = [self bufferForNewInstructionStartPointWithSortedExerciseInstructions:sortedExerciseInstructions];
             RJParseExerciseInstruction *newInstruction = [RJParseExerciseInstruction object];
-            RJParseExerciseInstruction *lastInstruction = [[self sortedExerciseInstructions] lastObject];
-            newInstruction.startPoint = @(([lastInstruction.startPoint integerValue] + 60));
+            RJParseExerciseInstruction *lastInstruction = [sortedExerciseInstructions lastObject];
+            [newInstruction setRoundableStartPoint:@([lastInstruction.startPoint integerValue] + newStartPointBuffer)];
             [self.exerciseInstructions addObject:newInstruction];
             NSUInteger newIndex = [self.exerciseInstructions indexOfObject:newInstruction];
             [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:newIndex inSection:kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions]]];
@@ -551,7 +550,63 @@ static NSString *const kTrackCellID = @"TrackCellID";
     [self.view endEditing:YES];
 }
 
+#pragma mark - Private Protocols - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (self.movingIndexPath) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 #pragma mark - Private Instance Methods
+
+- (CGFloat)bufferForNewInstructionStartPointWithSortedExerciseInstructions:(NSArray *)sortedExerciseInstructions {
+    NSInteger newStartPointBuffer = 0;
+    NSInteger numberOfExerciseInstructions = [sortedExerciseInstructions count];
+    if (numberOfExerciseInstructions > 1) {
+        RJParseExerciseInstruction *lastInstruction = [sortedExerciseInstructions lastObject];
+        RJParseExerciseInstruction *nextToLastInstruction = sortedExerciseInstructions[(numberOfExerciseInstructions - 2)];
+        newStartPointBuffer = ([lastInstruction.startPoint integerValue] - [nextToLastInstruction.startPoint integerValue]);
+    } else {
+        newStartPointBuffer = 60;
+    }
+    return newStartPointBuffer;
+}
+
+- (void)configureCreateEditExerciseInstructionCell:(RJCreateEditChoreographedClassExerciseInstructionCell *)instructionCell atIndexPath:(NSIndexPath *)indexPath {
+    RJStyleManager *styleManager = [RJStyleManager sharedInstance];
+    
+    instructionCell.topBorder.backgroundColor = styleManager.themeTextColor;
+    instructionCell.bottomBorder.backgroundColor = styleManager.themeTextColor;
+    instructionCell.buttonsAreaBackground.backgroundColor = styleManager.tintLightGrayColor;
+    RJParseExerciseInstruction *instruction = self.exerciseInstructions[indexPath.item];
+    instructionCell.instruction = instruction;
+    NSString *exerciseButtonTitle = instruction.exercise ? instruction.exercise.title : NSLocalizedString(@"Exercise", nil);
+    instructionCell.exerciseButton.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [instructionCell.exerciseButton setTitle:exerciseButtonTitle forState:UIControlStateNormal];
+    [instructionCell.exerciseButton setTitleColor:styleManager.themeTextColor forState:UIControlStateNormal];
+    instructionCell.exerciseButton.titleLabel.font = styleManager.smallBoldFont;
+    instructionCell.exerciseButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+    instructionCell.quantityTextField.placeholder = NSLocalizedString(@"Quantity", nil);
+    instructionCell.quantityTextField.text = instruction.allLevelsQuantity;
+    instructionCell.quantityTextField.textAlignment = NSTextAlignmentCenter;
+    instructionCell.quantityTextField.textColor = styleManager.themeTextColor;
+    instructionCell.quantityTextField.font = styleManager.smallFont;
+    instructionCell.quantityTextField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+    [instructionCell.trashButton setImage:[UIImage tintableImageNamed:@"trashIcon"] forState:UIControlStateNormal];
+    instructionCell.trashButton.contentMode = UIViewContentModeScaleAspectFit;
+    instructionCell.trashButton.tintColor = styleManager.themeTextColor;
+    instructionCell.trashButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+    [instructionCell.duplicateButton setImage:[UIImage tintableImageNamed:@"duplicateIcon"] forState:UIControlStateNormal];
+    instructionCell.duplicateButton.contentMode = UIViewContentModeScaleAspectFit;
+    instructionCell.duplicateButton.tintColor = styleManager.themeTextColor;
+    instructionCell.duplicateButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+    instructionCell.startPointTextField.textAlignment = NSTextAlignmentCenter;
+    instructionCell.startPointTextField.font = styleManager.smallFont;
+    instructionCell.backgroundView.backgroundColor = [self colorForObject:instruction];
+}
 
 - (UIColor *)colorForObject:(NSObject *)object {
     NSString *memoryAddress = [NSString stringWithFormat:@"%p", object];
@@ -572,10 +627,68 @@ static NSString *const kTrackCellID = @"TrackCellID";
 
 - (void)resetExerciseInstructionsAndTracks {
     RJParseExerciseInstruction *exerciseInstruction = [RJParseExerciseInstruction object];
-    exerciseInstruction.startPoint = @(0);
+    [exerciseInstruction setRoundableStartPoint:@(0)];
     _exerciseInstructions = [[NSMutableArray alloc] initWithObjects:exerciseInstruction, nil];
     RJParseTrack *track = [RJParseTrack object];
     _tracks = [[NSMutableArray alloc] initWithObjects:track, nil];
+}
+
+- (void)longPressGestureRecognized:(UILongPressGestureRecognizer *)longPressGestureRecognizer {
+    if (longPressGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        CGPoint point = [longPressGestureRecognizer locationInView:self.collectionView];
+        self.movingIndexPath = [self.collectionView indexPathForItemAtPoint:point];
+        if ((self.movingIndexPath.section == kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions) ||
+            !self.movingIndexPath)
+        {
+            if (!self.movingIndexPath) {
+                RJParseExerciseInstruction *newInstruction = [RJParseExerciseInstruction object];
+                CGPoint location = [longPressGestureRecognizer locationInView:self.collectionView];
+                [newInstruction setRoundableStartPoint:@([RJCreateEditChoreographedClassCollectionViewLayout startPointForOriginY:location.y])];
+                [self.exerciseInstructions addObject:newInstruction];
+                NSUInteger newIndex = [self.exerciseInstructions indexOfObject:newInstruction];
+                self.movingIndexPath = [NSIndexPath indexPathForItem:newIndex inSection:kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions];
+                [self.collectionView insertItemsAtIndexPaths:@[self.movingIndexPath]];
+            }
+            
+            RJCreateEditChoreographedClassExerciseInstructionCell *movingCell = (RJCreateEditChoreographedClassExerciseInstructionCell *)[self.collectionView cellForItemAtIndexPath:self.movingIndexPath];
+            self.movingCellSnapshot = [[RJCreateEditChoreographedClassExerciseInstructionCell alloc] initWithFrame:movingCell.frame];
+            [self configureCreateEditExerciseInstructionCell:self.movingCellSnapshot atIndexPath:self.movingIndexPath];
+            self.movingCellSnapshot.alpha = 0.6f;
+            [self.collectionView addSubview:self.movingCellSnapshot];
+        } else {
+            self.movingIndexPath = nil;
+        }
+    } else if ((longPressGestureRecognizer.state == UIGestureRecognizerStateEnded) && self.movingIndexPath) {
+        CGPoint location = [longPressGestureRecognizer locationInView:self.collectionView];
+        RJParseExerciseInstruction *instruction = self.exerciseInstructions[self.movingIndexPath.item];
+        [instruction setRoundableStartPoint:@([RJCreateEditChoreographedClassCollectionViewLayout startPointForOriginY:location.y])];
+        [self.collectionView reloadData];
+        [self.collectionView.collectionViewLayout invalidateLayout];
+        [self.movingCellSnapshot removeFromSuperview];
+        self.movingIndexPath = nil;
+        self.movingCellSnapshot = nil;
+    } else if ((longPressGestureRecognizer.state == UIGestureRecognizerStateChanged) && self.movingIndexPath) {
+        CGRect movingCellSnapshotFrame = self.movingCellSnapshot.frame;
+        movingCellSnapshotFrame.origin.y = [longPressGestureRecognizer locationInView:self.collectionView].y;
+        NSInteger duration = [RJCreateEditChoreographedClassCollectionViewLayout startPointForOriginY:CGRectGetMinY(movingCellSnapshotFrame)];
+        self.movingCellSnapshot.startPointTextField.text = [NSString hhmmaaForTotalSeconds:duration];
+        self.movingCellSnapshot.frame = movingCellSnapshotFrame;
+        
+        CGFloat topOfScreen = self.collectionView.contentOffset.y;
+        CGFloat movingCellSnapshotOriginY = CGRectGetMinY(self.movingCellSnapshot.frame);
+        if (movingCellSnapshotOriginY < topOfScreen) {
+            self.collectionView.contentOffset = CGPointMake(0.0f, movingCellSnapshotOriginY);
+        } else {
+            CGFloat collectionViewBottomInset = self.collectionView.contentInset.bottom;
+            CGFloat collectionViewHeight = CGRectGetHeight(self.collectionView.frame);
+            CGFloat bottomOfScreen = (topOfScreen + collectionViewHeight - collectionViewBottomInset);
+            CGFloat movingCellSnapshotMaxY = CGRectGetMaxY(self.movingCellSnapshot.frame);
+            if (movingCellSnapshotMaxY > bottomOfScreen) {
+                CGFloat newContentOffsetY = (movingCellSnapshotMaxY - collectionViewHeight + collectionViewBottomInset);
+                self.collectionView.contentOffset = CGPointMake(0.0f, newContentOffsetY);
+            }
+        }
+    }
 }
 
 - (void)preloadSupplementaryViewControllers {
@@ -611,7 +724,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = [NSLocalizedString(@"Create Choreographed Workout", nil) uppercaseString];
+    self.navigationItem.title = [NSLocalizedString(@"Create Workout", nil) uppercaseString];
     
     [self.collectionView registerClass:[RJLabelCell class] forCellWithReuseIdentifier:kLabelCellID];
     [self.collectionView registerClass:[RJCreateEditChoreographedClassExerciseInstructionCell class] forCellWithReuseIdentifier:kExerciseInstructionCellID];
@@ -620,6 +733,11 @@ static NSString *const kTrackCellID = @"TrackCellID";
     self.collectionView.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
     self.collectionView.bounces = YES;
     self.collectionView.alwaysBounceVertical = YES;
+    
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognized:)];
+    longPressGestureRecognizer.minimumPressDuration = 0.3;
+    longPressGestureRecognizer.delegate = self;
+    [self.collectionView addGestureRecognizer:longPressGestureRecognizer];
 }
 
 @end

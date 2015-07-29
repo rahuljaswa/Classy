@@ -12,6 +12,7 @@
 #import "RJParseExerciseInstruction.h"
 #import "RJParseTrack.h"
 
+static CGFloat kLengthToDurationMultiplier = 2.4f;
 static CGFloat kTopMargin = 30.0f;
 static CGFloat kBottomMargin = 30.0f;
 static CGFloat kDefaultCellHeight = 44.0f;
@@ -35,18 +36,6 @@ static NSInteger kTrackDefaultLength = 180;
 @implementation RJCreateEditChoreographedClassCollectionViewLayout
 
 #pragma mark - Private Instance Methods
-
-- (CGFloat)lengthForDuration:(NSInteger)duration {
-    return (((CGFloat)duration)*2.4f);
-}
-
-- (CGFloat)yForSection:(RJCreateEditChoreographedClassViewControllerSection)section {
-    if (section == kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions) {
-        return [self yForSection:kRJCreateEditChoreographedClassViewControllerSectionTracks];
-    } else {
-        return (kTopMargin+section*(kDefaultCellHeight+kTopMargin));
-    }
-}
 
 - (NSArray *)allLayoutAttributes {
     NSMutableArray *allLayoutAttributes = [[NSMutableArray alloc] init];
@@ -95,7 +84,7 @@ static NSInteger kTrackDefaultLength = 180;
     for (NSUInteger i = 0; i < numberOfSections; i++) {
         RJCreateEditChoreographedClassViewControllerSection section = i;
         NSUInteger numberOfItems = [classViewController collectionView:self.collectionView numberOfItemsInSection:section];
-        CGFloat yForSection = [self yForSection:section];
+        CGFloat yForSection = [[self class] yForSection:section];
         switch (section) {
             case kRJCreateEditChoreographedClassViewControllerSectionName: {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
@@ -138,7 +127,7 @@ static NSInteger kTrackDefaultLength = 180;
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:j inSection:section];
                     RJParseExerciseInstruction *instruction = [classViewController.exerciseInstructions objectAtIndex:j];
                     UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-                    layoutAttribute.frame = CGRectMake(tracksCellWidth, baseY + [self lengthForDuration:[instruction.startPoint integerValue]], exerciseInstructionsCellWidth, [self lengthForDuration:30]);
+                    layoutAttribute.frame = CGRectMake(tracksCellWidth, baseY + [[self class] lengthForDuration:[instruction.startPoint integerValue]], exerciseInstructionsCellWidth, [[self class] lengthForDuration:30]);
                     layoutAttribute.zIndex = indexPath.item;
                     [exerciseInstructionsAttributes addObject:layoutAttribute];
                 }
@@ -152,7 +141,7 @@ static NSInteger kTrackDefaultLength = 180;
                     RJParseTrack *track = [classViewController.tracks objectAtIndex:j];
                     UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                     NSInteger duration = track.length ? [track.length integerValue] : kTrackDefaultLength;
-                    NSInteger lengthForDuration = [self lengthForDuration:duration];
+                    NSInteger lengthForDuration = [[self class] lengthForDuration:duration];
                     layoutAttribute.frame = CGRectMake(0.0f, baseY + startPointYForTrack, tracksCellWidth, lengthForDuration);
                     layoutAttribute.zIndex = indexPath.item;
                     [tracksAttributes addObject:layoutAttribute];
@@ -180,6 +169,24 @@ static NSInteger kTrackDefaultLength = 180;
     self.addExerciseInstructionsAttributes = addExerciseInstructionsAttributes;
     self.tracksAttributes = tracksAttributes;
     self.exerciseInstructionsAttributes = exerciseInstructionsAttributes;
+}
+
+#pragma mark - Private Class Methods
+
++ (NSInteger)durationForLength:(CGFloat)length {
+    return (NSInteger)(length/kLengthToDurationMultiplier);
+}
+
++ (CGFloat)lengthForDuration:(NSInteger)duration {
+    return (((CGFloat)duration)*kLengthToDurationMultiplier);
+}
+
++ (CGFloat)yForSection:(RJCreateEditChoreographedClassViewControllerSection)section {
+    if (section == kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions) {
+        return [self yForSection:kRJCreateEditChoreographedClassViewControllerSectionTracks];
+    } else {
+        return (kTopMargin+section*(kDefaultCellHeight+kTopMargin));
+    }
 }
 
 #pragma mark - Public Instance Methods
@@ -227,6 +234,13 @@ static NSInteger kTrackDefaultLength = 180;
         }
     }
     return attributesForIndexPath;
+}
+
+#pragma mark - Public Class Methods
+
++ (NSInteger)startPointForOriginY:(CGFloat)originY {
+    CGFloat length = (originY - [[self class] yForSection:kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions]);
+    return [self durationForLength:MAX(0, length)];
 }
 
 @end
