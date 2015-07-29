@@ -230,16 +230,25 @@ typedef NS_ENUM(NSInteger, Section) {
             instructionCell.advancedQuantityTextView.textAlignment = NSTextAlignmentCenter;
             instructionCell.advancedQuantityTextView.text = instruction.advancedQuantity;
             [instructionCell.upButton setImage:[UIImage tintableImageNamed:@"upIcon"] forState:UIControlStateNormal];
+            instructionCell.upButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
             instructionCell.upButton.tintColor = styleManager.themeTextColor;
             [instructionCell.upButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateNormal];
             [instructionCell.upButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateHighlighted];
             instructionCell.upButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
             [instructionCell.downButton setImage:[UIImage tintableImageNamed:@"downIcon"] forState:UIControlStateNormal];
+            instructionCell.downButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
             instructionCell.downButton.tintColor = styleManager.themeTextColor;
             [instructionCell.downButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateNormal];
             [instructionCell.downButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateHighlighted];
             instructionCell.downButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+            [instructionCell.duplicateButton setImage:[UIImage tintableImageNamed:@"duplicateIcon"] forState:UIControlStateNormal];
+            instructionCell.duplicateButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+            instructionCell.duplicateButton.tintColor = styleManager.themeTextColor;
+            [instructionCell.duplicateButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateNormal];
+            [instructionCell.duplicateButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateHighlighted];
+            instructionCell.duplicateButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
             [instructionCell.trashButton setImage:[UIImage tintableImageNamed:@"trashIcon"] forState:UIControlStateNormal];
+            instructionCell.trashButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
             instructionCell.trashButton.tintColor = styleManager.themeTextColor;
             [instructionCell.trashButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateNormal];
             [instructionCell.trashButton setBackgroundImage:[UIImage imageWithColor:styleManager.tintLightGrayColor] forState:UIControlStateHighlighted];
@@ -406,6 +415,20 @@ typedef NS_ENUM(NSInteger, Section) {
         NSIndexPath *newIndexPath = [NSIndexPath indexPathForItem:(index+1) inSection:kSectionInstructions];
         [self.collectionView moveItemAtIndexPath:initialIndexPath toIndexPath:newIndexPath];
     }
+}
+
+- (void)createEditSelfPacedExerciseInstructionCellDuplicateButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
+    NSUInteger index = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
+    RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
+    RJParseExerciseInstruction *newExerciseInstruction = [RJParseExerciseInstruction object];
+    newExerciseInstruction.exercise = exerciseInstruction.exercise;
+    newExerciseInstruction.allLevelsQuantity = exerciseInstruction.allLevelsQuantity;
+    newExerciseInstruction.beginnerQuantity = exerciseInstruction.beginnerQuantity;
+    newExerciseInstruction.intermediateQuantity = exerciseInstruction.intermediateQuantity;
+    newExerciseInstruction.advancedQuantity = exerciseInstruction.advancedQuantity;
+    NSUInteger newIndex = (index + 1);
+    [self.exerciseInstructions insertObject:newExerciseInstruction atIndex:newIndex];
+    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:newIndex inSection:kSectionInstructions]]];
 }
 
 - (void)createEditSelfPacedExerciseInstructionCellExerciseButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {

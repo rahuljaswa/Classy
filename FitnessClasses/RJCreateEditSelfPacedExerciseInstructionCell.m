@@ -49,6 +49,10 @@
     [self.delegate createEditSelfPacedExerciseInstructionCellDownButtonPressed:self];
 }
 
+- (void)duplicateButtonPressed:(UIButton *)button {
+    [self.delegate createEditSelfPacedExerciseInstructionCellDuplicateButtonPressed:self];
+}
+
 - (void)upButtonPressed:(UIButton *)button {
     [self.delegate createEditSelfPacedExerciseInstructionCellUpButtonPressed:self];
 }
@@ -76,6 +80,10 @@
         _downButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_downButton addTarget:self action:@selector(downButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_downButton];
+        
+        _duplicateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_duplicateButton addTarget:self action:@selector(duplicateButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_duplicateButton];
         
         _trashButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_trashButton addTarget:self action:@selector(trashButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -117,22 +125,25 @@
         _bottomBorder.translatesAutoresizingMaskIntoConstraints = NO;
         _upButton.translatesAutoresizingMaskIntoConstraints = NO;
         _downButton.translatesAutoresizingMaskIntoConstraints = NO;
+        _duplicateButton.translatesAutoresizingMaskIntoConstraints = NO;
         _trashButton.translatesAutoresizingMaskIntoConstraints = NO;
         
-        NSDictionary *views = NSDictionaryOfVariableBindings(_allLevelsQuantityTextView, _beginnerQuantityTextView, _intermediateQuantityTextView, _advancedQuantityTextView, _exerciseButton, _topBorder, _bottomBorder, _upButton, _downButton, _trashButton);
+        NSDictionary *views = NSDictionaryOfVariableBindings(_allLevelsQuantityTextView, _beginnerQuantityTextView, _intermediateQuantityTextView, _advancedQuantityTextView, _exerciseButton, _topBorder, _bottomBorder, _upButton, _downButton, _duplicateButton, _trashButton);
         
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_exerciseButton]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_upButton(30)][_allLevelsQuantityTextView][_beginnerQuantityTextView(==_allLevelsQuantityTextView)][_intermediateQuantityTextView(==_beginnerQuantityTextView)][_advancedQuantityTextView(==_beginnerQuantityTextView)][_trashButton(30)]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_downButton][_beginnerQuantityTextView]" options:0 metrics:nil views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_downButton][_allLevelsQuantityTextView]" options:0 metrics:nil views:views]];
+        [self.contentView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_advancedQuantityTextView][_duplicateButton]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_topBorder]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bottomBorder]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_trashButton]|" options:0 metrics:nil views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_duplicateButton][_trashButton(==_duplicateButton)]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_upButton][_downButton(==_upButton)]|" options:0 metrics:nil views:views]];
         [self.contentView addConstraints:

@@ -15,6 +15,7 @@
 
 - (void)createEditSelfPacedExerciseInstructionCellUpButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 - (void)createEditSelfPacedExerciseInstructionCellDownButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
+- (void)createEditSelfPacedExerciseInstructionCellDuplicateButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 - (void)createEditSelfPacedExerciseInstructionCellTrashButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 - (void)createEditSelfPacedExerciseInstructionCellExerciseButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell;
 
@@ -43,6 +44,7 @@
 @property (nonatomic, strong, readonly) SZTextView *advancedQuantityTextView;
 
 @property (nonatomic, strong, readonly) UIButton *downButton;
+@property (nonatomic, strong, readonly) UIButton *duplicateButton;
 @property (nonatomic, strong, readonly) UIButton *trashButton;
 @property (nonatomic, strong, readonly) UIButton *upButton;
 
