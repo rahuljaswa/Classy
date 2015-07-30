@@ -17,7 +17,6 @@
 - (void)createEditChoreographedClassExerciseInstructionCellDidPressExerciseButton:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell;
 - (void)createEditChoreographedClassExerciseInstructionCellDidPressTrashButton:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell;
 - (void)createEditChoreographedClassExerciseInstructionCellQuantityTextFieldDidChange:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell;
-- (void)createEditChoreographedClassExerciseInstructionCellStartPointDidChange:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell;
 
 @end
 
@@ -33,14 +32,12 @@
 @property (nonatomic, strong, readonly) UIButton *duplicateButton;
 @property (nonatomic, strong, readonly) UIButton *exerciseButton;
 @property (nonatomic, strong, readonly) UITextField *quantityTextField;
-@property (nonatomic, strong, readonly) UITextField *startPointTextField;
+@property (nonatomic, strong, readonly) UILabel *startPointLabel;
 @property (nonatomic, strong, readonly) UIButton *trashButton;
 
 @property (nonatomic, strong, readonly) UIView *buttonsAreaBackground;
 
 @property (nonatomic, strong, readonly) UIView *bottomBorder;
 @property (nonatomic, strong, readonly) UIView *topBorder;
-
-@property (nonatomic, assign, readonly) NSInteger startPoint;
 
 @end

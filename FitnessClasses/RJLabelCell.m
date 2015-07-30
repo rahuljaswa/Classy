@@ -11,6 +11,7 @@
 #import <SZTextView/SZTextView.h>
 
 static const CGFloat kAccessoryViewWidth = 7.0f;
+static const CGFloat kMarginRight = 10.0f;
 
 
 @interface RJLabelCell ()
@@ -93,7 +94,8 @@ static const CGFloat kAccessoryViewWidth = 7.0f;
         
         NSDictionary *views = NSDictionaryOfVariableBindings(_textLabel, _accessoryView, _topBorder, _bottomBorder);
         NSDictionary *metrics = @{
-                                  @"accessoryViewWidth" : @(kAccessoryViewWidth)
+                                  @"accessoryViewWidth" : @(kAccessoryViewWidth),
+                                  @"marginRight" : @(kMarginRight),
                                   };
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textLabel]|"
@@ -101,7 +103,7 @@ static const CGFloat kAccessoryViewWidth = 7.0f;
                                                  metrics:metrics
                                                    views:views]];
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_accessoryView(accessoryViewWidth)]|"
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_accessoryView(accessoryViewWidth)]-marginRight-|"
                                                  options:0
                                                  metrics:metrics
                                                    views:views]];

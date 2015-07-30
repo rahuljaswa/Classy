@@ -151,7 +151,7 @@
 
 + (void)fetchAllEquipmentWithCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"ExerciseEquipment"];
-    [query orderByDescending:@"name"];
+    [query orderByAscending:@"name"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all equipment\n\n%@", [error localizedDescription]);
@@ -162,9 +162,25 @@
     }];
 }
 
++ (void)fetchAllExercisesForPrimaryEquipment:(RJParseExerciseEquipment *)primaryEquipment completion:(void (^)(NSArray *))completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"Exercise"];
+    [query includeKey:@"primaryEquipment"];
+    [query whereKey:@"primaryEquipment" equalTo:primaryEquipment];
+    [query orderByAscending:@"title"];
+    query.limit = 1000;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!objects) {
+            NSLog(@"Error fetching all exercises for category\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(objects);
+        }
+    }];
+}
+
 + (void)fetchAllExercisesWithCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Exercise"];
-    [query orderByDescending:@"title"];
+    [query orderByAscending:@"title"];
     query.limit = 1000;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
@@ -178,7 +194,7 @@
 
 + (void)fetchAllMusclesWithCompletion:(void (^)(NSArray *))completion {
     PFQuery *query = [PFQuery queryWithClassName:@"Muscle"];
-    [query orderByDescending:@"name"];
+    [query orderByAscending:@"name"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all muscles\n\n%@", [error localizedDescription]);

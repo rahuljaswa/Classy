@@ -34,13 +34,15 @@
 
 @class PFObject;
 
-@interface RJSinglePFObjectSelectionViewController : UITableViewController <UISearchBarDelegate>
+@interface RJSinglePFObjectSelectionViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak) id<RJSingleSelectionViewControllerDataSource> dataSource;
 @property (nonatomic, weak) id<RJSingleSelectionViewControllerDelegate> delegate;
 
 @property (nonatomic, strong) PFObject *selectedObject;
 @property (nonatomic, strong) NSArray *objects;
+
+@property (nonatomic, strong, readonly) UITableView *tableView;
 
 @property (nonatomic, strong, readonly) UISearchBar *searchBar;
 @property (nonatomic, assign, getter=isIncrementalSearchEnabled) BOOL incrementalSearchEnabled;

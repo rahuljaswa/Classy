@@ -15,13 +15,7 @@ static CGFloat const kBorderHeight = 0.5f;
 static CGFloat const kQuantityTextFieldHeight = 30.0f;
 
 
-@interface RJCreateEditChoreographedClassExerciseInstructionCell () <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
-
-@property (nonatomic, strong, readwrite) UITextField *startPointTextField;
-
-@property (nonatomic, assign) NSInteger numberOfHours;
-@property (nonatomic, assign) NSInteger numberOfMinutes;
-@property (nonatomic, assign) NSInteger numberOfSeconds;
+@interface RJCreateEditChoreographedClassExerciseInstructionCell () <UITextFieldDelegate>
 
 @end
 
@@ -32,75 +26,7 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
 
 - (void)setInstruction:(RJParseExerciseInstruction *)instruction {
     _instruction = instruction;
-    
-    NSInteger hours, minutes, seconds;
-    [RJArithmeticHelper extractHours:&hours minutes:&minutes seconds:&seconds forLength:[instruction.startPoint integerValue]];
-
-    self.numberOfHours = hours;
-    self.numberOfMinutes = minutes;
-    self.numberOfSeconds = seconds;
-    self.startPointTextField.text = [NSString hhmmaaForTotalSeconds:self.startPoint];
-}
-
-- (NSInteger)startPoint {
-    return (self.numberOfHours*3600 + self.numberOfMinutes*60 + self.numberOfSeconds);
-}
-
-#pragma mark - Private Protocols - UIPickerViewDataSource
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 3;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    if (component == 0) {
-        return 3;
-    } else {
-        return 60;
-    }
-}
-
-#pragma mark - Private Protocols - UIPickerViewDelegate
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSString *title = nil;
-    if (component == 0) {
-        NSString *rowNumber = [NSString stringWithFormat:@"%lu", (unsigned long)row];
-        if (row == 0) {
-            title = [NSString stringWithFormat:@"%@ Hrs", rowNumber];
-        } else {
-            title = rowNumber;
-        }
-    } else if (component == 1) {
-        NSString *rowNumber = [NSString stringWithFormat:@"%lu", (unsigned long)row];
-        if (row == 0) {
-            title = [NSString stringWithFormat:@"%@ Mins", rowNumber];
-        } else {
-            title = rowNumber;
-        }
-    } else {
-        NSString *rowNumber = [NSString stringWithFormat:@"%lu", (unsigned long)row];
-        if (row == 0) {
-            title = [NSString stringWithFormat:@"%@ Secs", rowNumber];
-        } else {
-            title = rowNumber;
-        }
-    }
-    return title;
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    if (component == 0) {
-        self.numberOfHours = row;
-    } else if (component == 1) {
-        self.numberOfMinutes = row;
-    } else {
-        self.numberOfSeconds = row;
-    }
-    self.startPointTextField.text = [NSString hhmmaaForTotalSeconds:self.startPoint];
-    if ([self.delegate respondsToSelector:@selector(createEditChoreographedClassExerciseInstructionCellStartPointDidChange:)]) {
-        [self.delegate createEditChoreographedClassExerciseInstructionCellStartPointDidChange:self];
-    }
+    self.startPointLabel.text = [NSString hhmmaaForTotalSeconds:[_instruction.startPoint integerValue]];
 }
 
 #pragma mark - Private Protocols - UITextFieldDelegate
@@ -133,19 +59,10 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-        self.selectedBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         
-        _numberOfHours = 0;
-        _numberOfMinutes = 0;
-        _numberOfSeconds = 0;
-        
-        _startPointTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-        _startPointTextField.tintColor = [UIColor clearColor];
-        UIPickerView *startPointPicker = [[UIPickerView alloc] init];
-        startPointPicker.delegate = self;
-        startPointPicker.dataSource = self;
-        _startPointTextField.inputView = startPointPicker;
-        [self.contentView addSubview:_startPointTextField];
+        _startPointLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _startPointLabel.tintColor = [UIColor clearColor];
+        [self.contentView addSubview:_startPointLabel];
         
         _quantityTextField = [[UITextField alloc] initWithFrame:CGRectZero];
         _quantityTextField.delegate = self;
@@ -161,23 +78,23 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
         [self.contentView addSubview:_bottomBorder];
         
         _buttonsAreaBackground.translatesAutoresizingMaskIntoConstraints = NO;
-        _startPointTextField.translatesAutoresizingMaskIntoConstraints = NO;
+        _startPointLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _quantityTextField.translatesAutoresizingMaskIntoConstraints = NO;
         _topBorder.translatesAutoresizingMaskIntoConstraints = NO;
         _bottomBorder.translatesAutoresizingMaskIntoConstraints = NO;
         
-        NSDictionary *views = NSDictionaryOfVariableBindings(_buttonsAreaBackground, _startPointTextField, _quantityTextField, _topBorder, _bottomBorder);
+        NSDictionary *views = NSDictionaryOfVariableBindings(_buttonsAreaBackground, _startPointLabel, _quantityTextField, _topBorder, _bottomBorder);
         NSDictionary *metrics = @{
                                   @"quantityTextFieldHeight" : @(kQuantityTextFieldHeight),
                                   @"borderHeight" : @(kBorderHeight)
                                   };
         
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_topBorder(borderHeight)][_buttonsAreaBackground][_startPointTextField][_quantityTextField][_bottomBorder(borderHeight)]|" options:0 metrics:metrics views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_topBorder(borderHeight)][_buttonsAreaBackground][_startPointLabel][_quantityTextField][_bottomBorder(borderHeight)]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_buttonsAreaBackground]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_startPointTextField]|" options:0 metrics:metrics views:views]];
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_startPointLabel]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_quantityTextField]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraints:
@@ -185,7 +102,7 @@ static CGFloat const kQuantityTextFieldHeight = 30.0f;
         [self.contentView addConstraints:
          [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_bottomBorder]|" options:0 metrics:metrics views:views]];
         [self.contentView addConstraint:
-         [NSLayoutConstraint constraintWithItem:_startPointTextField attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeHeight multiplier:0.3 constant:0.0f]];
+         [NSLayoutConstraint constraintWithItem:_startPointLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeHeight multiplier:0.3 constant:0.0f]];
         [self.contentView addConstraint:
          [NSLayoutConstraint constraintWithItem:_buttonsAreaBackground attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:30.0f]];
         

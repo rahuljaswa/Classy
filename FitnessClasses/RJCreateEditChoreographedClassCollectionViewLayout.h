@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+FOUNDATION_EXPORT CGFloat kCreateEditChoreographedClassCollectionViewLayoutTickLength;
+
+
 @interface RJCreateEditChoreographedClassCollectionViewLayout : UICollectionViewLayout
 
++ (NSInteger)durationForLength:(CGFloat)length;
++ (CGFloat)lengthForDuration:(NSInteger)duration;
 + (NSInteger)startPointForOriginY:(CGFloat)originY;
 
 @end

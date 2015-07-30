@@ -29,6 +29,7 @@
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *categories))completion;
 + (void)fetchAllInstructorsWithCompletion:(void (^)(NSArray *instructors))completion;
 + (void)fetchAllEquipmentWithCompletion:(void (^)(NSArray *equipment))completion;
++ (void)fetchAllExercisesForPrimaryEquipment:(RJParseExerciseEquipment *)primaryEquipment completion:(void (^)(NSArray *exercises))completion;
 + (void)fetchAllExercisesWithCompletion:(void (^)(NSArray *exercises))completion;
 + (void)fetchAllMusclesWithCompletion:(void (^)(NSArray *muscles))completion;
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *classes))completion;

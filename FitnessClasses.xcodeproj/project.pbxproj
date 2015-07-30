@@ -51,6 +51,9 @@
 		B756B5D01B2A9EAF0088E918 /* RJParseComment.m in Sources */ = {isa = PBXBuildFile; fileRef = B756B5CF1B2A9EAF0088E918 /* RJParseComment.m */; };
 		B756B5D31B2A9EC10088E918 /* RJParseLike.m in Sources */ = {isa = PBXBuildFile; fileRef = B756B5D21B2A9EC10088E918 /* RJParseLike.m */; };
 		B756B5D61B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B756B5D51B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m */; };
+		B779F6541B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6531B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m */; };
+		B779F6571B6AD810008F4986 /* RJExerciseSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6561B6AD810008F4986 /* RJExerciseSelectorViewController.m */; };
+		B779F65A1B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6591B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m */; };
 		B77C4CE81B2B78430088393D /* RJPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CE71B2B78430088393D /* RJPlayingClassViewController.m */; };
 		B77C4CEB1B2B78540088393D /* RJClassDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CEA1B2B78540088393D /* RJClassDetailsViewController.m */; };
 		B77C4CEE1B2B86DB0088393D /* RJClassSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CED1B2B86DB0088393D /* RJClassSummaryView.m */; };
@@ -186,6 +189,12 @@
 		B756B5D21B2A9EC10088E918 /* RJParseLike.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseLike.m; sourceTree = "<group>"; };
 		B756B5D41B2B5BA50088E918 /* RJAuthenticationDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJAuthenticationDetailsViewController.h; sourceTree = "<group>"; };
 		B756B5D51B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJAuthenticationDetailsViewController.m; sourceTree = "<group>"; };
+		B779F6521B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditChoreographedClassTimeline.h; sourceTree = "<group>"; };
+		B779F6531B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditChoreographedClassTimeline.m; sourceTree = "<group>"; };
+		B779F6551B6AD810008F4986 /* RJExerciseSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseSelectorViewController.h; sourceTree = "<group>"; };
+		B779F6561B6AD810008F4986 /* RJExerciseSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseSelectorViewController.m; sourceTree = "<group>"; };
+		B779F6581B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseEquipmentOptionsViewController.h; sourceTree = "<group>"; };
+		B779F6591B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseEquipmentOptionsViewController.m; sourceTree = "<group>"; };
 		B77C4CE61B2B78430088393D /* RJPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJPlayingClassViewController.h; sourceTree = "<group>"; };
 		B77C4CE71B2B78430088393D /* RJPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJPlayingClassViewController.m; sourceTree = "<group>"; };
 		B77C4CE91B2B78540088393D /* RJClassDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJClassDetailsViewController.h; sourceTree = "<group>"; };
@@ -594,6 +603,10 @@
 				B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */,
 				B7CC27BC1B589EF30076EC41 /* RJMusclesViewController.h */,
 				B7CC27BD1B589EF30076EC41 /* RJMusclesViewController.m */,
+				B779F6581B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.h */,
+				B779F6591B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m */,
+				B779F6551B6AD810008F4986 /* RJExerciseSelectorViewController.h */,
+				B779F6561B6AD810008F4986 /* RJExerciseSelectorViewController.m */,
 			);
 			name = Create;
 			sourceTree = "<group>";
@@ -611,6 +624,8 @@
 				B7CC27D31B5C403E0076EC41 /* RJCreateEditChoreographedClassTrackCell.m */,
 				B7CC27E41B5C98670076EC41 /* RJTrackSelectorViewController.h */,
 				B7CC27E51B5C98670076EC41 /* RJTrackSelectorViewController.m */,
+				B779F6521B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.h */,
+				B779F6531B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m */,
 			);
 			name = "Choreographed Class";
 			sourceTree = "<group>";
@@ -817,6 +832,7 @@
 				B7CC27BE1B589EF30076EC41 /* RJMusclesViewController.m in Sources */,
 				B7FF38621B55EEB200083FE3 /* RJExerciseStepImageCacheEntity.m in Sources */,
 				B7FF384D1B5479D100083FE3 /* RJParseExerciseInstruction.m in Sources */,
+				B779F65A1B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m in Sources */,
 				23040EB71AFB0BE400852D94 /* RJParseUtils.m in Sources */,
 				23E63FB31B1E9BC9008C8E66 /* RJInsetLabel.m in Sources */,
 				2353FCB61AFC969500669E64 /* UIImage+RJAdditions.m in Sources */,
@@ -849,6 +865,7 @@
 				23E463EE1AF87268008194D6 /* RJImageCacheManager.m in Sources */,
 				23631A841AF86D9200E49935 /* main.m in Sources */,
 				B77C4CEE1B2B86DB0088393D /* RJClassSummaryView.m in Sources */,
+				B779F6541B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m in Sources */,
 				B7FF38471B54763100083FE3 /* RJParseExercise.m in Sources */,
 				B756B5D01B2A9EAF0088E918 /* RJParseComment.m in Sources */,
 				B77C4CE81B2B78430088393D /* RJPlayingClassViewController.m in Sources */,
@@ -866,6 +883,7 @@
 				B7F9CE591B2E146100968559 /* RJCreditsHelper.m in Sources */,
 				23040EBE1AFB11AC00852D94 /* RJParseUser.m in Sources */,
 				B756B5D61B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m in Sources */,
+				B779F6571B6AD810008F4986 /* RJExerciseSelectorViewController.m in Sources */,
 				232DC2CB1B0BBF160008308E /* RJTouchposeApplication.m in Sources */,
 				B756B5D31B2A9EC10088E918 /* RJParseLike.m in Sources */,
 				23040EA11AFADFB000852D94 /* RJGalleryViewController.m in Sources */,

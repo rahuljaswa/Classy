@@ -8,9 +8,12 @@
 
 #import "RJCreateEditChoreographedClassCollectionViewLayout.h"
 #import "RJCreateEditChoreographedClassExerciseInstructionCell.h"
+#import "RJCreateEditChoreographedClassTimeline.h"
 #import "RJCreateEditChoreographedClassViewController.h"
 #import "RJParseExerciseInstruction.h"
 #import "RJParseTrack.h"
+
+CGFloat kCreateEditChoreographedClassCollectionViewLayoutTickLength = 30.0f;
 
 static CGFloat kLengthToDurationMultiplier = 2.4f;
 static CGFloat kTopMargin = 30.0f;
@@ -28,6 +31,7 @@ static NSInteger kTrackDefaultLength = 180;
 @property (nonatomic, strong) NSArray *exerciseInstructionsAttributes;
 @property (nonatomic, strong) NSArray *instructorAttributes;
 @property (nonatomic, strong) NSArray *nameAttributes;
+@property (nonatomic, strong) NSArray *timelineAttributes;
 @property (nonatomic, strong) NSArray *tracksAttributes;
 
 @end
@@ -37,20 +41,20 @@ static NSInteger kTrackDefaultLength = 180;
 
 #pragma mark - Private Instance Methods
 
-- (NSArray *)allLayoutAttributes {
-    NSMutableArray *allLayoutAttributes = [[NSMutableArray alloc] init];
-    [allLayoutAttributes addObjectsFromArray:self.categoryAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.createAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.nameAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.instructorAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.addTracksAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.addExerciseInstructionsAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.tracksAttributes];
-    [allLayoutAttributes addObjectsFromArray:self.exerciseInstructionsAttributes];
-    return allLayoutAttributes;
+- (NSArray *)allItemLayoutAttributes {
+    NSMutableArray *allItemLayoutAttributes = [[NSMutableArray alloc] init];
+    [allItemLayoutAttributes addObjectsFromArray:self.categoryAttributes];
+    [allItemLayoutAttributes addObjectsFromArray:self.createAttributes];
+    [allItemLayoutAttributes addObjectsFromArray:self.nameAttributes];
+    [allItemLayoutAttributes addObjectsFromArray:self.instructorAttributes];
+    [allItemLayoutAttributes addObjectsFromArray:self.addTracksAttributes];
+    [allItemLayoutAttributes addObjectsFromArray:self.addExerciseInstructionsAttributes];
+    [allItemLayoutAttributes addObjectsFromArray:self.tracksAttributes];
+    [allItemLayoutAttributes addObjectsFromArray:self.exerciseInstructionsAttributes];
+    return allItemLayoutAttributes;
 }
 
-- (void)cacheItemLayoutAttributesIfNecessary {
+- (void)cacheLayoutAttributesIfNecessary {
     RJCreateEditChoreographedClassViewController *classViewController = (RJCreateEditChoreographedClassViewController *)self.collectionView.dataSource;
     if (([self.nameAttributes count] != 1) ||
         ([self.instructorAttributes count] != 1) ||
@@ -60,11 +64,11 @@ static NSInteger kTrackDefaultLength = 180;
         ([classViewController.exerciseInstructions count] != [self.exerciseInstructionsAttributes count]) ||
         ([classViewController.tracks count] != [self.tracksAttributes count]))
     {
-        [self cacheItemLayoutAttributes];
+        [self cacheLayoutAttributes];
     }
 }
 
-- (void)cacheItemLayoutAttributes {
+- (void)cacheLayoutAttributes {
     NSMutableArray *nameAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *categoryAttributes = [[NSMutableArray alloc] init];
     NSMutableArray *instructorAttributes = [[NSMutableArray alloc] init];
@@ -80,6 +84,8 @@ static NSInteger kTrackDefaultLength = 180;
     
     CGFloat tracksCellWidth = CGRectGetWidth(self.collectionView.bounds)/2.0f;
     CGFloat exerciseInstructionsCellWidth = CGRectGetWidth(self.collectionView.bounds)/2.0f;
+    
+    CGFloat tickWidthBuffer = (kCreateEditChoreographedClassCollectionViewLayoutTickLength/2.0f + 15.0f);
     
     for (NSUInteger i = 0; i < numberOfSections; i++) {
         RJCreateEditChoreographedClassViewControllerSection section = i;
@@ -127,7 +133,7 @@ static NSInteger kTrackDefaultLength = 180;
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:j inSection:section];
                     RJParseExerciseInstruction *instruction = [classViewController.exerciseInstructions objectAtIndex:j];
                     UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-                    layoutAttribute.frame = CGRectMake(tracksCellWidth, baseY + [[self class] lengthForDuration:[instruction.startPoint integerValue]], exerciseInstructionsCellWidth, [[self class] lengthForDuration:30]);
+                    layoutAttribute.frame = CGRectMake(tracksCellWidth+tickWidthBuffer, baseY + [[self class] lengthForDuration:[instruction.startPoint integerValue]], exerciseInstructionsCellWidth-tickWidthBuffer, [[self class] lengthForDuration:30]);
                     layoutAttribute.zIndex = indexPath.item;
                     [exerciseInstructionsAttributes addObject:layoutAttribute];
                 }
@@ -142,7 +148,7 @@ static NSInteger kTrackDefaultLength = 180;
                     UICollectionViewLayoutAttributes *layoutAttribute = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
                     NSInteger duration = track.length ? [track.length integerValue] : kTrackDefaultLength;
                     NSInteger lengthForDuration = [[self class] lengthForDuration:duration];
-                    layoutAttribute.frame = CGRectMake(0.0f, baseY + startPointYForTrack, tracksCellWidth, lengthForDuration);
+                    layoutAttribute.frame = CGRectMake(0.0f, baseY + startPointYForTrack, tracksCellWidth-tickWidthBuffer, lengthForDuration);
                     layoutAttribute.zIndex = indexPath.item;
                     [tracksAttributes addObject:layoutAttribute];
                     startPointYForTrack += lengthForDuration;
@@ -173,14 +179,6 @@ static NSInteger kTrackDefaultLength = 180;
 
 #pragma mark - Private Class Methods
 
-+ (NSInteger)durationForLength:(CGFloat)length {
-    return (NSInteger)(length/kLengthToDurationMultiplier);
-}
-
-+ (CGFloat)lengthForDuration:(NSInteger)duration {
-    return (((CGFloat)duration)*kLengthToDurationMultiplier);
-}
-
 + (CGFloat)yForSection:(RJCreateEditChoreographedClassViewControllerSection)section {
     if (section == kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions) {
         return [self yForSection:kRJCreateEditChoreographedClassViewControllerSectionTracks];
@@ -193,28 +191,35 @@ static NSInteger kTrackDefaultLength = 180;
 
 - (void)prepareLayout {
     [super prepareLayout];
-    [self cacheItemLayoutAttributes];
+    [self cacheLayoutAttributes];
+    self.timelineAttributes = nil;
 }
 
 - (CGSize)collectionViewContentSize {
-    [self cacheItemLayoutAttributesIfNecessary];
+    [self cacheLayoutAttributesIfNecessary];
 
     CGFloat maxY = 0.0f;
     
-    NSArray *allLayoutAttributes = [self allLayoutAttributes];
-    for (UICollectionViewLayoutAttributes *attributes in allLayoutAttributes) {
+    NSArray *allItemLayoutAttributes = [self allItemLayoutAttributes];
+    for (UICollectionViewLayoutAttributes *attributes in allItemLayoutAttributes) {
         CGFloat attributesMaxY = CGRectGetMaxY(attributes.frame);
         if (attributesMaxY > maxY) { maxY = attributesMaxY; }
     }
     
-    CGFloat height = (maxY + kBottomMargin + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom);
+    CGFloat height = [[self class] yForSection:kRJCreateEditChoreographedClassViewControllerSectionAddTrack];
+    height += [[self class] lengthForDuration:(60*60*1.5)];
+    height += kBottomMargin;
     return CGSizeMake(CGRectGetWidth(self.collectionView.bounds), height);
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
     NSMutableArray *layoutAttributes = [[NSMutableArray alloc] init];
-    NSArray *allLayoutAttributes = [self allLayoutAttributes];
-    for (UICollectionViewLayoutAttributes *attributes in allLayoutAttributes) {
+
+    UICollectionViewLayoutAttributes *timelineAttributes = [self layoutAttributesForSupplementaryViewOfKind:[RJCreateEditChoreographedClassTimeline kind] atIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    [layoutAttributes addObject:timelineAttributes];
+    
+    NSArray *allItemLayoutAttributes = [self allItemLayoutAttributes];
+    for (UICollectionViewLayoutAttributes *attributes in allItemLayoutAttributes) {
         if (CGRectIntersectsRect(rect, attributes.frame)) {
             [layoutAttributes addObject:attributes];
         }
@@ -223,11 +228,11 @@ static NSInteger kTrackDefaultLength = 180;
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self cacheItemLayoutAttributesIfNecessary];
+    [self cacheLayoutAttributesIfNecessary];
     
     UICollectionViewLayoutAttributes *attributesForIndexPath = nil;
-    NSArray *allLayoutAttributes = [self allLayoutAttributes];
-    for (UICollectionViewLayoutAttributes *attributes in allLayoutAttributes) {
+    NSArray *allItemLayoutAttributes = [self allItemLayoutAttributes];
+    for (UICollectionViewLayoutAttributes *attributes in allItemLayoutAttributes) {
         if ([attributes.indexPath isEqual:indexPath]) {
             attributesForIndexPath = attributes;
             break;
@@ -236,7 +241,30 @@ static NSInteger kTrackDefaultLength = 180;
     return attributesForIndexPath;
 }
 
+- (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewLayoutAttributes *attributes = nil;
+    if ([elementKind isEqualToString:[RJCreateEditChoreographedClassTimeline kind]]) {
+        if (!self.timelineAttributes) {
+            UICollectionViewLayoutAttributes *newAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:[RJCreateEditChoreographedClassTimeline kind] withIndexPath:indexPath];
+            CGFloat originY = [[self class] yForSection:kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions];
+            newAttributes.frame = CGRectMake(0.0f, originY, CGRectGetWidth(self.collectionView.bounds), [self collectionViewContentSize].height - originY);
+            newAttributes.zIndex = -2;
+            self.timelineAttributes = @[newAttributes];
+        }
+        attributes = [self.timelineAttributes lastObject];
+    }
+    return attributes;
+}
+
 #pragma mark - Public Class Methods
+
++ (NSInteger)durationForLength:(CGFloat)length {
+    return (NSInteger)(length/kLengthToDurationMultiplier);
+}
+
++ (CGFloat)lengthForDuration:(NSInteger)duration {
+    return (((CGFloat)duration)*kLengthToDurationMultiplier);
+}
 
 + (NSInteger)startPointForOriginY:(CGFloat)originY {
     CGFloat length = (originY - [[self class] yForSection:kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions]);

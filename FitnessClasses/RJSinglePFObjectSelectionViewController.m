@@ -18,7 +18,6 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic, strong) NSIndexPath *selectedSearchResultsIndexPath;
-@property (nonatomic, strong) PFObject *objectToSelect;
 
 @property (nonatomic, assign, getter=isSearching) BOOL searching;
 
@@ -29,18 +28,12 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 
 @implementation RJSinglePFObjectSelectionViewController
 
+@synthesize tableView = _tableView;
+
 #pragma mark - Public Properties
 
-- (PFObject *)selectedObject {
-    if (self.objects && self.selectedIndexPath) {
-        return [self.objects objectAtIndex:self.selectedIndexPath.row];
-    } else {
-        return nil;
-    }
-}
-
 - (void)setSelectedObject:(PFObject *)selectedObject {
-    _objectToSelect = selectedObject;
+    _selectedObject = selectedObject;
     if (self.objects) {
         [self selectObjectToSelectIfNecessary];
     }
@@ -56,16 +49,28 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 - (void)setSelectedIndexPath:(NSIndexPath *)selectedIndexPath {
     _selectedIndexPath = selectedIndexPath;
     _selectedSearchResultsIndexPath = [self searchResultsIndexPathForIndexPath:_selectedIndexPath];
+    _selectedObject = self.objects[selectedIndexPath.row];
 }
 
 - (void)setSelectedSearchResultsIndexPath:(NSIndexPath *)selectedSearchResultsIndexPath {
     _selectedSearchResultsIndexPath = selectedSearchResultsIndexPath;
     _selectedIndexPath = [self indexPathForSearchResultsIndexPath:_selectedSearchResultsIndexPath];
+    _selectedObject = self.objects[selectedSearchResultsIndexPath.row];
 }
 
 - (void)setSearchResults:(NSArray *)searchResults {
     _searchResults = searchResults;
     _selectedSearchResultsIndexPath = [self searchResultsIndexPathForIndexPath:self.selectedIndexPath];
+}
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        _tableView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+    }
+    return _tableView;
 }
 
 #pragma mark - Private Protocols - UISearchBarDelegate
@@ -144,7 +149,10 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
         previouslySelectedCell = [tableView cellForRowAtIndexPath:self.selectedIndexPath];
         self.selectedIndexPath = indexPath;
     }
-    previouslySelectedCell.accessoryType = UITableViewCellAccessoryNone;
+    
+    if (![cell isEqual:previouslySelectedCell]) {
+        previouslySelectedCell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     if ([self.delegate respondsToSelector:@selector(singleSelectionViewController:didSelectObject:)]) {
         [self.delegate singleSelectionViewController:self didSelectObject:self.objects[self.selectedIndexPath.row]];
@@ -164,14 +172,13 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 }
 
 - (void)selectObjectToSelectIfNecessary {
-    if (self.objectToSelect && self.objects) {
+    if (self.selectedObject && self.objects) {
         NSInteger numberOfObjects = [self.objects count];
         for (NSInteger i = 0; i < numberOfObjects; i++) {
             PFObject *object = self.objects[i];
-            if ([object.objectId isEqualToString:self.objectToSelect.objectId]) {
+            if ([object.objectId isEqualToString:self.selectedObject.objectId]) {
                 self.selectedIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
                 [self.tableView reloadData];
-                self.objectToSelect = nil;
                 
                 if ([self.delegate respondsToSelector:@selector(singleSelectionViewController:didSelectObject:)]) {
                     [self.delegate singleSelectionViewController:self didSelectObject:self.objects[self.selectedIndexPath.row]];
@@ -179,6 +186,10 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
                 break;
             }
         }
+    } else if (self.objects && self.selectedIndexPath) {
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.selectedIndexPath];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        self.selectedIndexPath = nil;
     }
 }
 
@@ -211,6 +222,11 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
 }
 
 #pragma mark - Public Instance Methods
+
+- (void)loadView {
+    self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [self.view addSubview:self.tableView];
+}
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];

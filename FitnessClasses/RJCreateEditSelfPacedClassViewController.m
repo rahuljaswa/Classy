@@ -8,6 +8,7 @@
 
 #import "RJCreateEditSelfPacedClassViewController.h"
 #import "RJCreateEditSelfPacedExerciseInstructionCell.h"
+#import "RJExerciseSelectorViewController.h"
 #import "RJInsetLabel.h"
 #import "RJSinglePFObjectSelectionViewController.h"
 #import "RJLabelCell.h"
@@ -40,6 +41,7 @@ typedef NS_ENUM(NSInteger, Section) {
 @interface RJCreateEditSelfPacedClassViewController () <RJCreateEditSelfPacedExerciseInstructionCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
 
 @property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *categoryViewController;
+@property (nonatomic, strong, readonly) RJExerciseSelectorViewController *exerciseViewController;
 @property (nonatomic, strong, readonly) NSMutableArray *exerciseInstructions;
 @property (nonatomic, strong) NSArray *exercises;
 
@@ -51,6 +53,7 @@ typedef NS_ENUM(NSInteger, Section) {
 @implementation RJCreateEditSelfPacedClassViewController
 
 @synthesize categoryViewController = _categoryViewController;
+@synthesize exerciseViewController = _exerciseViewController;
 
 #pragma mark - Public Properties
 
@@ -74,6 +77,15 @@ typedef NS_ENUM(NSInteger, Section) {
         }];
     }
     return _categoryViewController;
+}
+
+- (RJExerciseSelectorViewController *)exerciseViewController {
+    if (!_exerciseViewController) {
+        _exerciseViewController = [[RJExerciseSelectorViewController alloc] init];
+        _exerciseViewController.incrementalSearchEnabled = YES;
+        _exerciseViewController.delegate = self;
+    }
+    return _exerciseViewController;
 }
 
 #pragma mark - Private Protocols - RJSingleSelectionViewControllerDelegate
@@ -432,19 +444,9 @@ typedef NS_ENUM(NSInteger, Section) {
 }
 
 - (void)createEditSelfPacedExerciseInstructionCellExerciseButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {
-    RJSinglePFObjectSelectionViewController *exerciseViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
-    exerciseViewController.incrementalSearchEnabled = YES;
-    exerciseViewController.view.tag = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
-    exerciseViewController.dataSource = self;
-    exerciseViewController.delegate = self;
-    if (self.exercises) {
-        exerciseViewController.objects = self.exercises;
-    } else {
-        [RJParseUtils fetchAllExercisesWithCompletion:^(NSArray *exercises) {
-            exerciseViewController.objects = exercises;
-        }];
-    }
-    [[self navigationController] pushViewController:exerciseViewController animated:YES];
+    self.exerciseViewController.view.tag = [self.exerciseInstructions indexOfObject:cell.exerciseInstruction];
+    self.exerciseViewController.selectedObject = cell.exerciseInstruction.exercise;
+    [[self navigationController] pushViewController:self.exerciseViewController animated:YES];
 }
 
 - (void)createEditSelfPacedExerciseInstructionCellUpButtonPressed:(RJCreateEditSelfPacedExerciseInstructionCell *)cell {

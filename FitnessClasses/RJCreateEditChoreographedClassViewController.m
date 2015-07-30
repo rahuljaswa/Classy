@@ -9,8 +9,10 @@
 #import "NSString+Temporal.h"
 #import "RJCreateEditChoreographedClassCollectionViewLayout.h"
 #import "RJCreateEditChoreographedClassExerciseInstructionCell.h"
+#import "RJCreateEditChoreographedClassTimeline.h"
 #import "RJCreateEditChoreographedClassViewController.h"
 #import "RJCreateEditChoreographedClassTrackCell.h"
+#import "RJExerciseSelectorViewController.h"
 #import "RJInsetLabel.h"
 #import "RJLabelCell.h"
 #import "RJParseExercise.h"
@@ -29,13 +31,14 @@
 
 static NSString *const kLabelCellID = @"LabelCellID";
 static NSString *const kExerciseInstructionCellID = @"ExerciseInstructionCellID";
+static NSString *const kTimelineReusableViewID = @"TimelineReusableViewID";
 static NSString *const kTrackCellID = @"TrackCellID";
 
 
 @interface RJCreateEditChoreographedClassViewController () <RJCreateEditChoreographedClassExerciseInstructionCellDelegate, RJCreateChoreographedClassTrackCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *categoryViewController;
-@property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *exerciseViewController;
+@property (nonatomic, strong, readonly) RJExerciseSelectorViewController *exerciseViewController;
 @property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *instructorViewController;
 
 @property (nonatomic, strong) NSIndexPath *movingIndexPath;
@@ -80,15 +83,11 @@ static NSString *const kTrackCellID = @"TrackCellID";
     return _categoryViewController;
 }
 
-- (RJSinglePFObjectSelectionViewController *)exerciseViewController {
+- (RJExerciseSelectorViewController *)exerciseViewController {
     if (!_exerciseViewController) {
-        _exerciseViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
+        _exerciseViewController = [[RJExerciseSelectorViewController alloc] init];
         _exerciseViewController.incrementalSearchEnabled = YES;
         _exerciseViewController.delegate = self;
-        _exerciseViewController.dataSource = self;
-        [RJParseUtils fetchAllExercisesWithCompletion:^(NSArray *exercises) {
-            _exerciseViewController.objects = exercises;
-        }];
     }
     return _exerciseViewController;
 }
@@ -191,6 +190,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
 
 - (void)createEditChoreographedClassExerciseInstructionCellDidPressExerciseButton:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell {
     self.exerciseViewController.view.tag = [self.exerciseInstructions indexOfObject:cell.instruction];
+    self.exerciseViewController.selectedObject = cell.instruction.exercise;
     [[self navigationController] pushViewController:self.exerciseViewController animated:YES];
 }
 
@@ -200,13 +200,6 @@ static NSString *const kTrackCellID = @"TrackCellID";
         [self.exerciseInstructions removeObjectAtIndex:index];
         [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:kRJCreateEditChoreographedClassViewControllerSectionExerciseInstructions]]];
     }
-}
-
-- (void)createEditChoreographedClassExerciseInstructionCellStartPointDidChange:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell {
-    NSUInteger index = [self.exerciseInstructions indexOfObject:cell.instruction];
-    RJParseExerciseInstruction *exerciseInstruction = self.exerciseInstructions[index];
-    [exerciseInstruction setRoundableStartPoint:@(cell.startPoint)];
-    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)createEditChoreographedClassExerciseInstructionCellQuantityTextFieldDidChange:(RJCreateEditChoreographedClassExerciseInstructionCell *)cell {
@@ -451,6 +444,24 @@ static NSString *const kTrackCellID = @"TrackCellID";
     return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *reusableView = nil;
+    if ([kind isEqualToString:[RJCreateEditChoreographedClassTimeline kind]]) {
+        RJStyleManager *styleManager = [RJStyleManager sharedInstance];
+        
+        RJCreateEditChoreographedClassTimeline *timeline = [collectionView dequeueReusableSupplementaryViewOfKind:[RJCreateEditChoreographedClassTimeline kind] withReuseIdentifier:kTimelineReusableViewID forIndexPath:indexPath];
+        timeline.backgroundColor = [UIColor clearColor];
+        timeline.tintColor = styleManager.themeTextColor;
+        timeline.labelColor = styleManager.themeBackgroundColor;
+        timeline.labelBackgroundColor = styleManager.themeTextColor;
+        timeline.font = styleManager.verySmallBoldFont;
+        timeline.labelInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
+        [timeline setNeedsDisplay];
+        reusableView = timeline;
+    }
+    return reusableView;
+}
+
 #pragma mark - Private Protocols - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -603,8 +614,9 @@ static NSString *const kTrackCellID = @"TrackCellID";
     instructionCell.duplicateButton.contentMode = UIViewContentModeScaleAspectFit;
     instructionCell.duplicateButton.tintColor = styleManager.themeTextColor;
     instructionCell.duplicateButton.contentEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
-    instructionCell.startPointTextField.textAlignment = NSTextAlignmentCenter;
-    instructionCell.startPointTextField.font = styleManager.smallFont;
+    instructionCell.startPointLabel.textAlignment = NSTextAlignmentCenter;
+    instructionCell.startPointLabel.font = styleManager.smallFont;
+    instructionCell.startPointLabel.textColor = styleManager.themeTextColor;
     instructionCell.backgroundView.backgroundColor = [self colorForObject:instruction];
 }
 
@@ -653,7 +665,11 @@ static NSString *const kTrackCellID = @"TrackCellID";
             RJCreateEditChoreographedClassExerciseInstructionCell *movingCell = (RJCreateEditChoreographedClassExerciseInstructionCell *)[self.collectionView cellForItemAtIndexPath:self.movingIndexPath];
             self.movingCellSnapshot = [[RJCreateEditChoreographedClassExerciseInstructionCell alloc] initWithFrame:movingCell.frame];
             [self configureCreateEditExerciseInstructionCell:self.movingCellSnapshot atIndexPath:self.movingIndexPath];
-            self.movingCellSnapshot.alpha = 0.6f;
+            
+            CGFloat alphaForMoving = 0.4f;
+            movingCell.alpha = alphaForMoving;
+            self.movingCellSnapshot.alpha = alphaForMoving;
+            
             [self.collectionView addSubview:self.movingCellSnapshot];
         } else {
             self.movingIndexPath = nil;
@@ -662,16 +678,18 @@ static NSString *const kTrackCellID = @"TrackCellID";
         CGPoint location = [longPressGestureRecognizer locationInView:self.collectionView];
         RJParseExerciseInstruction *instruction = self.exerciseInstructions[self.movingIndexPath.item];
         [instruction setRoundableStartPoint:@([RJCreateEditChoreographedClassCollectionViewLayout startPointForOriginY:location.y])];
+        RJCreateEditChoreographedClassExerciseInstructionCell *movingCell = (RJCreateEditChoreographedClassExerciseInstructionCell *)[self.collectionView cellForItemAtIndexPath:self.movingIndexPath];
+        movingCell.alpha = 1.0f;
+        self.movingIndexPath = nil;
         [self.collectionView reloadData];
         [self.collectionView.collectionViewLayout invalidateLayout];
         [self.movingCellSnapshot removeFromSuperview];
-        self.movingIndexPath = nil;
         self.movingCellSnapshot = nil;
     } else if ((longPressGestureRecognizer.state == UIGestureRecognizerStateChanged) && self.movingIndexPath) {
         CGRect movingCellSnapshotFrame = self.movingCellSnapshot.frame;
         movingCellSnapshotFrame.origin.y = [longPressGestureRecognizer locationInView:self.collectionView].y;
         NSInteger duration = [RJCreateEditChoreographedClassCollectionViewLayout startPointForOriginY:CGRectGetMinY(movingCellSnapshotFrame)];
-        self.movingCellSnapshot.startPointTextField.text = [NSString hhmmaaForTotalSeconds:duration];
+        self.movingCellSnapshot.startPointLabel.text = [NSString hhmmaaForTotalSeconds:duration];
         self.movingCellSnapshot.frame = movingCellSnapshotFrame;
         
         CGFloat topOfScreen = self.collectionView.contentOffset.y;
@@ -726,6 +744,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
     
     self.navigationItem.title = [NSLocalizedString(@"Create Workout", nil) uppercaseString];
     
+    [self.collectionView registerClass:[RJCreateEditChoreographedClassTimeline class] forSupplementaryViewOfKind:[RJCreateEditChoreographedClassTimeline kind] withReuseIdentifier:kTimelineReusableViewID];
     [self.collectionView registerClass:[RJLabelCell class] forCellWithReuseIdentifier:kLabelCellID];
     [self.collectionView registerClass:[RJCreateEditChoreographedClassExerciseInstructionCell class] forCellWithReuseIdentifier:kExerciseInstructionCellID];
     [self.collectionView registerClass:[RJCreateEditChoreographedClassTrackCell class] forCellWithReuseIdentifier:kTrackCellID];
@@ -733,9 +752,10 @@ static NSString *const kTrackCellID = @"TrackCellID";
     self.collectionView.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
     self.collectionView.bounces = YES;
     self.collectionView.alwaysBounceVertical = YES;
+    self.collectionView.showsVerticalScrollIndicator = NO;
     
     UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureRecognized:)];
-    longPressGestureRecognizer.minimumPressDuration = 0.3;
+    longPressGestureRecognizer.minimumPressDuration = 0.2;
     longPressGestureRecognizer.delegate = self;
     [self.collectionView addGestureRecognizer:longPressGestureRecognizer];
 }
