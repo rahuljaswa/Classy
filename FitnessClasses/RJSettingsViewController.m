@@ -7,9 +7,7 @@
 //
 
 #import "RJAuthenticationViewController.h"
-#import "RJCreateEditChoreographedClassViewController.h"
-#import "RJCreateExerciseViewController.h"
-#import "RJCreateEditSelfPacedClassViewController.h"
+#import "RJCreatableObjectsViewController.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJSettingsViewController.h"
@@ -262,28 +260,8 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
 #pragma mark - Private Instance Methods
 
 - (void)createButtonPressed:(UIBarButtonItem *)barButtonItem {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    [alertController addAction:
-     [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
-    
-    [alertController addAction:
-     [UIAlertAction actionWithTitle:NSLocalizedString(@"New Exercise", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        RJCreateExerciseViewController *createViewController = [[RJCreateExerciseViewController alloc] init];
-        [[self navigationController] pushViewController:createViewController animated:YES];
-    }]];
-    [alertController addAction:
-     [UIAlertAction actionWithTitle:NSLocalizedString(@"New Self-Paced Workout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        RJCreateEditSelfPacedClassViewController *createViewController = [[RJCreateEditSelfPacedClassViewController alloc] init];
-        [[self navigationController] pushViewController:createViewController animated:YES];
-    }]];
-    [alertController addAction:
-     [UIAlertAction actionWithTitle:NSLocalizedString(@"New Choreographed Workout", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        RJCreateEditChoreographedClassViewController *createViewController = [[RJCreateEditChoreographedClassViewController alloc] init];
-        [[self navigationController] pushViewController:createViewController animated:YES];
-    }]];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
+    RJCreatableObjectsViewController *creatableObjectsViewController = [[RJCreatableObjectsViewController alloc] init];
+    [[self navigationController] pushViewController:creatableObjectsViewController animated:YES];
 }
 
 #pragma mark - Public Instance Methods

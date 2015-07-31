@@ -7,6 +7,7 @@
 //
 
 #import "NSString+Temporal.h"
+#import "RJCategorySelectorViewController.h"
 #import "RJCreateEditChoreographedClassCollectionViewLayout.h"
 #import "RJCreateEditChoreographedClassExerciseInstructionCell.h"
 #import "RJCreateEditChoreographedClassTimeline.h"
@@ -14,13 +15,13 @@
 #import "RJCreateEditChoreographedClassTrackCell.h"
 #import "RJExerciseSelectorViewController.h"
 #import "RJInsetLabel.h"
+#import "RJInstructorSelectorViewController.h"
 #import "RJLabelCell.h"
 #import "RJParseExercise.h"
 #import "RJParseExerciseInstruction.h"
 #import "RJParseTrack.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
-#import "RJSinglePFObjectSelectionViewController.h"
 #import "RJSoundCloudAPIClient.h"
 #import "RJSoundCloudTrack.h"
 #import "RJStyleManager.h"
@@ -35,11 +36,11 @@ static NSString *const kTimelineReusableViewID = @"TimelineReusableViewID";
 static NSString *const kTrackCellID = @"TrackCellID";
 
 
-@interface RJCreateEditChoreographedClassViewController () <RJCreateEditChoreographedClassExerciseInstructionCellDelegate, RJCreateChoreographedClassTrackCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate>
+@interface RJCreateEditChoreographedClassViewController () <RJCreateEditChoreographedClassExerciseInstructionCellDelegate, RJCreateChoreographedClassTrackCellDelegate, RJSingleSelectionViewControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate>
 
-@property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *categoryViewController;
+@property (nonatomic, strong, readonly) RJCategorySelectorViewController *categoryViewController;
 @property (nonatomic, strong, readonly) RJExerciseSelectorViewController *exerciseViewController;
-@property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *instructorViewController;
+@property (nonatomic, strong, readonly) RJInstructorSelectorViewController *instructorViewController;
 
 @property (nonatomic, strong) NSIndexPath *movingIndexPath;
 @property (nonatomic, strong) RJCreateEditChoreographedClassExerciseInstructionCell *movingCellSnapshot;
@@ -70,15 +71,11 @@ static NSString *const kTrackCellID = @"TrackCellID";
 
 #pragma mark - Private Properties
 
-- (RJSinglePFObjectSelectionViewController *)categoryViewController {
+- (RJCategorySelectorViewController *)categoryViewController {
     if (!_categoryViewController) {
-        _categoryViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
+        _categoryViewController = [[RJCategorySelectorViewController alloc] init];
         _categoryViewController.incrementalSearchEnabled = YES;
         _categoryViewController.delegate = self;
-        _categoryViewController.dataSource = self;
-        [RJParseUtils fetchAllCategoriesWithCompletion:^(NSArray *equipment) {
-            _categoryViewController.objects = equipment;
-        }];
     }
     return _categoryViewController;
 }
@@ -92,15 +89,11 @@ static NSString *const kTrackCellID = @"TrackCellID";
     return _exerciseViewController;
 }
 
-- (RJSinglePFObjectSelectionViewController *)instructorViewController {
+- (RJInstructorSelectorViewController *)instructorViewController {
     if (!_instructorViewController) {
-        _instructorViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
+        _instructorViewController = [[RJInstructorSelectorViewController alloc] init];
         _instructorViewController.incrementalSearchEnabled = YES;
         _instructorViewController.delegate = self;
-        _instructorViewController.dataSource = self;
-        [RJParseUtils fetchAllInstructorsWithCompletion:^(NSArray *instructors) {
-            _instructorViewController.objects = instructors;
-        }];
     }
     return _instructorViewController;
 }
@@ -135,39 +128,6 @@ static NSString *const kTrackCellID = @"TrackCellID";
         instruction.exercise = (RJParseExercise *)object;
         [self.collectionView reloadData];
     }
-}
-
-#pragma mark - Private Protocols - RJSingleSelectionViewControllerDataSource
-
-- (NSString *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController titleForObject:(NSObject *)object {
-    if (viewController == self.instructorViewController) {
-        RJParseUser *instructor = (RJParseUser *)object;
-        return instructor.name;
-    } else if (viewController == self.categoryViewController) {
-        RJParseCategory *category = (RJParseCategory *)object;
-        return category.name;
-    } else {
-        RJParseExercise *exercise = (RJParseExercise *)object;
-        return exercise.title;
-    }
-}
-
-- (NSArray *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController resultsForSearchString:(NSString *)searchString objects:(NSArray *)objects {
-    NSIndexSet *matchingIndexes = [objects indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *string = nil;
-        if (viewController == self.categoryViewController) {
-            RJParseCategory *category = obj;
-            string = category.name;
-        } else if (viewController == self.instructorViewController) {
-            RJParseUser *instructor = obj;
-            string = instructor.name;
-        } else {
-            RJParseExercise *exercise = obj;
-            string = exercise.title;
-        }
-        return ([string rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound);
-    }];
-    return [objects objectsAtIndexes:matchingIndexes];
 }
 
 #pragma mark - Private Protocols - RJCreateEditChoreographedClassExerciseInstructionCellDelegate

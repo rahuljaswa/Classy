@@ -17,6 +17,7 @@
 @dynamic creditPurchases;
 @dynamic creditsAvailable;
 @dynamic facebookCreditEarnDates;
+@dynamic instructor;
 @dynamic name;
 @dynamic profilePicture;
 @dynamic showAllEarnCreditsOptions;

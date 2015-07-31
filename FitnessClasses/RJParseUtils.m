@@ -68,6 +68,19 @@
 
 #pragma mark - Public Class Methods - Creating
 
++ (void)createCategoryWithName:(NSString *)name completion:(void (^)(BOOL))completion {
+    RJParseCategory *category = [RJParseCategory object];
+    category.name = name;
+    [category saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSLog(@"Error creating category\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(succeeded);
+        }
+    }];
+}
+
 + (void)createExerciseWithName:(NSString *)name primaryEquipment:(RJParseExerciseEquipment *)primaryEquipment primaryMuscles:(NSArray *)primaryMuscles secondaryMuscles:(NSArray *)secondaryMuscles completion:(void (^)(BOOL))completion {
     RJParseExercise *exercise = [RJParseExercise object];
     exercise.title = name;
@@ -95,6 +108,29 @@
     [class saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error creating class\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(succeeded);
+        }
+    }];
+}
+
++ (void)createInstructorWithName:(NSString *)name completion:(void (^)(BOOL))completion {
+    RJParseUser *instructor = [RJParseUser object];
+    instructor.name = name;
+
+    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+    NSMutableString *password = [NSMutableString stringWithCapacity:20];
+    for (NSUInteger i = 0U; i < 10; i++) {
+        u_int32_t r = arc4random() % [alphabet length];
+        unichar c = [alphabet characterAtIndex:r];
+        [password appendFormat:@"%C", c];
+    }
+    instructor.password = password;
+    instructor.instructor = YES;
+    [instructor saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSLog(@"Error creating instructor\n\n%@", [error localizedDescription]);
         }
         if (completion) {
             completion(succeeded);

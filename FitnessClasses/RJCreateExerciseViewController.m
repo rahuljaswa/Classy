@@ -269,11 +269,7 @@ typedef NS_ENUM(NSInteger, MusclesSectionItem) {
 #pragma mark - Private Protocols - UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    if (collectionView == self.collectionView) {
-        return UIEdgeInsetsMake(30.0f, 0.0f, 10.0f, 0.0f);
-    } else {
-        return UIEdgeInsetsZero;
-    }
+    return UIEdgeInsetsMake(30.0f, 0.0f, 10.0f, 0.0f);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
+#import "RJCategorySelectorViewController.h"
 #import "RJCreateEditSelfPacedClassViewController.h"
 #import "RJCreateEditSelfPacedExerciseInstructionCell.h"
 #import "RJExerciseSelectorViewController.h"
@@ -38,14 +39,15 @@ typedef NS_ENUM(NSInteger, Section) {
 };
 
 
-@interface RJCreateEditSelfPacedClassViewController () <RJCreateEditSelfPacedExerciseInstructionCellDelegate, RJSingleSelectionViewControllerDataSource, RJSingleSelectionViewControllerDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
+@interface RJCreateEditSelfPacedClassViewController () <RJCreateEditSelfPacedExerciseInstructionCellDelegate, RJSingleSelectionViewControllerDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
 
-@property (nonatomic, strong, readonly) RJSinglePFObjectSelectionViewController *categoryViewController;
+@property (nonatomic, strong, readonly) RJCategorySelectorViewController *categoryViewController;
 @property (nonatomic, strong, readonly) RJExerciseSelectorViewController *exerciseViewController;
 @property (nonatomic, strong, readonly) NSMutableArray *exerciseInstructions;
 @property (nonatomic, strong) NSArray *exercises;
 
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) RJParseCategory *category;
 
 @end
 
@@ -67,14 +69,11 @@ typedef NS_ENUM(NSInteger, Section) {
 
 #pragma mark - Private Properties
 
-- (RJSinglePFObjectSelectionViewController *)categoryViewController {
+- (RJCategorySelectorViewController *)categoryViewController {
     if (!_categoryViewController) {
-        _categoryViewController = [[RJSinglePFObjectSelectionViewController alloc] init];
+        _categoryViewController = [[RJCategorySelectorViewController alloc] init];
         _categoryViewController.incrementalSearchEnabled = YES;
-        _categoryViewController.dataSource = self;
-        [RJParseUtils fetchAllCategoriesWithCompletion:^(NSArray *equipment) {
-            _categoryViewController.objects = equipment;
-        }];
+        _categoryViewController.delegate = self;
     }
     return _categoryViewController;
 }
@@ -92,35 +91,12 @@ typedef NS_ENUM(NSInteger, Section) {
 
 - (void)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController didSelectObject:(NSObject *)object {
     RJParseExerciseInstruction *instruction = self.exerciseInstructions[viewController.view.tag];
-    instruction.exercise = (RJParseExercise *)object;
-    [self.collectionView reloadData];
-}
-
-#pragma mark - Private Protocols - RJSingleSelectionViewControllerDataSource
-
-- (NSString *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController titleForObject:(NSObject *)object {
     if (viewController == self.categoryViewController) {
-        RJParseCategory *category = (RJParseCategory *)object;
-        return category.name;
+        self.category = (RJParseCategory *)object;
     } else {
-        RJParseExercise *exercise = (RJParseExercise *)object;
-        return exercise.title;
+        instruction.exercise = (RJParseExercise *)object;
     }
-}
-
-- (NSArray *)singleSelectionViewController:(RJSinglePFObjectSelectionViewController *)viewController resultsForSearchString:(NSString *)searchString objects:(NSArray *)objects {
-    NSIndexSet *matchingIndexes = [objects indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *string = nil;
-        if (viewController == self.categoryViewController) {
-            RJParseCategory *category = obj;
-            string = category.name;
-        } else {
-            RJParseExercise *exercise = obj;
-            string = exercise.title;
-        }
-        return ([string rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound);
-    }];
-    return [objects objectsAtIndexes:matchingIndexes];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - Private Protocols - UITextFieldDelegate
@@ -187,7 +163,7 @@ typedef NS_ENUM(NSInteger, Section) {
         case kSectionCategory: {
             RJLabelCell *labelCell = (RJLabelCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kLabelCellID forIndexPath:indexPath];
             labelCell.style = kRJLabelCellStyleTextLabel;
-            labelCell.textLabel.text = NSLocalizedString(@"Category", nil);
+            labelCell.textLabel.text = self.category ? self.category.name : NSLocalizedString(@"Category", nil);
             labelCell.textLabel.insets = UIEdgeInsetsMake(0.0f, 10.0f, 0.0f, 20.0f);
             labelCell.textLabel.textAlignment = NSTextAlignmentLeft;
             labelCell.accessoryView.image = [UIImage imageNamed:@"forwardIcon"];

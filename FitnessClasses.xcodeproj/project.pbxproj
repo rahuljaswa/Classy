@@ -62,6 +62,11 @@
 		B77C4CF71B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF61B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m */; };
 		B77C4CFA1B2BACC60088393D /* UINavigationItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */; };
 		B77C4CFD1B2BBD900088393D /* RJHomeTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */; };
+		B788CFE31B6BF8AF00772E6B /* RJCategorySelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFE21B6BF8AF00772E6B /* RJCategorySelectorViewController.m */; };
+		B788CFE61B6BFA1800772E6B /* RJCreateCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFE51B6BFA1800772E6B /* RJCreateCategoryViewController.m */; };
+		B788CFE91B6BFA5E00772E6B /* RJCreateInstructorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFE81B6BFA5E00772E6B /* RJCreateInstructorViewController.m */; };
+		B788CFEC1B6C01ED00772E6B /* RJInstructorSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFEB1B6C01ED00772E6B /* RJInstructorSelectorViewController.m */; };
+		B788CFEF1B6C036D00772E6B /* RJCreatableObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFEE1B6C036D00772E6B /* RJCreatableObjectsViewController.m */; };
 		B7CC27B81B58905C0076EC41 /* RJCreateExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */; };
 		B7CC27BB1B5891BE0076EC41 /* RJLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27BA1B5891BE0076EC41 /* RJLabelCell.m */; };
 		B7CC27BE1B589EF30076EC41 /* RJMusclesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27BD1B589EF30076EC41 /* RJMusclesViewController.m */; };
@@ -211,6 +216,16 @@
 		B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+RJAdditions.m"; sourceTree = "<group>"; };
 		B77C4CFB1B2BBD900088393D /* RJHomeTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeTitleView.h; sourceTree = "<group>"; };
 		B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeTitleView.m; sourceTree = "<group>"; };
+		B788CFE11B6BF8AF00772E6B /* RJCategorySelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCategorySelectorViewController.h; sourceTree = "<group>"; };
+		B788CFE21B6BF8AF00772E6B /* RJCategorySelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCategorySelectorViewController.m; sourceTree = "<group>"; };
+		B788CFE41B6BFA1800772E6B /* RJCreateCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateCategoryViewController.h; sourceTree = "<group>"; };
+		B788CFE51B6BFA1800772E6B /* RJCreateCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateCategoryViewController.m; sourceTree = "<group>"; };
+		B788CFE71B6BFA5E00772E6B /* RJCreateInstructorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateInstructorViewController.h; sourceTree = "<group>"; };
+		B788CFE81B6BFA5E00772E6B /* RJCreateInstructorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateInstructorViewController.m; sourceTree = "<group>"; };
+		B788CFEA1B6C01ED00772E6B /* RJInstructorSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJInstructorSelectorViewController.h; sourceTree = "<group>"; };
+		B788CFEB1B6C01ED00772E6B /* RJInstructorSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJInstructorSelectorViewController.m; sourceTree = "<group>"; };
+		B788CFED1B6C036D00772E6B /* RJCreatableObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreatableObjectsViewController.h; sourceTree = "<group>"; };
+		B788CFEE1B6C036D00772E6B /* RJCreatableObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreatableObjectsViewController.m; sourceTree = "<group>"; };
 		B7CC27B61B58905C0076EC41 /* RJCreateExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateExerciseViewController.h; sourceTree = "<group>"; };
 		B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateExerciseViewController.m; sourceTree = "<group>"; };
 		B7CC27B91B5891BE0076EC41 /* RJLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJLabelCell.h; sourceTree = "<group>"; };
@@ -595,18 +610,28 @@
 			isa = PBXGroup;
 			children = (
 				B7CC27CE1B5C3F800076EC41 /* Choreographed Class */,
+				B788CFE11B6BF8AF00772E6B /* RJCategorySelectorViewController.h */,
+				B788CFE21B6BF8AF00772E6B /* RJCategorySelectorViewController.m */,
+				B788CFED1B6C036D00772E6B /* RJCreatableObjectsViewController.h */,
+				B788CFEE1B6C036D00772E6B /* RJCreatableObjectsViewController.m */,
+				B788CFE41B6BFA1800772E6B /* RJCreateCategoryViewController.h */,
+				B788CFE51B6BFA1800772E6B /* RJCreateCategoryViewController.m */,
+				B788CFE71B6BFA5E00772E6B /* RJCreateInstructorViewController.h */,
+				B788CFE81B6BFA5E00772E6B /* RJCreateInstructorViewController.m */,
 				B7CC27CB1B58CFE70076EC41 /* RJCreateEditSelfPacedClassViewController.h */,
 				B7CC27CC1B58CFE70076EC41 /* RJCreateEditSelfPacedClassViewController.m */,
 				B7CC27C81B58CC800076EC41 /* RJCreateEditSelfPacedExerciseInstructionCell.h */,
 				B7CC27C91B58CC800076EC41 /* RJCreateEditSelfPacedExerciseInstructionCell.m */,
 				B7CC27B61B58905C0076EC41 /* RJCreateExerciseViewController.h */,
 				B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */,
-				B7CC27BC1B589EF30076EC41 /* RJMusclesViewController.h */,
-				B7CC27BD1B589EF30076EC41 /* RJMusclesViewController.m */,
 				B779F6581B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.h */,
 				B779F6591B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m */,
 				B779F6551B6AD810008F4986 /* RJExerciseSelectorViewController.h */,
 				B779F6561B6AD810008F4986 /* RJExerciseSelectorViewController.m */,
+				B788CFEA1B6C01ED00772E6B /* RJInstructorSelectorViewController.h */,
+				B788CFEB1B6C01ED00772E6B /* RJInstructorSelectorViewController.m */,
+				B7CC27BC1B589EF30076EC41 /* RJMusclesViewController.h */,
+				B7CC27BD1B589EF30076EC41 /* RJMusclesViewController.m */,
 			);
 			name = Create;
 			sourceTree = "<group>";
@@ -824,7 +849,9 @@
 				B7CC27DA1B5C478F0076EC41 /* RJCreateEditChoreographedClassViewController.m in Sources */,
 				2333869C1AFD506A00181446 /* RJGalleryCellAccessoriesView.m in Sources */,
 				2356ECF71B1FA02200DB5B66 /* RJMixpanelConstants.m in Sources */,
+				B788CFEF1B6C036D00772E6B /* RJCreatableObjectsViewController.m in Sources */,
 				B7FF38691B57368F00083FE3 /* RJTutorialCollectionViewCell.m in Sources */,
+				B788CFEC1B6C01ED00772E6B /* RJInstructorSelectorViewController.m in Sources */,
 				B7FF385F1B55EB1E00083FE3 /* RJExerciseStepCell.m in Sources */,
 				B7CC27E61B5C98670076EC41 /* RJTrackSelectorViewController.m in Sources */,
 				2353FCB91AFCAFD700669E64 /* RJClassImageCacheEntity.m in Sources */,
@@ -842,6 +869,7 @@
 				B7EC6DB51B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m in Sources */,
 				B755BBF21B5D7C3F002BAE31 /* UIColor+RJAdditions.m in Sources */,
 				B7CC27C11B589F260076EC41 /* RJSinglePFObjectSelectionViewController.m in Sources */,
+				B788CFE31B6BF8AF00772E6B /* RJCategorySelectorViewController.m in Sources */,
 				23631A871AF86D9200E49935 /* AppDelegate.m in Sources */,
 				23040EA71AFAE01D00852D94 /* UIImageView+FastImageCache.m in Sources */,
 				B7CC27D41B5C403E0076EC41 /* RJCreateEditChoreographedClassTrackCell.m in Sources */,
@@ -857,6 +885,7 @@
 				B7CC27C41B58A0030076EC41 /* RJParseExerciseEquipment.m in Sources */,
 				B77C4CEB1B2B78540088393D /* RJClassDetailsViewController.m in Sources */,
 				2333869F1AFD5AA200181446 /* NSString+Temporal.m in Sources */,
+				B788CFE61B6BFA1800772E6B /* RJCreateCategoryViewController.m in Sources */,
 				B756B5CA1B2A5F550088E918 /* RJAuthenticationViewController.m in Sources */,
 				B7FF38651B57367600083FE3 /* RJTutorialViewController.m in Sources */,
 				B7FF385B1B55EAE900083FE3 /* RJExerciseStepsViewController.m in Sources */,
@@ -872,6 +901,7 @@
 				2353FCBC1AFCB17500669E64 /* RJGalleryCell+FastImageCache.m in Sources */,
 				2353FCA91AFC537B00669E64 /* RJHomeNavigationViewController.m in Sources */,
 				B7FF386C1B577DDD00083FE3 /* RJUserDefaults.m in Sources */,
+				B788CFE91B6BFA5E00772E6B /* RJCreateInstructorViewController.m in Sources */,
 				23040EB41AFAE85A00852D94 /* RJHomeGalleryViewController.m in Sources */,
 				23040EA41AFADFD800852D94 /* RJGalleryCell.m in Sources */,
 				23E63FB01B1E8CFF008C8E66 /* RJHomeViewController.m in Sources */,
