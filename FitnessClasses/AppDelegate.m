@@ -14,6 +14,8 @@
 #import <Crashlytics/Crashlytics.h>
 #import <DigitsKit/DigitsKit.h>
 #import <Fabric/Fabric.h>
+#import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKAppEvents.h>
+#import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKApplicationDelegate.h>
 #import <Mixpanel/Mixpanel.h>
 #import <Parse/Parse.h>
 @import AVFoundation.AVAudioSession;
@@ -58,12 +60,14 @@
     
     self.window.rootViewController = self.rootViewController;
     
-    return YES;
+    return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [self.rootViewController reloadWithCompletion:nil];
 
+    [FBSDKAppEvents activateApp];
+    
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:kRJMixpanelConstantsOpenedApp];
     [mixpanel.people increment:kRJMixpanelPeopleConstantsAppOpens by:@1];
@@ -80,6 +84,10 @@
             NSLog(@"Error updating current installation with device token: %@", error);
         }
     }];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {}

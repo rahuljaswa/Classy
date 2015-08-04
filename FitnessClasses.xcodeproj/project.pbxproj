@@ -62,6 +62,7 @@
 		B77C4CF71B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF61B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m */; };
 		B77C4CFA1B2BACC60088393D /* UINavigationItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */; };
 		B77C4CFD1B2BBD900088393D /* RJHomeTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */; };
+		B78450EC1B70354000B988D5 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78450EB1B70354000B988D5 /* AdSupport.framework */; };
 		B788CFE31B6BF8AF00772E6B /* RJCategorySelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFE21B6BF8AF00772E6B /* RJCategorySelectorViewController.m */; };
 		B788CFE61B6BFA1800772E6B /* RJCreateCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFE51B6BFA1800772E6B /* RJCreateCategoryViewController.m */; };
 		B788CFE91B6BFA5E00772E6B /* RJCreateInstructorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFE81B6BFA5E00772E6B /* RJCreateInstructorViewController.m */; };
@@ -216,6 +217,7 @@
 		B77C4CF91B2BACC60088393D /* UINavigationItem+RJAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+RJAdditions.m"; sourceTree = "<group>"; };
 		B77C4CFB1B2BBD900088393D /* RJHomeTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeTitleView.h; sourceTree = "<group>"; };
 		B77C4CFC1B2BBD900088393D /* RJHomeTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeTitleView.m; sourceTree = "<group>"; };
+		B78450EB1B70354000B988D5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		B788CFE11B6BF8AF00772E6B /* RJCategorySelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCategorySelectorViewController.h; sourceTree = "<group>"; };
 		B788CFE21B6BF8AF00772E6B /* RJCategorySelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCategorySelectorViewController.m; sourceTree = "<group>"; };
 		B788CFE41B6BFA1800772E6B /* RJCreateCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateCategoryViewController.h; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B78450EC1B70354000B988D5 /* AdSupport.framework in Frameworks */,
 				B756B5C51B2A5DEB0088E918 /* CoreData.framework in Frameworks */,
 				B756B5C31B2A5DD60088E918 /* AddressBook.framework in Frameworks */,
 				B756B5BE1B2A5D2B0088E918 /* DigitsKit.framework in Frameworks */,
@@ -542,6 +545,7 @@
 		85CE149FAECE8F2D9E0DD7B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B78450EB1B70354000B988D5 /* AdSupport.framework */,
 				B756B5C61B2A5DF90088E918 /* Crashlytics.framework */,
 				B756B5C41B2A5DEB0088E918 /* CoreData.framework */,
 				B756B5C21B2A5DD60088E918 /* AddressBook.framework */,

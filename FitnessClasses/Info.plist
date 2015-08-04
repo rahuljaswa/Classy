@@ -4,8 +4,21 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1479422739018108</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1479422739018108</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>FacebookDisplayName</key>
+	<string>Classy</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.rahuljaswa.Classy</string>
 	<key>CFBundleInfoDictionaryVersion</key>
