@@ -82,7 +82,7 @@
                         [RJParseUtils purchaseClass:klass completion:^(BOOL success) {
                             if (success) {
                                 [self startClass:klass autoPlay:autoPlay];
-                                [SVProgressHUD showWithStatus:NSLocalizedString(@"Success!", nil) maskType:SVProgressHUDMaskTypeClear];
+                                [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Success!", nil) maskType:SVProgressHUDMaskTypeClear];
                             } else {
                                 [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error. Try again! You weren't charged.", nil)];
                             }
