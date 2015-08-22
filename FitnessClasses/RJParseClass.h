@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, RJParseClassType) {
 @interface RJParseClass : PFObject <PFSubclassing>
 
 @property (nonatomic, strong) RJParseCategory *category;
+@property (nonatomic, strong) NSNumber *classOrder;
 @property (nonatomic, strong) NSNumber *classType;
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) NSString *coverArtURL;

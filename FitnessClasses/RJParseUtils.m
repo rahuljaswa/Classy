@@ -10,7 +10,10 @@
 #import "RJParseClass.h"
 #import "RJParseComment.h"
 #import "RJParseExercise.h"
+#import "RJParseExerciseEquipment.h"
+#import "RJParseExerciseInstruction.h"
 #import "RJParseLike.h"
+#import "RJParseMuscle.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import <Parse/Parse.h>
@@ -21,17 +24,22 @@
 #pragma mark - Private Class Methods
 
 + (void)updateClassQueryWithIncludedKeys:(PFQuery *)query {
-    [query includeKey:@"exerciseInstructions"];
-    [query includeKey:@"exerciseInstructions.exercise"];
-    [query includeKey:@"exerciseInstructions.exercise.steps"];
-    [query includeKey:@"tracks"];
-    [query includeKey:@"instructionQueue"];
-    [query includeKey:@"category"];
-    [query includeKey:@"instructor"];
-    [query includeKey:@"comments"];
-    [query includeKey:@"comments.creator"];
-    [query includeKey:@"likes"];
-    [query includeKey:@"likes.creator"];
+    NSString *exerciseInstructions = NSStringFromSelector(@selector(exerciseInstructions));
+    NSString *exercise = NSStringFromSelector(@selector(exercise));
+    NSString *comments = NSStringFromSelector(@selector(comments));
+    NSString *creator = NSStringFromSelector(@selector(creator));
+    NSString *likes = NSStringFromSelector(@selector(likes));
+    
+    [query includeKey:exerciseInstructions];
+    [query includeKey:[NSString stringWithFormat:@"%@.%@", exerciseInstructions, exercise]];
+    [query includeKey:[NSString stringWithFormat:@"%@.%@.%@", exerciseInstructions, exercise, NSStringFromSelector(@selector(steps))]];
+    [query includeKey:NSStringFromSelector(@selector(tracks))];
+    [query includeKey:NSStringFromSelector(@selector(category))];
+    [query includeKey:NSStringFromSelector(@selector(instructor))];
+    [query includeKey:comments];
+    [query includeKey:[NSString stringWithFormat:@"%@.%@", comments, creator]];
+    [query includeKey:likes];
+    [query includeKey:[NSString stringWithFormat:@"%@.%@", likes, creator]];
 }
 
 #pragma mark - Public Class Methods - Credit Earning
@@ -43,19 +51,19 @@
     switch (option) {
         case kRJCreditsHelperEarnCreditsOptionAppStoreReview:
             creditsEarned = @2;
-            [user addUniqueObject:[NSDate date] forKey:@"appStoreCreditEarnDates"];
+            [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(appStoreCreditEarnDates))];
             break;
         case kRJCreditsHelperEarnCreditsOptionFacebookShare:
             creditsEarned = @1;
-            [user addUniqueObject:[NSDate date] forKey:@"facebookCreditEarnDates"];
+            [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(facebookCreditEarnDates))];
             break;
         case kRJCreditsHelperEarnCreditsOptionTwitterShare:
             creditsEarned = @1;
-            [user addUniqueObject:[NSDate date] forKey:@"twitterCreditEarnDates"];
+            [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(twitterCreditEarnDates))];
             break;
     }
     
-    [user incrementKey:@"creditsAvailable" byAmount:creditsEarned];
+    [user incrementKey:NSStringFromSelector(@selector(creditsAvailable)) byAmount:creditsEarned];
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error updating user earn dates\n\n%@", [error localizedDescription]);
@@ -160,8 +168,8 @@
 #pragma mark - Public Class Methods - Fetching
 
 + (void)fetchAllCategoriesWithCompletion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Category"];
-    [query orderByAscending:@"categoryOrder"];
+    PFQuery *query = [RJParseCategory query];
+    [query orderByAscending:NSStringFromSelector(@selector(categoryOrder))];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all categories\n\n%@", [error localizedDescription]);
@@ -173,8 +181,8 @@
 }
 
 + (void)fetchAllInstructorsWithCompletion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
-    [query whereKey:@"instructor" equalTo:@(YES)];
+    PFQuery *query = [RJParseUser query];
+    [query whereKey:NSStringFromSelector(@selector(instructor)) equalTo:@(YES)];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all instructors\n\n%@", [error localizedDescription]);
@@ -186,8 +194,8 @@
 }
 
 + (void)fetchAllEquipmentWithCompletion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"ExerciseEquipment"];
-    [query orderByAscending:@"name"];
+    PFQuery *query = [RJParseExerciseEquipment query];
+    [query orderByAscending:NSStringFromSelector(@selector(name))];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all equipment\n\n%@", [error localizedDescription]);
@@ -199,10 +207,10 @@
 }
 
 + (void)fetchAllExercisesForPrimaryEquipment:(RJParseExerciseEquipment *)primaryEquipment completion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Exercise"];
-    [query includeKey:@"primaryEquipment"];
-    [query whereKey:@"primaryEquipment" equalTo:primaryEquipment];
-    [query orderByAscending:@"title"];
+    PFQuery *query = [RJParseExercise query];
+    [query includeKey:NSStringFromSelector(@selector(primaryEquipment))];
+    [query whereKey:NSStringFromSelector(@selector(primaryEquipment)) equalTo:primaryEquipment];
+    [query orderByAscending:NSStringFromSelector(@selector(title))];
     query.limit = 1000;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
@@ -215,8 +223,8 @@
 }
 
 + (void)fetchAllExercisesWithCompletion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Exercise"];
-    [query orderByAscending:@"title"];
+    PFQuery *query = [RJParseExercise query];
+    [query orderByAscending:NSStringFromSelector(@selector(title))];
     query.limit = 1000;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
@@ -229,8 +237,8 @@
 }
 
 + (void)fetchAllMusclesWithCompletion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Muscle"];
-    [query orderByAscending:@"name"];
+    PFQuery *query = [RJParseMuscle query];
+    [query orderByAscending:NSStringFromSelector(@selector(name))];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
             NSLog(@"Error fetching all muscles\n\n%@", [error localizedDescription]);
@@ -242,9 +250,9 @@
 }
 
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Class"];
-    [query whereKey:@"category" equalTo:category];
-    [query orderByAscending:@"classOrder"];
+    PFQuery *query = [RJParseClass query];
+    [query whereKey:NSStringFromSelector(@selector(category)) equalTo:category];
+    [query orderByAscending:NSStringFromSelector(@selector(classOrder))];
     [self updateClassQueryWithIncludedKeys:query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
@@ -257,7 +265,7 @@
 }
 
 + (void)fetchClassesForInstructor:(RJParseUser *)instructor completion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Class"];
+    PFQuery *query = [RJParseClass query];
     [self updateClassQueryWithIncludedKeys:query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!objects) {
@@ -270,7 +278,7 @@
 }
 
 + (void)fetchClassWithId:(NSString *)objectId completion:(void (^)(RJParseClass *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Class"];
+    PFQuery *query = [RJParseClass query];
     [self updateClassQueryWithIncludedKeys:query];
     [query getObjectInBackgroundWithId:objectId block:^(PFObject *object, NSError *error) {
         if (!object) {
@@ -282,56 +290,10 @@
     }];
 }
 
-+ (void)fetchNewClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Class"];
-    [self updateClassQueryWithIncludedKeys:query];
-    if (categoryType == kRJParseCategoryTypeNone) {
-        PFQuery *subquery = [PFQuery queryWithClassName:@"Category"];
-        [subquery whereKeyDoesNotExist:@"categoryType"];
-        [query whereKey:@"category" matchesQuery:subquery];
-    } else {
-        PFQuery *subquery = [PFQuery queryWithClassName:@"Category"];
-        [subquery whereKey:@"categoryType" equalTo:@(categoryType)];
-        [query whereKey:@"category" matchesQuery:subquery];
-    }
-    [query orderByDescending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!objects) {
-            NSLog(@"Error fetching all classes\n\n%@", [error localizedDescription]);
-        }
-        if (completion) {
-            completion(objects);
-        }
-    }];
-}
-
-+ (void)fetchPopularClassesForCategoryType:(RJParseCategoryType)categoryType withCompletion:(void (^)(NSArray *))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Class"];
-    [self updateClassQueryWithIncludedKeys:query];
-    [query orderByDescending:@"plays"];
-    if (categoryType == kRJParseCategoryTypeNone) {
-        PFQuery *subquery = [PFQuery queryWithClassName:@"Category"];
-        [subquery whereKeyDoesNotExist:@"categoryType"];
-        [query whereKey:@"category" matchesQuery:subquery];
-    } else {
-        PFQuery *subquery = [PFQuery queryWithClassName:@"Category"];
-        [subquery whereKey:@"categoryType" equalTo:@(categoryType)];
-        [query whereKey:@"category" matchesQuery:subquery];
-    }
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!objects) {
-            NSLog(@"Error fetching all classes\n\n%@", [error localizedDescription]);
-        }
-        if (completion) {
-            completion(objects);
-        }
-    }];
-}
-
 #pragma mark - Public Class Methods - Updating
 
 + (void)incrementCreditsAvailableForUser:(RJParseUser *)user byNumber:(NSNumber *)number completion:(void (^)(BOOL))completion {
-    [user incrementKey:@"creditsAvailable" byAmount:number];
+    [user incrementKey:NSStringFromSelector(@selector(creditsAvailable)) byAmount:number];
     [user saveEventually:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error incrementing creditPurchases for '%@'\n\n%@", user.name, [error localizedDescription]);
@@ -343,12 +305,12 @@
 }
 
 + (void)incrementCreditPurchasesForUser:(RJParseUser *)user forCreditsPurchased:(NSNumber *)creditsPurchased completion:(void (^)(BOOL))completion {
-    [user incrementKey:@"creditPurchases"];
+    [user incrementKey:NSStringFromSelector(@selector(creditPurchases))];
     [self incrementCreditsAvailableForUser:user byNumber:creditsPurchased completion:completion];
 }
 
 + (void)incrementPlaysForClass:(RJParseClass *)klass completion:(void (^)(BOOL))completion {
-    [klass incrementKey:@"plays"];
+    [klass incrementKey:NSStringFromSelector(@selector(plays))];
     [klass saveEventually:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error incrementing plays for '%@'\n\n%@", klass.name, [error localizedDescription]);
@@ -360,7 +322,7 @@
 }
 
 + (void)incrementTipsForClass:(RJParseClass *)klass completion:(void (^)(BOOL))completion {
-    [klass incrementKey:@"tips"];
+    [klass incrementKey:NSStringFromSelector(@selector(tips))];
     [klass saveEventually:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error incrementing tips for '%@'\n\n%@", klass.name, [error localizedDescription]);
@@ -372,7 +334,7 @@
 }
 
 + (void)incrementTipsForUser:(RJParseUser *)user completion:(void (^)(BOOL))completion {
-    [user incrementKey:@"tips"];
+    [user incrementKey:NSStringFromSelector(@selector(tips))];
     [user saveEventually:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error incrementing tips for '%@'\n\n%@", user.name, [error localizedDescription]);
@@ -391,7 +353,7 @@
     comment.creator = [RJParseUser currentUser];
     [comment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [klass addUniqueObject:comment forKey:@"comments"];
+            [klass addUniqueObject:comment forKey:NSStringFromSelector(@selector(comments))];
             [klass saveEventually:^(BOOL succeeded, NSError *error) {
                 if (!succeeded) {
                     NSLog(@"Error inserting comment for '%@'\n\n%@", klass.name, [error localizedDescription]);
@@ -409,29 +371,6 @@
     }];
 }
 
-+ (void)insertLikeForClass:(RJParseClass *)klass completion:(void (^)(BOOL))completion {
-    RJParseLike *like = [RJParseLike object];
-    like.creator = [RJParseUser currentUser];
-    [like saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            [klass addUniqueObject:like forKey:@"likes"];
-            [klass saveEventually:^(BOOL succeeded, NSError *error) {
-                if (!succeeded) {
-                    NSLog(@"Error inserting like for '%@'\n\n%@", klass.name, [error localizedDescription]);
-                }
-                if (completion) {
-                    completion(succeeded);
-                }
-            }];
-        } else {
-            NSLog(@"Error creating like for '%@'\n\n%@", klass.name, [error localizedDescription]);
-            if (completion) {
-                completion(NO);
-            }
-        }
-    }];
-}
-
 #pragma mark - Public Class Methods - Purchasing
 
 + (void)purchaseClass:(RJParseClass *)klass completion:(void (^)(BOOL))completion {
@@ -440,7 +379,7 @@
     NSUInteger creditsCost = [klass.creditsCost unsignedIntegerValue];
     if (creditsAvailable >= creditsCost) {
         user.creditsAvailable = @(creditsAvailable - creditsCost);
-        [user addUniqueObject:klass forKey:@"classesPurchased"];
+        [user addUniqueObject:klass forKey:NSStringFromSelector(@selector(classesPurchased))];
         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (!succeeded) {
                 NSLog(@"Error purchasing '%@'\n\n%@", klass.name, [error localizedDescription]);
