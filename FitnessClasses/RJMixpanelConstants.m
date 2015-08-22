@@ -24,6 +24,14 @@ NSString *const kRJMixpanelConstantsPlayedClass = @"Played Class";
 NSString *const kRJMixpanelConstantsPlayedClassClassNameDictionaryKey = @"Class Name";
 NSString *const kRJMixpanelConstantsPlayedClassClassObjectIDDictionaryKey = @"Class ObjectID";
 
+// Sharing
+NSString *const kRJMixpanelConstantsClickedTwitterShareButton = @"Clicked Twitter Share Button";
+NSString *const kRJMixpanelConstantsClickedFacebookShareButton = @"Clicked Facebook Share Button";
+NSString *const kRJMixpanelConstantsClickedMessagesShareButton = @"Clicked Messages Share Button";
+NSString *const kRJMixpanelConstantsSharedViaTwitter = @"Shared Via Twitter";
+NSString *const kRJMixpanelConstantsSharedViaFacebook = @"Shared Via Facebook";
+NSString *const kRJMixpanelConstantsSharedViaMessages = @"Shared Via Messages";
+
 @implementation RJMixpanelConstants
 
 @end

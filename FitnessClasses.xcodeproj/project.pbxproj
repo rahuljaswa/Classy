@@ -84,6 +84,7 @@
 		B7CC27E31B5C7EDD0076EC41 /* RJArithmeticHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27E21B5C7EDD0076EC41 /* RJArithmeticHelper.m */; };
 		B7CC27E61B5C98670076EC41 /* RJTrackSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27E51B5C98670076EC41 /* RJTrackSelectorViewController.m */; };
 		B7CC27E91B5C998E0076EC41 /* RJLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27E81B5C998E0076EC41 /* RJLoadingTableViewCell.m */; };
+		B7D609151B890142009EC59A /* RJShareClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D609141B890142009EC59A /* RJShareClassViewController.m */; };
 		B7EC6DB51B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC6DB41B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m */; };
 		B7EC6DB81B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC6DB71B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m */; };
 		B7F9CE561B2DDD9D00968559 /* RJSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */; };
@@ -260,6 +261,8 @@
 		B7CC27E51B5C98670076EC41 /* RJTrackSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTrackSelectorViewController.m; sourceTree = "<group>"; };
 		B7CC27E71B5C998E0076EC41 /* RJLoadingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJLoadingTableViewCell.h; sourceTree = "<group>"; };
 		B7CC27E81B5C998E0076EC41 /* RJLoadingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJLoadingTableViewCell.m; sourceTree = "<group>"; };
+		B7D609131B890142009EC59A /* RJShareClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJShareClassViewController.h; sourceTree = "<group>"; };
+		B7D609141B890142009EC59A /* RJShareClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJShareClassViewController.m; sourceTree = "<group>"; };
 		B7EC6DB31B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSelfPacedPlayingClassViewController.h; sourceTree = "<group>"; };
 		B7EC6DB41B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSelfPacedPlayingClassViewController.m; sourceTree = "<group>"; };
 		B7EC6DB61B54450800EC56B9 /* RJChoreographedPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJChoreographedPlayingClassViewController.h; sourceTree = "<group>"; };
@@ -606,6 +609,8 @@
 				B77C4CF31B2BA0BE0088393D /* RJPlayingClassNavigationController.m */,
 				B77C4CE61B2B78430088393D /* RJPlayingClassViewController.h */,
 				B77C4CE71B2B78430088393D /* RJPlayingClassViewController.m */,
+				B7D609131B890142009EC59A /* RJShareClassViewController.h */,
+				B7D609141B890142009EC59A /* RJShareClassViewController.m */,
 			);
 			name = "Class Pages";
 			sourceTree = "<group>";
@@ -886,6 +891,7 @@
 				B7F9CE561B2DDD9D00968559 /* RJSettingsViewController.m in Sources */,
 				B7EC6DB81B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m in Sources */,
 				23040EC11AFB11CA00852D94 /* RJParseClass.m in Sources */,
+				B7D609151B890142009EC59A /* RJShareClassViewController.m in Sources */,
 				B7CC27C41B58A0030076EC41 /* RJParseExerciseEquipment.m in Sources */,
 				B77C4CEB1B2B78540088393D /* RJClassDetailsViewController.m in Sources */,
 				2333869F1AFD5AA200181446 /* NSString+Temporal.m in Sources */,

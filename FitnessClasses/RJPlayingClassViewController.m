@@ -14,6 +14,7 @@
 #import "RJParseClass.h"
 #import "RJParseTrack.h"
 #import "RJPlayingClassViewController.h"
+#import "RJShareClassViewController.h"
 #import "RJSoundCloudTrack.h"
 #import "RJStackedTitleView.h"
 #import "RJSelfPacedPlayingClassViewController.h"
@@ -28,6 +29,7 @@
 
 @property (nonatomic, strong, readwrite) RJParseClass *klass;
 
+@property (nonatomic, strong, readonly) RJShareClassViewController *shareClassViewController;
 @property (nonatomic, strong, readonly) RJClassSummaryView *summaryView;
 @property (nonatomic, strong, readonly) RJStackedTitleView *titleView;
 
@@ -41,6 +43,7 @@
 @implementation RJPlayingClassViewController
 
 @synthesize classStarted;
+@synthesize shareClassViewController = _shareClassViewController;
 
 #pragma mark - Public Properties
 
@@ -64,6 +67,7 @@
 - (void)setKlass:(RJParseClass *)klass withAutoPlay:(BOOL)autoPlay {
     RJParseClass *previousClass = _klass;
     _klass = klass;
+    self.shareClassViewController.klass = _klass;
     
     if (self.currentPlayingClassViewController) {
         if (previousClass.formattedClassType == _klass.formattedClassType) {
@@ -120,6 +124,15 @@
     }
 }
 
+#pragma mark - Private Properties
+
+- (RJShareClassViewController *)shareClassViewController {
+    if (!_shareClassViewController) {
+        _shareClassViewController = [[RJShareClassViewController alloc] init];
+    }
+    return _shareClassViewController;
+}
+
 #pragma mark - Private Protocols - RJChoreographedPlayingClassViewControllerDelegate
 
 - (void)choreographedPlayingClassViewControllerPlaybackTimeDidChange:(RJChoreographedPlayingClassViewController *)choreographedPlayingClassViewController {
@@ -153,13 +166,13 @@
 #pragma mark - Private Instance Methods
 
 - (void)setupConstraintsForNewCurrentPlayingClassViewController:(UIViewController *)viewController {
-    UIView *summaryView = self.summaryView;
+    UIView *shareClassViewControllerView = self.shareClassViewController.view;
     
     UIView *currentPlayingClassViewControllerView = viewController.view;
     currentPlayingClassViewControllerView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(currentPlayingClassViewControllerView, summaryView);
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[summaryView][currentPlayingClassViewControllerView]|" options:0 metrics:nil views:views]];
+    NSDictionary *views = NSDictionaryOfVariableBindings(currentPlayingClassViewControllerView, shareClassViewControllerView);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[shareClassViewControllerView][currentPlayingClassViewControllerView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[currentPlayingClassViewControllerView]|" options:0 metrics:nil views:views]];
 }
 
@@ -279,6 +292,18 @@
     self.summaryView.track.textColor = styleManager.themeTextColor;
     
     self.view.backgroundColor = styleManager.themeBackgroundColor;
+    
+    [self.shareClassViewController willMoveToParentViewController:self];
+    [self addChildViewController:self.shareClassViewController];
+    [self.view addSubview:self.shareClassViewController.view];
+    UIView *shareViewControllerView = self.shareClassViewController.view;
+    shareViewControllerView.translatesAutoresizingMaskIntoConstraints = NO;
+    UIView *summaryView = self.summaryView;
+    summaryView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *views = NSDictionaryOfVariableBindings(shareViewControllerView, summaryView);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[summaryView]-20-[shareViewControllerView(40)]" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-20-[shareViewControllerView]-20-|" options:0 metrics:nil views:views]];
+    [self.shareClassViewController didMoveToParentViewController:self];
 }
 
 @end
