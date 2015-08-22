@@ -47,7 +47,7 @@
 
 - (RJSortOptionsViewController *)sortOptionsViewController {
     if (!_sortOptionsViewController) {
-        _sortOptionsViewController = [[RJSortOptionsViewController alloc] initWithScrollDirection:UICollectionViewScrollDirectionHorizontal];
+        _sortOptionsViewController = [[RJSortOptionsViewController alloc] init];
         _sortOptionsViewController.sortOptionsDelegate = self;
     }
     return _sortOptionsViewController;
@@ -72,6 +72,7 @@
 - (void)sortOptionsViewController:(RJSortOptionsViewController *)sortOptionsViewController didSelectCategory:(RJParseCategory *)category {
     [self.titleView.spinner startAnimating];
     [self.galleryViewController switchToClassesForCategory:category completion:^{
+        self.galleryViewController.collectionView.contentOffset = CGPointZero;
         [self.titleView.spinner stopAnimating];
     }];
 }

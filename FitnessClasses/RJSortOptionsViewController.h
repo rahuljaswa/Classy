@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJGalleryViewController.h"
+#import <UIKit/UIKit.h>
 
 
 @class RJParseCategory;
@@ -19,7 +19,7 @@
 @end
 
 
-@interface RJSortOptionsViewController : RJGalleryViewController
+@interface RJSortOptionsViewController : UICollectionViewController
 
 @property (nonatomic, assign) id<RJSortOptionsViewControllerDelegate> sortOptionsDelegate;
 

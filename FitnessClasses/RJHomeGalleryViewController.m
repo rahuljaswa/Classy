@@ -66,7 +66,9 @@ static NSString *const kLabelCellID = @"LabelCellID";
 #pragma mark - Public Protocols - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self.homeGalleryDelegate homeGalleryViewController:self wantsPlayForClass:self.classes[indexPath.item] autoPlay:YES];
+    if (indexPath.section == 1) {
+        [self.homeGalleryDelegate homeGalleryViewController:self wantsPlayForClass:self.classes[indexPath.item] autoPlay:YES];
+    }
 }
 
 #pragma mark - Public Protocols - UICollectionViewDelegateFlowLayout
@@ -108,7 +110,7 @@ static NSString *const kLabelCellID = @"LabelCellID";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0) {
-        return !!self.category;
+        return !!self.category.categoryDescription;
     } else {
         return [self.classes count];
     }
