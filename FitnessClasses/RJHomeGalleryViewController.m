@@ -130,14 +130,14 @@ static NSString *const kLabelCellID = @"LabelCellID";
         cell.mask = YES;
         cell.backgroundView.backgroundColor = [UIColor lightGrayColor];
         
-        RJParseClass *class = self.classes[indexPath.item];
+        RJParseClass *klass = self.classes[indexPath.item];
         
         cell.title.font = styleManager.giantBoldFont;
-        cell.title.text = class.name;
+        cell.title.text = klass.name;
         
-        NSURL *url = [NSURL URLWithString:class.coverArtURL];
+        NSURL *url = [NSURL URLWithString:klass.coverArtURL];
         if (url) {
-            RJClassImageCacheEntity *entity = [[RJClassImageCacheEntity alloc] initWithClassImageURL:url objectID:class.objectId];
+            RJClassImageCacheEntity *entity = [[RJClassImageCacheEntity alloc] initWithClassImageURL:url objectID:klass.objectId];
             [cell updateWithImageEntity:entity formatName:kRJClassImageFormatCardSquare16BitBGR placeholder:nil];
         }
         
@@ -148,21 +148,21 @@ static NSString *const kLabelCellID = @"LabelCellID";
         }
         
         NSString *summaryText = nil;
-        if (class.instructor && class.category) {
-            summaryText = [NSString stringWithFormat:@" %@ | %@ ", class.instructor.name, class.category.name];
-        } else if (class.instructor) {
-            summaryText = [NSString stringWithFormat:@" %@ ", class.instructor.name];
-        } else if (class.category) {
-            summaryText = [NSString stringWithFormat:@" %@ ", class.category.name];
+        if (klass.instructor && klass.category) {
+            summaryText = [NSString stringWithFormat:@" %@ | %@ ", klass.instructor.name, klass.category.name];
+        } else if (klass.instructor) {
+            summaryText = [NSString stringWithFormat:@" %@ ", klass.instructor.name];
+        } else if (klass.category) {
+            summaryText = [NSString stringWithFormat:@" %@ ", klass.category.name];
         }
         
-        NSUInteger totalSeconds = class.length;
-        if (class.length > 0) {
+        NSUInteger totalSeconds = klass.length;
+        if (klass.length > 0) {
             NSString *lengthString = [NSString hhmmaaForTotalSeconds:totalSeconds];
             summaryText = [summaryText stringByAppendingString:[NSString stringWithFormat:@"| %@ ", lengthString]];
         }
         
-        NSUInteger classCost = [class.creditsCost unsignedIntegerValue];
+        NSUInteger classCost = [klass.creditsCost unsignedIntegerValue];
         NSString *classCostString = nil;
         if (classCost == 0) {
             classCostString = NSLocalizedString(@"| Free ", nil);
@@ -177,7 +177,7 @@ static NSString *const kLabelCellID = @"LabelCellID";
         accessoriesView.summary.textColor = cell.title.textColor;
         accessoriesView.summary.backgroundColor = styleManager.maskColor;
         
-        accessoriesView.playsCount.text = [NSString stringWithFormat:@" %lu", (unsigned long)[class.plays unsignedIntegerValue]];
+        accessoriesView.playsCount.text = [NSString stringWithFormat:@" %lu", (unsigned long)[klass.plays unsignedIntegerValue]];
         accessoriesView.playsCount.font = styleManager.verySmallFont;
         accessoriesView.playsCount.textColor = cell.title.textColor;
         accessoriesView.playsCount.backgroundColor = styleManager.maskColor;

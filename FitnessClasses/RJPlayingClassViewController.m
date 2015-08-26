@@ -142,7 +142,8 @@
 }
 
 - (void)choreographedPlayingClassViewControllerTrackDidChange:(RJChoreographedPlayingClassViewController *)choreographedPlayingClassViewController {
-    if (choreographedPlayingClassViewController.currentTrack) {
+    RJParseTrack *track = choreographedPlayingClassViewController.currentTrack;
+    if (track) {
         NSURL *url = [NSURL URLWithString:choreographedPlayingClassViewController.currentTrack.artworkURL];
         RJTrackImageCacheEntity *trackEntity = [[RJTrackImageCacheEntity alloc] initWithTrackImageURL:url objectID:choreographedPlayingClassViewController.currentTrack.objectId];
         [self.summaryView.trackArtwork setImageEntity:trackEntity formatName:kRJTrackImageFormatCardSquare16BitBGR placeholder:nil];
