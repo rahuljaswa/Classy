@@ -97,7 +97,7 @@ static const CGFloat kPlayerUtteranceVolume = 0.4f;
     _playbackTime = startPoint;
     [self fetchCurrentTrackInfo];
     [self updateClassViewFields];
-    
+    [self.collectionView reloadData];
     if (autoPlay) {
         [self playCurrentClass];
     } else {
