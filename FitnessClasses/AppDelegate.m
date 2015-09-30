@@ -14,8 +14,8 @@
 #import <Crashlytics/Crashlytics.h>
 #import <DigitsKit/DigitsKit.h>
 #import <Fabric/Fabric.h>
-#import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKAppEvents.h>
-#import <Facebook-iOS-SDK/FBSDKCoreKit/FBSDKApplicationDelegate.h>
+#import <FBSDKCoreKit/FBSDKAppEvents.h>
+#import <FBSDKCoreKit/FBSDKApplicationDelegate.h>
 #import <Mixpanel/Mixpanel.h>
 #import <Parse/Parse.h>
 @import AVFoundation.AVAudioSession;

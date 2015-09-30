@@ -21,49 +21,40 @@ PODS:
   - AFNetworking/UIKit (2.5.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Bolts (1.1.5):
-    - Bolts/AppLinks (= 1.1.5)
-    - Bolts/Tasks (= 1.1.5)
-  - Bolts/AppLinks (1.1.5):
+  - Bolts (1.3.0):
+    - Bolts/AppLinks (= 1.3.0)
+    - Bolts/Tasks (= 1.3.0)
+  - Bolts/AppLinks (1.3.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.1.5)
+  - Bolts/Tasks (1.3.0)
   - ChatViewControllers (1.0.0)
-  - DZNEmptyDataSet (1.5.2)
-  - Facebook-iOS-SDK (4.1.0):
-    - Bolts (~> 1.1)
-    - Facebook-iOS-SDK/CoreKit (= 4.1.0)
-    - Facebook-iOS-SDK/LoginKit (= 4.1.0)
-    - Facebook-iOS-SDK/ShareKit (= 4.1.0)
-  - Facebook-iOS-SDK/CoreKit (4.1.0):
-    - Bolts (~> 1.1)
-    - Facebook-iOS-SDK/CoreKit/no-arc (= 4.1.0)
-  - Facebook-iOS-SDK/CoreKit/no-arc (4.1.0):
-    - Bolts (~> 1.1)
-  - Facebook-iOS-SDK/LoginKit (4.1.0):
-    - Bolts (~> 1.1)
-    - Facebook-iOS-SDK/CoreKit
-  - Facebook-iOS-SDK/ShareKit (4.1.0):
-    - Bolts (~> 1.1)
-    - Facebook-iOS-SDK/CoreKit
+  - DZNEmptyDataSet (1.7.2)
   - FastImageCache (1.3)
-  - Mixpanel (2.8.1):
-    - Mixpanel/Mixpanel (= 2.8.1)
-  - Mixpanel/Mixpanel (2.8.1):
-    - Mixpanel/MPCategoryHelpers
-  - Mixpanel/MPCategoryHelpers (2.8.1)
-  - Parse (1.7.2.1):
-    - Bolts/Tasks (>= 1.1.5)
+  - FBSDKCoreKit (4.6.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc (= 4.6.0)
+    - FBSDKCoreKit/no-arc (= 4.6.0)
+  - FBSDKCoreKit/arc (4.6.0):
+    - Bolts (~> 1.1)
+  - FBSDKCoreKit/no-arc (4.6.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc
+  - Mixpanel (2.8.3):
+    - Mixpanel/Mixpanel (= 2.8.3)
+  - Mixpanel/Mixpanel (2.8.3)
+  - Parse (1.8.5):
+    - Bolts/Tasks (>= 1.2.2)
   - SVProgressHUD (1.1.3)
   - SZTextView (1.2.1)
   - Touchpose (1.2.0)
 
 DEPENDENCIES:
   - ActionLabel
-  - AFNetworking
+  - AFNetworking (= 2.5.3)
   - ChatViewControllers
   - DZNEmptyDataSet
-  - Facebook-iOS-SDK
   - FastImageCache
+  - FBSDKCoreKit
   - Mixpanel
   - Parse
   - SVProgressHUD
@@ -73,15 +64,15 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   ActionLabel: 2ef75a8fc6304446f67b75272bb7b93a3cd6c829
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
-  Bolts: aac24961496d504aa56fc267cde95162a71bac39
+  Bolts: 805a4a87413e49d4a0c2b7d469084cbc46b09342
   ChatViewControllers: a3bb422260979e3c3cd15f1bf4816a20f66a1a28
-  DZNEmptyDataSet: 741da409081a4bf707c949c964623a6ad1799772
-  Facebook-iOS-SDK: f42dfb27283bf5f05e3a9edc88459a75b9892d99
+  DZNEmptyDataSet: 0ec00bfc230d7450997b60c127afdd0b9f24f3b6
   FastImageCache: 25f214fd46405daca3d1995d783fb83b9036c62e
-  Mixpanel: 93c4825025e6380ced273ed7178496282e385077
-  Parse: 8213b05b52768b34b87e1e41fd9efc88a9933f3f
+  FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
+  Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda
+  Parse: 17ad8e0677ed682f7f00503860fcda0f4eb74168
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   SZTextView: 906df45afd3c1b24fc5252088d5ef8061513c238
   Touchpose: 219ef3dc3d1932b384ea502ec6df2f003667129b
 
-COCOAPODS: 0.37.0
+COCOAPODS: 0.38.2

@@ -136,12 +136,4 @@ static const CGFloat kCellSideSpacing = 13.0f;
     return [super initWithCollectionViewLayout:layout];
 }
 
-- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout {
-    return [self init];
-}
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    return [self init];
-}
-
 @end
