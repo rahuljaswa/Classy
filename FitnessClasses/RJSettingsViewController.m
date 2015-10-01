@@ -210,10 +210,6 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
                      [UIAlertAction actionWithTitle:NSLocalizedString(@"Share on Twitter (1 credit)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                         [creditsHelper earnCreditsOption:kRJCreditsHelperEarnCreditsOptionTwitterShare presentingViewController:self completion:completion];
                     }]];
-                    [alertController addAction:
-                     [UIAlertAction actionWithTitle:NSLocalizedString(@"Share on Facebook (1 credit)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [creditsHelper earnCreditsOption:kRJCreditsHelperEarnCreditsOptionFacebookShare presentingViewController:self completion:completion];
-                    }]];
                     
                     if (self.currentUser.showAllEarnCreditsOptions) {
                         [alertController addAction:

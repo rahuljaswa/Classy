@@ -53,10 +53,6 @@
             creditsEarned = @2;
             [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(appStoreCreditEarnDates))];
             break;
-        case kRJCreditsHelperEarnCreditsOptionFacebookShare:
-            creditsEarned = @1;
-            [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(facebookCreditEarnDates))];
-            break;
         case kRJCreditsHelperEarnCreditsOptionTwitterShare:
             creditsEarned = @1;
             [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(twitterCreditEarnDates))];

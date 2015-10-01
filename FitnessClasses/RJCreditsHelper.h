@@ -15,7 +15,6 @@ typedef NS_ENUM(NSUInteger, RJCreditsHelperCreditPackage) {
 };
 
 typedef NS_ENUM(NSUInteger, RJCreditsHelperEarnCreditsOption) {
-    kRJCreditsHelperEarnCreditsOptionFacebookShare,
     kRJCreditsHelperEarnCreditsOptionTwitterShare,
     kRJCreditsHelperEarnCreditsOptionAppStoreReview
 };

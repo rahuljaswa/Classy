@@ -12,13 +12,14 @@
 #import "RJStyleManager.h"
 #import "UIImage+RJAdditions.h"
 #import <Mixpanel/Mixpanel.h>
+@import MessageUI.MFMailComposeViewController;
 @import MessageUI.MFMessageComposeViewController;
 @import Social;
 
 
-@interface RJShareClassViewController () <MFMessageComposeViewControllerDelegate>
+@interface RJShareClassViewController () <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 
-@property (nonatomic, strong, readonly) UIButton *facebookButton;
+@property (nonatomic, strong, readonly) UIButton *emailButton;
 @property (nonatomic, strong, readonly) UIButton *messagesButton;
 @property (nonatomic, strong, readonly) UIButton *twitterButton;
 
@@ -28,6 +29,13 @@
 @implementation RJShareClassViewController
 
 #pragma mark - Private Protocols - MFMessageComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [[controller presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    if (result == MessageComposeResultSent) {
+        [[Mixpanel sharedInstance] track:kRJMixpanelConstantsSharedViaEmail properties:[self propertiesForAnalyticsEvent]];
+    }
+}
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
     [[controller presentingViewController] dismissViewControllerAnimated:YES completion:nil];
@@ -80,24 +88,6 @@
 
 #pragma mark - Private Instance Methods - Handlers
 
-- (void)facebookButtonPressed:(UIButton *)button {
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] && self.klass) {
-        [[Mixpanel sharedInstance] track:kRJMixpanelConstantsClickedFacebookShareButton properties:[self propertiesForAnalyticsEvent]];
-        
-        SLComposeViewController *composeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-        [composeViewController setInitialText:[self textForShares]];
-        [self presentViewController:composeViewController animated:YES completion:nil];
-        
-        __weak SLComposeViewController *weakComposeViewController = composeViewController;
-        [composeViewController setCompletionHandler:^(SLComposeViewControllerResult result) {
-            [[weakComposeViewController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-            if (result == SLComposeViewControllerResultDone) {
-                [[Mixpanel sharedInstance] track:kRJMixpanelConstantsSharedViaFacebook properties:[self propertiesForAnalyticsEvent]];
-            }
-        }];
-    }
-}
-
 - (void)twitterButtonPressed:(UIButton *)button {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] && self.klass) {
         [[Mixpanel sharedInstance] track:kRJMixpanelConstantsClickedTwitterShareButton properties:[self propertiesForAnalyticsEvent]];
@@ -112,6 +102,17 @@
                 [[Mixpanel sharedInstance] track:kRJMixpanelConstantsSharedViaTwitter properties:[self propertiesForAnalyticsEvent]];
             }
         }];
+    }
+}
+
+- (void)emailButtonPressed:(UIButton *)button {
+    if ([MFMailComposeViewController canSendMail] && self.klass) {
+        [[Mixpanel sharedInstance] track:kRJMixpanelConstantsClickedEmailShareButton properties:[self propertiesForAnalyticsEvent]];
+        MFMailComposeViewController *messageViewController = [[MFMailComposeViewController alloc] init];
+        messageViewController.mailComposeDelegate = self;
+        [messageViewController setSubject:NSLocalizedString(@"Check Out Classy Workouts App", nil)];
+        [messageViewController setMessageBody:[self textForShares] isHTML:NO];
+        [self presentViewController:messageViewController animated:YES completion:nil];
     }
 }
 
@@ -130,7 +131,7 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _facebookButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _emailButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _messagesButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _twitterButton = [UIButton buttonWithType:UIButtonTypeCustom];
     }
@@ -143,22 +144,22 @@
     UIView *messagesButton = self.messagesButton;
     messagesButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:messagesButton];
-    UIView *facebookButton = self.facebookButton;
-    facebookButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:facebookButton];
+    UIView *emailButton = self.emailButton;
+    emailButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:emailButton];
     UIView *twitterButton = self.twitterButton;
     twitterButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:twitterButton];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(messagesButton, facebookButton, twitterButton);
-    [self.view addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[facebookButton]|" options:0 metrics:nil views:views]];
+    NSDictionary *views = NSDictionaryOfVariableBindings(messagesButton, twitterButton, emailButton);
     [self.view addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[messagesButton]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[twitterButton]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[twitterButton][facebookButton(==twitterButton)][messagesButton(==twitterButton)]|" options:0 metrics:nil views:views]];
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[emailButton]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[twitterButton][emailButton(==twitterButton)][messagesButton(==twitterButton)]|" options:0 metrics:nil views:views]];
 }
 
 - (void)viewDidLoad {
@@ -166,15 +167,15 @@
     
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     
-    [self.facebookButton addTarget:self action:@selector(facebookButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.emailButton addTarget:self action:@selector(emailButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.twitterButton addTarget:self action:@selector(twitterButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.messagesButton addTarget:self action:@selector(messagesButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIColor *facebookColor = [UIColor colorWithRed:59.0f/255.0f green:89.0f/255.0f blue:152.0f/255.0f alpha:1.0f];
-    [self updateButtonUI:self.facebookButton withTitle:NSLocalizedString(@"Facebook", nil) color:facebookColor imageName:@"facebookIcon"];
-    self.facebookButton.titleEdgeInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 0.0f);
-    self.facebookButton.imageEdgeInsets = UIEdgeInsetsMake(12.0f, 4.0f, 12.0f, 0.0f);
-    self.facebookButton.titleLabel.font = styleManager.verySmallBoldFont;
+    UIColor *emailColor = [UIColor colorWithRed:59.0f/255.0f green:75.0f/255.0f blue:92.0f/255.0f alpha:1.0f];
+    [self updateButtonUI:self.emailButton withTitle:NSLocalizedString(@"Email", nil) color:emailColor imageName:@"emailIcon"];
+    self.emailButton.titleEdgeInsets = UIEdgeInsetsMake(0.0f, 4.0f, 0.0f, 0.0f);
+    self.emailButton.imageEdgeInsets = UIEdgeInsetsMake(12.0f, 4.0f, 12.0f, 0.0f);
+    self.emailButton.titleLabel.font = styleManager.verySmallBoldFont;
     
     UIColor *twitterColor = [UIColor colorWithRed:19.0f/255.0f green:154.0f/255.0f blue:234.0f/255.0f alpha:1.0f];
     [self updateButtonUI:self.twitterButton withTitle:NSLocalizedString(@"Twitter", nil) color:twitterColor imageName:@"twitterIcon"];
@@ -182,7 +183,7 @@
     self.twitterButton.imageEdgeInsets = UIEdgeInsetsMake(12.0f, -6.0f, 12.0f, 0.0f);
     self.twitterButton.titleLabel.font = styleManager.verySmallBoldFont;
     
-    UIColor *messagesColor = [UIColor colorWithRed:0.0f/255.0f green:163.0f/255.0f blue:55.0f/255.0f alpha:1.0f];
+    UIColor *messagesColor = [UIColor colorWithRed:0.0f/255.0f green:163.0f/255.0f blue:90.0f/255.0f alpha:1.0f];
     [self updateButtonUI:self.messagesButton withTitle:NSLocalizedString(@"Message", nil) color:messagesColor imageName:@"messagesIcon"];
     self.messagesButton.titleEdgeInsets = UIEdgeInsetsMake(0.0f, -4.0f, 0.0f, 0.0f);
     self.messagesButton.imageEdgeInsets = UIEdgeInsetsMake(12.0f, -2.0f, 12.0f, 0.0f);

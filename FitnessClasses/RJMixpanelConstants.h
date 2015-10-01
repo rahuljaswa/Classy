@@ -22,11 +22,12 @@ FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsPlayedClassClassObjectIDDi
 
 // Sharing
 FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsClickedTwitterShareButton;
-FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsClickedFacebookShareButton;
 FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsClickedMessagesShareButton;
+FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsClickedEmailShareButton;
 FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsSharedViaTwitter;
-FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsSharedViaFacebook;
 FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsSharedViaMessages;
+FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsSharedViaEmail;
+
 
 @interface RJMixpanelConstants : NSObject
 

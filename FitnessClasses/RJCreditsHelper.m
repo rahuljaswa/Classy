@@ -142,36 +142,6 @@
                 }
                 break;
             }
-            case kRJCreditsHelperEarnCreditsOptionFacebookShare: {
-                numberOfDays = 5;
-                allowed = [self shouldAllowEarnCreditsOptionWithPreviousEarnDates:user.facebookCreditEarnDates minDaysBetweenEarns:numberOfDays];
-                if (allowed) {
-                    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-                        SLComposeViewController *composeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-                        [composeViewController setInitialText:textForShares];
-                        
-                        __weak SLComposeViewController *weakComposeViewController = composeViewController;
-                        [composeViewController setCompletionHandler:^(SLComposeViewControllerResult result) {
-                            [[weakComposeViewController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-                            switch (result) {
-                                case SLComposeViewControllerResultCancelled:
-                                    if (completion) {
-                                        completion(NO);
-                                    }
-                                    break;
-                                case SLComposeViewControllerResultDone:
-                                    [RJParseUtils completeEarnCreditsOption:kRJCreditsHelperEarnCreditsOptionFacebookShare completion:completion];
-                                    break;
-                            }
-                        }];
-                        
-                        [presentingViewController presentViewController:composeViewController animated:YES completion:nil];
-                    } else if (completion) {
-                        completion(NO);
-                    }
-                }
-                break;
-            }
             case kRJCreditsHelperEarnCreditsOptionAppStoreReview: {
                 numberOfDays = 30;
                 allowed = [self shouldAllowEarnCreditsOptionWithPreviousEarnDates:user.appStoreCreditEarnDates minDaysBetweenEarns:numberOfDays];

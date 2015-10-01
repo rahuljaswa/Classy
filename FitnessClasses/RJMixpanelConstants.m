@@ -26,11 +26,12 @@ NSString *const kRJMixpanelConstantsPlayedClassClassObjectIDDictionaryKey = @"Cl
 
 // Sharing
 NSString *const kRJMixpanelConstantsClickedTwitterShareButton = @"Clicked Twitter Share Button";
-NSString *const kRJMixpanelConstantsClickedFacebookShareButton = @"Clicked Facebook Share Button";
 NSString *const kRJMixpanelConstantsClickedMessagesShareButton = @"Clicked Messages Share Button";
+NSString *const kRJMixpanelConstantsClickedEmailShareButton = @"Clicked Email Share Button";
 NSString *const kRJMixpanelConstantsSharedViaTwitter = @"Shared Via Twitter";
-NSString *const kRJMixpanelConstantsSharedViaFacebook = @"Shared Via Facebook";
 NSString *const kRJMixpanelConstantsSharedViaMessages = @"Shared Via Messages";
+NSString *const kRJMixpanelConstantsSharedViaEmail = @"Shared Via Email";
+
 
 @implementation RJMixpanelConstants
 
