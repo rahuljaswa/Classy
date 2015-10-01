@@ -26,6 +26,7 @@
 #import "UIImageView+FastImageCache.h"
 #import <Mixpanel/Mixpanel.h>
 @import AVFoundation.AVAsset;
+@import AVFoundation.AVAudioPlayer;
 @import AVFoundation.AVPlayer;
 @import AVFoundation.AVPlayerItem;
 @import AVFoundation.AVSpeechSynthesis;
@@ -33,13 +34,14 @@
 
 static NSString *const kChoreographedPlayingClassViewControllerCellID = @"ChoreographedPlayingClassViewControllerCellID";
 static const CGFloat kPlayerNonUtteranceVolume = 1.0f;
-static const CGFloat kPlayerUtteranceVolume = 0.4f;
+static const CGFloat kPlayerUtteranceVolume = 0.3f;
 
 
 @interface RJChoreographedPlayingClassViewController () <AVSpeechSynthesizerDelegate, RJExerciseInstructionCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong, readwrite) RJParseClass *klass;
 
+@property (nonatomic, strong) AVAudioPlayer *beepPlayer;
 @property (nonatomic, strong) AVQueuePlayer *player;
 @property (nonatomic, strong) id playerObserver;
 @property (nonatomic, strong) AVSpeechSynthesizer *synthesizer;
@@ -96,8 +98,14 @@ static const CGFloat kPlayerUtteranceVolume = 0.4f;
     _sortedExerciseInstructions = [klass.exerciseInstructions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"startPoint" ascending:YES]]];
     _playbackTime = startPoint;
     [self fetchCurrentTrackInfo];
+    
     [self updateClassViewFields];
     [self.collectionView reloadData];
+    
+    if ([self.delegate respondsToSelector:@selector(choreographedPlayingClassViewControllerPlaybackTimeDidChange:)]) {
+        [self.delegate choreographedPlayingClassViewControllerPlaybackTimeDidChange:self];
+    }
+    
     if (autoPlay) {
         [self playCurrentClass];
     } else {
@@ -219,6 +227,10 @@ static const CGFloat kPlayerUtteranceVolume = 0.4f;
     }
     [self.player removeObserver:self forKeyPath:@"status"];
     self.player = nil;
+    
+    [self.beepPlayer removeObserver:self forKeyPath:@"status"];
+    self.beepPlayer = nil;
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -281,13 +293,35 @@ static const CGFloat kPlayerUtteranceVolume = 0.4f;
     }
 }
 
+- (void)playNecessaryAudioForNextEventStartPoint:(NSInteger)nextEventStartPoint {
+    NSInteger instructionCutOffTime = 10;
+    NSInteger beepCutOffTime = 5;
+    NSInteger timeToNextEvent = (nextEventStartPoint - self.playbackTime);
+    if (timeToNextEvent == instructionCutOffTime) {
+        NSString *utteranceString = [NSString stringWithFormat:@"%li more seconds", (long)instructionCutOffTime];
+        AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:utteranceString];
+        [self.synthesizer speakUtterance:utterance];
+    } else if ((timeToNextEvent <= beepCutOffTime) && (timeToNextEvent >= 0)) {
+        [self.beepPlayer play];
+    }
+}
+
 - (void)speakUtteranceIfNecessary {
-    for (RJParseExerciseInstruction *instruction in self.sortedExerciseInstructions) {
-        if ([instruction.startPoint integerValue] == (NSInteger)self.playbackTime) {
+    NSUInteger numberOfExerciseInstructions = [self.sortedExerciseInstructions count];
+    for (NSUInteger i = 0; i < numberOfExerciseInstructions; i++) {
+        RJParseExerciseInstruction *instruction = self.sortedExerciseInstructions[i];
+        NSInteger instructionStartPointIntegerValue = [instruction.startPoint integerValue];
+        if (instructionStartPointIntegerValue == self.playbackTime) {
             NSString *utteranceString = [NSString stringWithFormat:@"%@ for %@", instruction.exercise.title, instruction.allLevelsQuantity];
             AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:utteranceString];
-            utterance.rate = 0.05f;
             [self.synthesizer speakUtterance:utterance];
+            break;
+        } else if (i < (numberOfExerciseInstructions - 1)) {
+            RJParseExerciseInstruction *nextInstruction = self.sortedExerciseInstructions[i+1];
+            NSInteger nextInstructionStartPointIntegerValue = [nextInstruction.startPoint integerValue];
+            if (self.playbackTime != nextInstructionStartPointIntegerValue) {
+                [self playNecessaryAudioForNextEventStartPoint:nextInstructionStartPointIntegerValue];
+            }
         }
     }
 }
@@ -304,6 +338,11 @@ static const CGFloat kPlayerUtteranceVolume = 0.4f;
         [items addObject:trackPlayerItem];
     }
     
+    NSError *error;
+    NSURL *beepURL = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"sound_beep" ofType:@"wav"]];
+    self.beepPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:beepURL error:&error];
+    [self.beepPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
+    
     self.player = [AVQueuePlayer queuePlayerWithItems:items];
     [self.player addObserver:self forKeyPath:@"status" options:0 context:nil];
     
@@ -319,8 +358,8 @@ static const CGFloat kPlayerUtteranceVolume = 0.4f;
 }
 
 - (void)startQueues {
-    [self.player play];
     [self speakUtteranceIfNecessary];
+    [self.player play];
     
     [self updateClassViewFields];
     

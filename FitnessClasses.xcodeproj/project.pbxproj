@@ -68,6 +68,7 @@
 		B788CFE91B6BFA5E00772E6B /* RJCreateInstructorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFE81B6BFA5E00772E6B /* RJCreateInstructorViewController.m */; };
 		B788CFEC1B6C01ED00772E6B /* RJInstructorSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFEB1B6C01ED00772E6B /* RJInstructorSelectorViewController.m */; };
 		B788CFEF1B6C036D00772E6B /* RJCreatableObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFEE1B6C036D00772E6B /* RJCreatableObjectsViewController.m */; };
+		B7B18D901BBCAE37004EAF4B /* sound_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7B18D8F1BBCAE37004EAF4B /* sound_beep.wav */; settings = {ASSET_TAGS = (); }; };
 		B7CC27B81B58905C0076EC41 /* RJCreateExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */; };
 		B7CC27BB1B5891BE0076EC41 /* RJLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27BA1B5891BE0076EC41 /* RJLabelCell.m */; };
 		B7CC27BE1B589EF30076EC41 /* RJMusclesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27BD1B589EF30076EC41 /* RJMusclesViewController.m */; };
@@ -229,6 +230,7 @@
 		B788CFEB1B6C01ED00772E6B /* RJInstructorSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJInstructorSelectorViewController.m; sourceTree = "<group>"; };
 		B788CFED1B6C036D00772E6B /* RJCreatableObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreatableObjectsViewController.h; sourceTree = "<group>"; };
 		B788CFEE1B6C036D00772E6B /* RJCreatableObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreatableObjectsViewController.m; sourceTree = "<group>"; };
+		B7B18D8F1BBCAE37004EAF4B /* sound_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound_beep.wav; sourceTree = "<group>"; };
 		B7CC27B61B58905C0076EC41 /* RJCreateExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateExerciseViewController.h; sourceTree = "<group>"; };
 		B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateExerciseViewController.m; sourceTree = "<group>"; };
 		B7CC27B91B5891BE0076EC41 /* RJLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJLabelCell.h; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				2356ECF61B1FA02200DB5B66 /* RJMixpanelConstants.m */,
 				232DC2C91B0BBF160008308E /* RJTouchposeApplication.h */,
 				232DC2CA1B0BBF160008308E /* RJTouchposeApplication.m */,
+				B7B18D8F1BBCAE37004EAF4B /* sound_beep.wav */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -785,6 +788,7 @@
 			files = (
 				23631A921AF86D9200E49935 /* LaunchScreen.xib in Resources */,
 				23631A8F1AF86D9200E49935 /* Images.xcassets in Resources */,
+				B7B18D901BBCAE37004EAF4B /* sound_beep.wav in Resources */,
 				B756B5BF1B2A5D2B0088E918 /* DigitsKitResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
