@@ -113,15 +113,13 @@ typedef NS_ENUM(NSUInteger, UIState) {
             RJAuthenticationDetailsViewController *authenticationDetailsViewController = [[RJAuthenticationDetailsViewController alloc] init];
             authenticationDetailsViewController.delegate = self;
             authenticationDetailsViewController.title = [NSLocalizedString(@"Enter Display Name", nil) uppercaseString];
-            authenticationDetailsViewController.textField.placeholder = NSLocalizedString(@"Display Name", nil);
-            authenticationDetailsViewController.textField.keyboardType = UIKeyboardTypeAlphabet;
-            authenticationDetailsViewController.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
             if (self.user) {
-                authenticationDetailsViewController.textField.text = self.user.name;
+                authenticationDetailsViewController.name = self.user.name;
+                authenticationDetailsViewController.email = self.user.email;
             } else {
-                authenticationDetailsViewController.textField.text = nil;
+                authenticationDetailsViewController.name = nil;
+                authenticationDetailsViewController.email = nil;
             }
-            [authenticationDetailsViewController.button setTitle:NSLocalizedString(@"Finish", nil) forState:UIControlStateNormal];
             
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:authenticationDetailsViewController];
             [self presentViewController:navigationController animated:YES completion:^{
@@ -139,7 +137,8 @@ typedef NS_ENUM(NSUInteger, UIState) {
 }
 
 - (void)authenticationDetailsViewControllerDidFinish:(RJAuthenticationDetailsViewController *)viewController {
-    self.user.name = viewController.textField.text;
+    self.user.name = viewController.name;
+    self.user.email = viewController.email;
     [SVProgressHUD showWithStatus:NSLocalizedString(@"Saving name...", nil) maskType:SVProgressHUDMaskTypeClear];
     [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {

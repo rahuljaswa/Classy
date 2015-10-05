@@ -25,6 +25,7 @@
 @dynamic likes;
 @dynamic name;
 @dynamic plays;
+@dynamic requiresSubscription;
 @dynamic tracks;
 
 @synthesize formattedClassType;

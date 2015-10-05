@@ -19,11 +19,11 @@
 @end
 
 
-@interface RJAuthenticationDetailsViewController : UIViewController
+@interface RJAuthenticationDetailsViewController : UITableViewController
 
 @property (weak, nonatomic) id<RJAuthenticationDetailsViewControllerDelegate> delegate;
 
-@property (strong, nonatomic, readonly) UIButton *button;
-@property (strong, nonatomic, readonly) UITextField *textField;
+@property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *name;
 
 @end

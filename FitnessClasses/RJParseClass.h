@@ -32,6 +32,7 @@ typedef NS_ENUM(NSInteger, RJParseClassType) {
 @property (nonatomic, strong) NSArray *likes;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSNumber *plays;
+@property (nonatomic, assign) BOOL requiresSubscription;
 @property (nonatomic, strong) NSArray *tracks;
 
 @property (nonatomic, assign) NSInteger length;

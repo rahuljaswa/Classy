@@ -37,6 +37,7 @@
 		23E463EE1AF87268008194D6 /* RJImageCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E463ED1AF87268008194D6 /* RJImageCacheManager.m */; };
 		23E63FB01B1E8CFF008C8E66 /* RJHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E63FAF1B1E8CFF008C8E66 /* RJHomeViewController.m */; };
 		23E63FB31B1E9BC9008C8E66 /* RJInsetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E63FB21B1E9BC9008C8E66 /* RJInsetLabel.m */; };
+		B743EE0A1BC21ACE001E4D1B /* RJTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B743EE091BC21ACE001E4D1B /* RJTextFieldTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		B755BBEF1B5D75EA002BAE31 /* RJSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B755BBEE1B5D75EA002BAE31 /* RJSubtitleTableViewCell.m */; };
 		B755BBF21B5D7C3F002BAE31 /* UIColor+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B755BBF11B5D7C3F002BAE31 /* UIColor+RJAdditions.m */; };
 		B756B5BD1B2A5D2A0088E918 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B756B5B91B2A5D2A0088E918 /* Fabric.framework */; };
@@ -176,6 +177,8 @@
 		23E63FB11B1E9BC9008C8E66 /* RJInsetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJInsetLabel.h; sourceTree = "<group>"; };
 		23E63FB21B1E9BC9008C8E66 /* RJInsetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJInsetLabel.m; sourceTree = "<group>"; };
 		74D17DB7932E584F6AA5BB5E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		B743EE081BC21ACE001E4D1B /* RJTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTextFieldTableViewCell.h; sourceTree = "<group>"; };
+		B743EE091BC21ACE001E4D1B /* RJTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTextFieldTableViewCell.m; sourceTree = "<group>"; };
 		B755BBED1B5D75EA002BAE31 /* RJSubtitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSubtitleTableViewCell.h; sourceTree = "<group>"; };
 		B755BBEE1B5D75EA002BAE31 /* RJSubtitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSubtitleTableViewCell.m; sourceTree = "<group>"; };
 		B755BBF01B5D7C3F002BAE31 /* UIColor+RJAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RJAdditions.h"; sourceTree = "<group>"; };
@@ -538,12 +541,14 @@
 				B7CC27BA1B5891BE0076EC41 /* RJLabelCell.m */,
 				23E63FB11B1E9BC9008C8E66 /* RJInsetLabel.h */,
 				23E63FB21B1E9BC9008C8E66 /* RJInsetLabel.m */,
+				B7CC27E71B5C998E0076EC41 /* RJLoadingTableViewCell.h */,
+				B7CC27E81B5C998E0076EC41 /* RJLoadingTableViewCell.m */,
 				B7CC27BF1B589F260076EC41 /* RJSinglePFObjectSelectionViewController.h */,
 				B7CC27C01B589F260076EC41 /* RJSinglePFObjectSelectionViewController.m */,
 				B77C4CEF1B2B8D4D0088393D /* RJStackedTitleView.h */,
 				B77C4CF01B2B8D4D0088393D /* RJStackedTitleView.m */,
-				B7CC27E71B5C998E0076EC41 /* RJLoadingTableViewCell.h */,
-				B7CC27E81B5C998E0076EC41 /* RJLoadingTableViewCell.m */,
+				B743EE081BC21ACE001E4D1B /* RJTextFieldTableViewCell.h */,
+				B743EE091BC21ACE001E4D1B /* RJTextFieldTableViewCell.m */,
 			);
 			name = "Custom Generic UI Elements";
 			sourceTree = "<group>";
@@ -923,6 +928,7 @@
 				B7CC27BB1B5891BE0076EC41 /* RJLabelCell.m in Sources */,
 				B77C4CF11B2B8D4D0088393D /* RJStackedTitleView.m in Sources */,
 				B7CC27CD1B58CFE70076EC41 /* RJCreateEditSelfPacedClassViewController.m in Sources */,
+				B743EE0A1BC21ACE001E4D1B /* RJTextFieldTableViewCell.m in Sources */,
 				2353FCB21AFC82C500669E64 /* RJUserImageCacheEntity.m in Sources */,
 				B7F9CE591B2E146100968559 /* RJCreditsHelper.m in Sources */,
 				23040EBE1AFB11AC00852D94 /* RJParseUser.m in Sources */,

@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSArray *classesPurchased;
 @property (nonatomic, strong) NSNumber *creditPurchases;
 @property (nonatomic, strong) NSNumber *creditsAvailable;
+@property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSArray *facebookCreditEarnDates;
 @property (nonatomic, assign) BOOL instructor;
 @property (nonatomic, strong) NSString *name;
