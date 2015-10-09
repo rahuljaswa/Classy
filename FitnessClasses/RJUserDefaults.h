@@ -12,6 +12,9 @@
 @interface RJUserDefaults : NSObject
 
 + (void)saveDidShowTutorial;
++ (void)saveSubscriptionReceipt:(NSData *)receiptData;
+
 + (BOOL)shouldShowTutorialOnLaunch;
++ (NSData *)subscriptionReceipt;
 
 @end

@@ -81,7 +81,7 @@
     if (self.equipment && self.selectedEquipment && !isEquipmentAlreadySelected) {
         NSInteger indexOfEquipment = [self.equipment indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
             RJParseExerciseEquipment *equipment = obj;
-            return [equipment.objectId isEqualToString:self.selectedEquipment.objectId];
+            return [equipment isEqual:self.selectedEquipment];
         }];
         if (indexOfEquipment != NSNotFound) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:indexOfEquipment];

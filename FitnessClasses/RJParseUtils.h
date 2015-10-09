@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJCreditsHelper.h"
+#import "RJInAppPurchaseHelper.h"
 #import "RJParseCategory.h"
 #import "RJParseClass.h"
 #import <Foundation/Foundation.h>
@@ -19,7 +19,7 @@
 
 @interface RJParseUtils : NSObject
 
-+ (void)completeEarnCreditsOption:(RJCreditsHelperEarnCreditsOption)option completion:(void (^)(BOOL success))completion;
++ (void)completeEarnBonusOption:(RJInAppPurchaseHelperBonusOption)option completion:(void (^)(BOOL success))completion;
 
 + (void)createCategoryWithName:(NSString *)name completion:(void (^)(BOOL))completion;
 + (void)createExerciseWithName:(NSString *)name primaryEquipment:(RJParseExerciseEquipment *)primaryEquipment primaryMuscles:(NSArray *)primaryMuscles secondaryMuscles:(NSArray *)secondaryMuscles completion:(void (^)(BOOL success))completion;
@@ -38,14 +38,12 @@
 + (void)fetchClassesForInstructor:(RJParseUser *)instructor completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassWithId:(NSString *)objectId completion:(void (^)(RJParseClass *klass))completion;
 
-+ (void)incrementCreditsAvailableForUser:(RJParseUser *)user byNumber:(NSNumber *)number completion:(void (^)(BOOL success))completion;
-+ (void)incrementCreditPurchasesForUser:(RJParseUser *)user forCreditsPurchased:(NSNumber *)creditsPurchased completion:(void (^)(BOOL success))completion;
 + (void)incrementPlaysForClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
 + (void)incrementTipsForClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
 + (void)incrementTipsForUser:(RJParseUser *)user completion:(void (^)(BOOL success))completion;
 
 + (void)insertCommentForClass:(RJParseClass *)klass text:(NSString *)text completion:(void (^)(BOOL success))completion;
 
-+ (void)purchaseClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
++ (void)updateSubscriptionWithCompletion:(void (^)(BOOL success))completion;
 
 @end

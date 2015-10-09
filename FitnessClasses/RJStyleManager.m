@@ -7,6 +7,7 @@
 //
 
 #import "RJStyleManager.h"
+#import "RJTransparentNavigationBarController.h"
 #import "UIImage+RJAdditions.h"
 
 
@@ -24,7 +25,12 @@
        NSForegroundColorAttributeName : self.titleColor
        }
      ];
-    [[UINavigationBar appearance] setTintColor:self.themeTextColor];
+    
+    UINavigationBar *transparentNavigationBar = [UINavigationBar appearanceWhenContainedIn:[RJTransparentNavigationBarController class], nil];
+    [transparentNavigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
+    [transparentNavigationBar setShadowImage:[UIImage imageWithColor:[UIColor clearColor]]];
+    [transparentNavigationBar setTranslucent:YES];
+    
     [[UINavigationBar appearance] setBackIndicatorImage:[UIImage tintableImageNamed:@"backwardIconSmall"]];
     [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage tintableImageNamed:@"backwardIconSmall"]];
     

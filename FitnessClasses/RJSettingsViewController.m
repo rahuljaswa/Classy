@@ -8,11 +8,13 @@
 
 #import "RJAuthenticationViewController.h"
 #import "RJCreatableObjectsViewController.h"
+#import "RJInAppPurchaseHelper.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
+#import "RJPurchaseSubscriptionViewController.h"
 #import "RJSettingsViewController.h"
-#import "RJCreditsHelper.h"
 #import "RJStyleManager.h"
+#import "RJTransparentNavigationBarController.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 @import MessageUI.MFMailComposeViewController;
 
@@ -20,7 +22,7 @@ static NSString *const kSettingsCellID = @"SettingsCellID";
 
 typedef NS_ENUM(NSInteger, Section) {
     kSectionUserInfo,
-    kSectionCredits,
+    kSectionSubscription,
     kSectionFeedback,
     kSectionLogout,
     kNumSections
@@ -30,18 +32,19 @@ typedef NS_ENUM(NSUInteger, UserInfoSectionRow) {
     kUserInfoSectionRowName,
     kUserInfoSectionRowPhoneNumber,
     kUserInfoSectionRowVersion,
-    kUserInfoSectionRowAvailableCredits,
     kNumUserInfoSectionRows
 };
 
-typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
-    kCreditsSectionRowBuyCredits,
-    kCreditsSectionRowEarnCredits,
-    kNumCreditsSectionRows
+typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
+    kSubscriptionSectionRowStatus,
+    kSubscriptionSectionRowEarnBonus,
+    kSubscriptionSectionRowRestorePurchases,
+    kSubscriptionSectionRowSubscribeOrCancelSubscription,
+    kNumSubscriptionSectionRows
 };
 
 
-@interface RJSettingsViewController () <MFMailComposeViewControllerDelegate>
+@interface RJSettingsViewController () <MFMailComposeViewControllerDelegate, RJPurchaseSubscriptionViewControllerDelegate>
 
 @property (nonatomic, strong) RJParseUser *currentUser;
 
@@ -62,6 +65,18 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
     [[controller presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - Private Protocols - RJPurchaseSubscriptionViewControllerDelegate
+
+- (void)purchaseSubscriptionViewControllerDidCancel:(RJPurchaseSubscriptionViewController *)purchaseSubscriptionViewController {
+    [purchaseSubscriptionViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.tableView reloadData];
+}
+
+- (void)purchaseSubscriptionViewControllerDidComplete:(RJPurchaseSubscriptionViewController *)purchaseSubscriptionViewController {
+    [purchaseSubscriptionViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.tableView reloadData];
+}
+
 #pragma mark - Public Protocols - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -75,8 +90,8 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
         case kSectionUserInfo:
             numberOfRows = kNumUserInfoSectionRows;
             break;
-        case kSectionCredits:
-            numberOfRows = kNumCreditsSectionRows;
+        case kSectionSubscription:
+            numberOfRows = kNumSubscriptionSectionRows;
             break;
         case kSectionFeedback:
             numberOfRows = 1;
@@ -109,29 +124,40 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
                     cell.textLabel.text = [NSString stringWithFormat:@"Classy v%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
                     cell.textLabel.textAlignment = NSTextAlignmentLeft;
                     break;
-                case kUserInfoSectionRowAvailableCredits:
-                    if (self.currentUser.creditsAvailable) {
-                        cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@ Credits Available", nil), self.currentUser.creditsAvailable];
-                    } else {
-                        cell.textLabel.text = NSLocalizedString(@"0 Credits Available", nil);
-                    }
-                    cell.textLabel.textAlignment = NSTextAlignmentLeft;
-                    break;
                 default:
                     break;
             }
             cell.userInteractionEnabled = NO;
             break;
         }
-        case kSectionCredits: {
-            CreditsSectionRow creditSectionRow = indexPath.row;
-            switch (creditSectionRow) {
-                case kCreditsSectionRowBuyCredits:
-                    cell.textLabel.text = NSLocalizedString(@"Buy Credits", nil);
+        case kSectionSubscription: {
+            SubscriptionSectionRow subscriptionSectionRow = indexPath.row;
+            switch (subscriptionSectionRow) {
+                case kSubscriptionSectionRowStatus:
+                    if ([self.currentUser hasCurrentSubscription]) {
+                        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                        formatter.dateFormat = @"M/d/yyyy";
+                        NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Premium Subscription Ending %@", nil), [formatter stringFromDate:self.currentUser.subscriptionExpirationDate]];
+                        cell.textLabel.text = text;
+                    } else {
+                        cell.textLabel.text = NSLocalizedString(@"Free Plan", nil);
+                    }
+                    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+                    break;
+                case kSubscriptionSectionRowEarnBonus:
+                    cell.textLabel.text = NSLocalizedString(@"Earn Free Subscription", nil);
                     cell.textLabel.textAlignment = NSTextAlignmentCenter;
                     break;
-                case kCreditsSectionRowEarnCredits:
-                    cell.textLabel.text = NSLocalizedString(@"Earn Credits for Free", nil);
+                case kSubscriptionSectionRowRestorePurchases:
+                    cell.textLabel.text = NSLocalizedString(@"Restore Previous Purchases", nil);
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    break;
+                case kSubscriptionSectionRowSubscribeOrCancelSubscription:
+                    if ([self.currentUser hasCurrentSubscription]) {
+                        cell.textLabel.text = NSLocalizedString(@"Cancel Subscription", nil);
+                    } else {
+                        cell.textLabel.text = NSLocalizedString(@"Buy Subscription", nil);
+                    }
                     cell.textLabel.textAlignment = NSTextAlignmentCenter;
                     break;
                 default:
@@ -166,64 +192,59 @@ typedef NS_ENUM(NSUInteger, CreditsSectionRow) {
     switch (settingsSection) {
         case kSectionUserInfo:
             break;
-        case kSectionCredits: {
+        case kSectionSubscription: {
             void (^completion) (BOOL) = ^(BOOL success) {
                 if (success) {
                     [self.tableView reloadData];
                 }
             };
             
-            CreditsSectionRow creditSectionRow = indexPath.row;
-            switch (creditSectionRow) {
-                case kCreditsSectionRowBuyCredits: {
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"How many credits would you like to buy?", nil) preferredStyle:UIAlertControllerStyleActionSheet];
-                    
-                    [alertController addAction:
-                     [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
-                    
-                    __block RJCreditsHelper *creditsHelper = [RJCreditsHelper sharedInstance];
-                    [alertController addAction:
-                     [UIAlertAction actionWithTitle:NSLocalizedString(@"1 Credit ($0.99)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [creditsHelper purchaseCreditsPackage:kRJCreditsHelperCreditPackageOne completion:completion];
-                    }]];
-                    [alertController addAction:
-                     [UIAlertAction actionWithTitle:NSLocalizedString(@"5 Credits ($3.99)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [creditsHelper purchaseCreditsPackage:kRJCreditsHelperCreditPackageFive completion:completion];
-                    }]];
-                    [alertController addAction:
-                     [UIAlertAction actionWithTitle:NSLocalizedString(@"10 Credits ($6.99)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [creditsHelper purchaseCreditsPackage:kRJCreditsHelperCreditPackageTen completion:completion];
-                    }]];
-                    
-                    [self presentViewController:alertController animated:YES completion:nil];
+            SubscriptionSectionRow subscriptionRow = indexPath.row;
+            switch (subscriptionRow) {
+                case kSubscriptionSectionRowStatus:
+                    break;
+                case kSubscriptionSectionRowSubscribeOrCancelSubscription: {
+                    if ([self.currentUser hasCurrentSubscription]) {
+                        
+                    } else {
+                        RJPurchaseSubscriptionViewController *subscriptionViewController = [[RJPurchaseSubscriptionViewController alloc] initWithNibName:nil bundle:nil];
+                        subscriptionViewController.delegate = self;
+                        
+                        RJTransparentNavigationBarController *subscriptionNavigationController = [[RJTransparentNavigationBarController alloc] initWithRootViewController:subscriptionViewController];
+                        [self presentViewController:subscriptionNavigationController animated:YES completion:nil];
+                    }
                     break;
                 }
-                case kCreditsSectionRowEarnCredits: {
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"You can earn free credits by helping to spread the word about Classy!", nil) preferredStyle:UIAlertControllerStyleActionSheet];
+                case kSubscriptionSectionRowEarnBonus: {
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"You can earn subscription bonuses by helping to spread the word about Classy!", nil) preferredStyle:UIAlertControllerStyleActionSheet];
                     
                     [alertController addAction:
                      [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
                     
-                    __block RJCreditsHelper *creditsHelper = [RJCreditsHelper sharedInstance];
+                    __block RJInAppPurchaseHelper *inAppPurchasesHelper = [RJInAppPurchaseHelper sharedInstance];
                     
                     [alertController addAction:
-                     [UIAlertAction actionWithTitle:NSLocalizedString(@"Share on Twitter (1 credit)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [creditsHelper earnCreditsOption:kRJCreditsHelperEarnCreditsOptionTwitterShare presentingViewController:self completion:completion];
+                     [UIAlertAction actionWithTitle:NSLocalizedString(@"Share on Twitter (1 month)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                        [inAppPurchasesHelper earnBonusOption:kRJInAppPurchaseHelperBonusOptionTwitterShare presentingViewController:self completion:completion];
                     }]];
                     
                     if (self.currentUser.showAllEarnCreditsOptions) {
                         [alertController addAction:
-                         [UIAlertAction actionWithTitle:NSLocalizedString(@"Write a 5-Star App Store Review (2 credits)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            [creditsHelper earnCreditsOption:kRJCreditsHelperEarnCreditsOptionAppStoreReview presentingViewController:self completion:completion];
+                         [UIAlertAction actionWithTitle:NSLocalizedString(@"Write a 5-Star App Store Review (1 month)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                            [inAppPurchasesHelper earnBonusOption:kRJInAppPurchaseHelperBonusOptionAppStoreReview presentingViewController:self completion:completion];
                         }]];
                     }
-
+                    
                     [self presentViewController:alertController animated:YES completion:nil];
+                    
                     break;
                 }
+                case kSubscriptionSectionRowRestorePurchases:
+                    break;
                 default:
                     break;
             }
+            
             break;
         }
         case kSectionFeedback: {

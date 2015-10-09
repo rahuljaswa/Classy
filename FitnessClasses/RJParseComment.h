@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import <Parse/Parse.h>
+#import "RJParseComparablePFObject.h"
 
 
 @class RJParseUser;
 
-@interface RJParseComment : PFObject <PFSubclassing>
+@interface RJParseComment : RJParseComparablePFObject <PFSubclassing>
 
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) RJParseUser *creator;

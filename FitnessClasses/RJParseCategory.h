@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import <Parse/Parse.h>
+#import "RJParseComparablePFObject.h"
 
 
-@interface RJParseCategory : PFObject <PFSubclassing>
+@interface RJParseCategory : RJParseComparablePFObject <PFSubclassing>
 
 @property (nonatomic, strong) NSString *categoryDescription;
 @property (nonatomic, strong) NSNumber *categoryOrder;

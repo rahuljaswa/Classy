@@ -11,7 +11,7 @@
 #import "RJParseClass.h"
 #import "RJParseExercise.h"
 #import "RJParseExerciseInstruction.h"
-#import "RJMixpanelConstants.h"
+#import "RJMixpanelHelper.h"
 #import "RJParseUtils.h"
 #import "RJSelfPacedPlayingClassViewController.h"
 #import "RJStyleManager.h"
@@ -43,13 +43,12 @@ static NSString *const kCellID = @"cellID";
     
     [RJParseUtils incrementPlaysForClass:klass completion:nil];
     
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel track:kRJMixpanelConstantsPlayedClass properties:
+    [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsPlayedClass properties:
      @{
        kRJMixpanelConstantsPlayedClassClassNameDictionaryKey : klass.name,
        kRJMixpanelConstantsPlayedClassClassObjectIDDictionaryKey : klass.objectId
        }];
-    [mixpanel.people increment:kRJMixpanelPeopleConstantsPlays by:@1];
+    [[Mixpanel sharedInstance].people increment:kRJMixpanelPeopleConstantsPlays by:@1];
 }
 
 #pragma mark - Private Protocols - RJExerciseInstructionCellDelegate

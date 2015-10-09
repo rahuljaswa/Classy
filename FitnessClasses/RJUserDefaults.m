@@ -9,12 +9,25 @@
 #import "RJUserDefaults.h"
 
 static NSString *const kRJUserDefaultsHasShownTutorialKey = @"RJUserDefaultsHasShownTutorialKey";
+static NSString *const kRJUserDefaultsSubscriptionReceiptDataKey = @"RJUserDefaultsSubscriptionReceiptDataKey";
 
 
 @implementation RJUserDefaults
 
+#pragma mark - Public Class Methods - Save
+
 + (void)saveDidShowTutorial {
     [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:kRJUserDefaultsHasShownTutorialKey];
+}
+
++ (void)saveSubscriptionReceipt:(NSData *)receiptData {
+    [[NSUserDefaults standardUserDefaults] setObject:receiptData forKey:kRJUserDefaultsSubscriptionReceiptDataKey];
+}
+
+#pragma mark - Public Class Methods - Retrieve
+
++ (NSData *)subscriptionReceipt {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kRJUserDefaultsSubscriptionReceiptDataKey];
 }
 
 + (BOOL)shouldShowTutorialOnLaunch {

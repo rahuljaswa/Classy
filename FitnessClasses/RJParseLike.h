@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import <Parse/Parse.h>
+#import "RJParseComparablePFObject.h"
 
 
 @class RJParseUser;
 
-@interface RJParseLike : PFObject <PFSubclassing>
+@interface RJParseLike : RJParseComparablePFObject <PFSubclassing>
 
 @property (nonatomic, strong) RJParseUser *creator;
 

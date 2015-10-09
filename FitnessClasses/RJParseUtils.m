@@ -42,24 +42,20 @@
     [query includeKey:[NSString stringWithFormat:@"%@.%@", likes, creator]];
 }
 
-#pragma mark - Public Class Methods - Credit Earning
+#pragma mark - Public Class Methods - Creating
 
-+ (void)completeEarnCreditsOption:(RJCreditsHelperEarnCreditsOption)option completion:(void (^)(BOOL))completion {
++ (void)completeEarnBonusOption:(RJInAppPurchaseHelperBonusOption)option completion:(void (^)(BOOL success))completion {
     RJParseUser *user = [RJParseUser currentUser];
     
-    NSNumber *creditsEarned = nil;
     switch (option) {
-        case kRJCreditsHelperEarnCreditsOptionAppStoreReview:
-            creditsEarned = @2;
+        case kRJInAppPurchaseHelperBonusOptionAppStoreReview:
             [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(appStoreCreditEarnDates))];
             break;
-        case kRJCreditsHelperEarnCreditsOptionTwitterShare:
-            creditsEarned = @1;
+        case kRJInAppPurchaseHelperBonusOptionTwitterShare:
             [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(twitterCreditEarnDates))];
             break;
     }
     
-    [user incrementKey:NSStringFromSelector(@selector(creditsAvailable)) byAmount:creditsEarned];
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error updating user earn dates\n\n%@", [error localizedDescription]);
@@ -69,8 +65,6 @@
         }
     }];
 }
-
-#pragma mark - Public Class Methods - Creating
 
 + (void)createCategoryWithName:(NSString *)name completion:(void (^)(BOOL))completion {
     RJParseCategory *category = [RJParseCategory object];
@@ -288,23 +282,6 @@
 
 #pragma mark - Public Class Methods - Updating
 
-+ (void)incrementCreditsAvailableForUser:(RJParseUser *)user byNumber:(NSNumber *)number completion:(void (^)(BOOL))completion {
-    [user incrementKey:NSStringFromSelector(@selector(creditsAvailable)) byAmount:number];
-    [user saveEventually:^(BOOL succeeded, NSError *error) {
-        if (!succeeded) {
-            NSLog(@"Error incrementing creditPurchases for '%@'\n\n%@", user.name, [error localizedDescription]);
-        }
-        if (completion) {
-            completion(succeeded);
-        }
-    }];
-}
-
-+ (void)incrementCreditPurchasesForUser:(RJParseUser *)user forCreditsPurchased:(NSNumber *)creditsPurchased completion:(void (^)(BOOL))completion {
-    [user incrementKey:NSStringFromSelector(@selector(creditPurchases))];
-    [self incrementCreditsAvailableForUser:user byNumber:creditsPurchased completion:completion];
-}
-
 + (void)incrementPlaysForClass:(RJParseClass *)klass completion:(void (^)(BOOL))completion {
     [klass incrementKey:NSStringFromSelector(@selector(plays))];
     [klass saveEventually:^(BOOL succeeded, NSError *error) {
@@ -367,26 +344,19 @@
     }];
 }
 
-#pragma mark - Public Class Methods - Purchasing
+#pragma mark - Public Class Methods - Subscription Updating
 
-+ (void)purchaseClass:(RJParseClass *)klass completion:(void (^)(BOOL))completion {
++ (void)updateSubscriptionWithCompletion:(void (^)(BOOL))completion {
     RJParseUser *user = [RJParseUser currentUser];
-    NSUInteger creditsAvailable = [user.creditsAvailable unsignedIntegerValue];
-    NSUInteger creditsCost = [klass.creditsCost unsignedIntegerValue];
-    if (creditsAvailable >= creditsCost) {
-        user.creditsAvailable = @(creditsAvailable - creditsCost);
-        [user addUniqueObject:klass forKey:NSStringFromSelector(@selector(classesPurchased))];
-        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (!succeeded) {
-                NSLog(@"Error purchasing '%@'\n\n%@", klass.name, [error localizedDescription]);
-            }
-            if (completion) {
-                completion(succeeded);
-            }
-        }];
-    } else if (completion) {
-        completion(NO);
-    }
+    [user setObject:[NSDate date] forKey:NSStringFromSelector(@selector(subscriptionExpirationDate))];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!succeeded) {
+            NSLog(@"Error updating subscription expiration date:\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(succeeded);
+        }
+    }];
 }
 
 @end

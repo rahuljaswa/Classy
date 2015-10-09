@@ -16,8 +16,6 @@
 @dynamic classOrder;
 @dynamic classType;
 @dynamic comments;
-@dynamic creditsCost;
-@dynamic creditsSaleCost;
 @dynamic coverArtURL;
 @dynamic exerciseInstructions;
 @dynamic instructor;

@@ -46,12 +46,23 @@ static NSString *const kLabelCellID = @"LabelCellID";
         [self.collectionView reloadData];
         
         if (!self.hasFoundInitialClass) {
-            NSUInteger firstFreeClassIndex = [classes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-                return ([[(RJParseClass *)obj creditsCost] unsignedIntegerValue] == 0);
-            }];
+            RJParseClass *initialClass = nil;
             
-            if (firstFreeClassIndex != NSNotFound) {
-                [self.homeGalleryDelegate homeGalleryViewController:self wantsPlayForClass:self.classes[firstFreeClassIndex] autoPlay:NO];
+            RJParseUser *user = [RJParseUser currentUser];
+            if (user && [user hasCurrentSubscription]) {
+                initialClass = self.classes[0];
+            } else {
+                NSUInteger nonSubscriptionClassIndex = [classes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                    return ([obj requiresSubscription] == NO);
+                }];
+                             
+                if (nonSubscriptionClassIndex != NSNotFound) {
+                    initialClass = self.classes[nonSubscriptionClassIndex];
+                }
+            }
+            
+            if (initialClass) {
+                [self.homeGalleryDelegate homeGalleryViewController:self wantsPlayForClass:initialClass autoPlay:NO];
             }
             
             self.foundInitialClass = YES;
@@ -162,17 +173,14 @@ static NSString *const kLabelCellID = @"LabelCellID";
             summaryText = [summaryText stringByAppendingString:[NSString stringWithFormat:@"| %@ ", lengthString]];
         }
         
-        NSUInteger classCost = [klass.creditsCost unsignedIntegerValue];
-        NSString *classCostString = nil;
-        if (classCost == 0) {
-            classCostString = NSLocalizedString(@"| Free ", nil);
-        } else if (classCost == 1) {
-            classCostString = NSLocalizedString(@"| 1 Credit ", nil);
+        NSString *premiumString = nil;
+        if (klass.requiresSubscription) {
+            premiumString = NSLocalizedString(@"| Premium ", nil);
         } else {
-            classCostString = [NSString stringWithFormat:NSLocalizedString(@"| %lu Credits ", nil), (unsigned long)classCost];
+            premiumString = NSLocalizedString(@"| Free ", nil);
         }
         
-        accessoriesView.summary.text = [summaryText stringByAppendingString:classCostString];;
+        accessoriesView.summary.text = [summaryText stringByAppendingString:premiumString];;
         accessoriesView.summary.font = styleManager.verySmallFont;
         accessoriesView.summary.textColor = cell.title.textColor;
         accessoriesView.summary.backgroundColor = styleManager.maskColor;

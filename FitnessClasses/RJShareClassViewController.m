@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "RJMixpanelConstants.h"
+#import "RJMixpanelHelper.h"
 #import "RJParseClass.h"
 #import "RJShareClassViewController.h"
 #import "RJStyleManager.h"
@@ -33,14 +33,14 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
     [[controller presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     if (result == MessageComposeResultSent) {
-        [[Mixpanel sharedInstance] track:kRJMixpanelConstantsSharedViaEmail properties:[self propertiesForAnalyticsEvent]];
+        [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsSharedViaEmail properties:[self propertiesForAnalyticsEvent]];
     }
 }
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
     [[controller presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     if (result == MessageComposeResultSent) {
-        [[Mixpanel sharedInstance] track:kRJMixpanelConstantsSharedViaMessages properties:[self propertiesForAnalyticsEvent]];
+        [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsSharedViaMessages properties:[self propertiesForAnalyticsEvent]];
     }
 }
 
@@ -90,7 +90,7 @@
 
 - (void)twitterButtonPressed:(UIButton *)button {
     if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] && self.klass) {
-        [[Mixpanel sharedInstance] track:kRJMixpanelConstantsClickedTwitterShareButton properties:[self propertiesForAnalyticsEvent]];
+        [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsClickedTwitterShareButton properties:[self propertiesForAnalyticsEvent]];
         SLComposeViewController *composeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
         [composeViewController setInitialText:[self textForShares]];
         [self presentViewController:composeViewController animated:YES completion:nil];
@@ -99,7 +99,7 @@
         [composeViewController setCompletionHandler:^(SLComposeViewControllerResult result) {
             [[weakComposeViewController presentingViewController] dismissViewControllerAnimated:YES completion:nil];
             if (result == SLComposeViewControllerResultDone) {
-                [[Mixpanel sharedInstance] track:kRJMixpanelConstantsSharedViaTwitter properties:[self propertiesForAnalyticsEvent]];
+                [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsSharedViaTwitter properties:[self propertiesForAnalyticsEvent]];
             }
         }];
     }
@@ -107,7 +107,7 @@
 
 - (void)emailButtonPressed:(UIButton *)button {
     if ([MFMailComposeViewController canSendMail] && self.klass) {
-        [[Mixpanel sharedInstance] track:kRJMixpanelConstantsClickedEmailShareButton properties:[self propertiesForAnalyticsEvent]];
+        [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsClickedEmailShareButton properties:[self propertiesForAnalyticsEvent]];
         MFMailComposeViewController *messageViewController = [[MFMailComposeViewController alloc] init];
         messageViewController.mailComposeDelegate = self;
         [messageViewController setSubject:NSLocalizedString(@"Check Out Classy Workouts App", nil)];
@@ -118,7 +118,7 @@
 
 - (void)messagesButtonPressed:(UIButton *)button {
     if ([MFMessageComposeViewController canSendText] && self.klass) {
-        [[Mixpanel sharedInstance] track:kRJMixpanelConstantsClickedMessagesShareButton properties:[self propertiesForAnalyticsEvent]];
+        [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsClickedMessagesShareButton properties:[self propertiesForAnalyticsEvent]];
         MFMessageComposeViewController *messageViewController = [[MFMessageComposeViewController alloc] init];
         messageViewController.messageComposeDelegate = self;
         messageViewController.body = [self textForShares];

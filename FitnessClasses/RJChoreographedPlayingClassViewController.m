@@ -11,7 +11,8 @@
 #import "RJExerciseStepsViewController.h"
 #import "RJChoreographedPlayingClassViewController.h"
 #import "RJInsetLabel.h"
-#import "RJMixpanelConstants.h"
+#import "RJLabelCell.h"
+#import "RJMixpanelHelper.h"
 #import "RJParseClass.h"
 #import "RJParseExercise.h"
 #import "RJParseExerciseInstruction.h"
@@ -94,8 +95,13 @@ static const CGFloat kPlayerUtteranceVolume = 0.3f;
 
 - (void)setKlass:(RJParseClass *)klass withStartPoint:(NSInteger)startPoint autoPlay:(BOOL)autoPlay {
     [self clearCurrentClass];
-    _klass = klass;
-    _sortedExerciseInstructions = [klass.exerciseInstructions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"startPoint" ascending:YES]]];
+    
+    if (![_klass isEqual:klass]) {
+        _klass = klass;
+        _sortedExerciseInstructions = [klass.exerciseInstructions sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"startPoint" ascending:YES]]];
+        self.collectionView.contentOffset = CGPointZero;
+    }
+    
     _playbackTime = startPoint;
     [self fetchCurrentTrackInfo];
     
@@ -348,13 +354,12 @@ static const CGFloat kPlayerUtteranceVolume = 0.3f;
     
     [RJParseUtils incrementPlaysForClass:klass completion:nil];
     
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel track:kRJMixpanelConstantsPlayedClass properties:
+    [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsPlayedClass properties:
      @{
        kRJMixpanelConstantsPlayedClassClassNameDictionaryKey : klass.name,
        kRJMixpanelConstantsPlayedClassClassObjectIDDictionaryKey : klass.objectId
        }];
-    [mixpanel.people increment:kRJMixpanelPeopleConstantsPlays by:@1];
+    [[Mixpanel sharedInstance].people increment:kRJMixpanelPeopleConstantsPlays by:@1];
 }
 
 - (void)startQueues {
@@ -452,7 +457,7 @@ static const CGFloat kPlayerUtteranceVolume = 0.3f;
 }
 
 - (void)tipButtonPressed:(UIButton *)button {
-    [[RJCreditsHelper sharedInstance] tipInstructorForClass:self.klass completion:nil];
+    [[RJInAppPurchaseHelper sharedInstance] tipInstructorForClass:self.klass completion:nil];
 }
 
 - (void)trackAttributionButtonPressed:(UIButton *)button {
@@ -596,7 +601,7 @@ static const CGFloat kPlayerUtteranceVolume = 0.3f;
         NSInteger timeToSeekInCurrentItem = 0;
         NSInteger trackStartPoint = 0;
         for (RJParseTrack *track in self.klass.tracks) {
-            if ([track.objectId isEqualToString:firstTrackToPlay.objectId]) {
+            if ([track isEqual:firstTrackToPlay]) {
                 timeToSeekInCurrentItem = (self.playbackTime - trackStartPoint);
                 break;
             }

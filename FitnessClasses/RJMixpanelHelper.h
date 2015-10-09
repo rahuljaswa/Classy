@@ -1,5 +1,5 @@
 //
-//  RJMixpanelConstants.h
+//  RJMixpanelHelper.h
 //  FitnessClasses
 //
 //  Created by Rahul Jaswa on 6/3/15.
@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Mixpanel/Mixpanel.h>
 
 FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsToken;
 
@@ -28,7 +29,14 @@ FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsSharedViaTwitter;
 FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsSharedViaMessages;
 FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsSharedViaEmail;
 
+// Subscribing
+FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsViewedSubscriptionPage;
+FOUNDATION_EXPORT NSString *const kRJMixpanelConstantsSubscribed;
 
-@interface RJMixpanelConstants : NSObject
+
+@interface RJMixpanelHelper : Mixpanel
+
++ (void)trackForCurrentApp:(NSString *)event;
++ (void)trackForCurrentApp:(NSString *)event properties:(NSDictionary *)properties;
 
 @end

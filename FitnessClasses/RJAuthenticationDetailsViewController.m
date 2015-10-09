@@ -9,7 +9,7 @@
 #import "RJAuthenticationDetailsViewController.h"
 #import "RJStyleManager.h"
 #import "RJTextFieldTableViewCell.h"
-#import "UIImage+RJAdditions.h"
+#import "UIBarButtonItem+RJAdditions.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kTextFieldCellID = @"TextFieldCellID";
@@ -165,11 +165,7 @@ typedef NS_ENUM(NSInteger, InputsSectionRow) {
     
     self.tableView.backgroundColor = [[RJStyleManager sharedInstance] themeBackgroundColor];
     
-    UIImage *cancelImage = [UIImage tintableImageNamed:@"cancelButton"];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cancelImage
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(cancelButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem cancelBarButtonItemWithTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside tintColor:nil];
 }
 
 @end

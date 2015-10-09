@@ -27,7 +27,7 @@
 		2353FCB91AFCAFD700669E64 /* RJClassImageCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 2353FCB81AFCAFD700669E64 /* RJClassImageCacheEntity.m */; };
 		2353FCBC1AFCB17500669E64 /* RJGalleryCell+FastImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2353FCBB1AFCB17500669E64 /* RJGalleryCell+FastImageCache.m */; };
 		2353FCC01AFCB70100669E64 /* RJStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2353FCBF1AFCB70100669E64 /* RJStyleManager.m */; };
-		2356ECF71B1FA02200DB5B66 /* RJMixpanelConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2356ECF61B1FA02200DB5B66 /* RJMixpanelConstants.m */; };
+		2356ECF71B1FA02200DB5B66 /* RJMixpanelHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2356ECF61B1FA02200DB5B66 /* RJMixpanelHelper.m */; };
 		23631A841AF86D9200E49935 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 23631A831AF86D9200E49935 /* main.m */; };
 		23631A871AF86D9200E49935 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23631A861AF86D9200E49935 /* AppDelegate.m */; };
 		23631A8F1AF86D9200E49935 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23631A8E1AF86D9200E49935 /* Images.xcassets */; };
@@ -37,6 +37,7 @@
 		23E463EE1AF87268008194D6 /* RJImageCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E463ED1AF87268008194D6 /* RJImageCacheManager.m */; };
 		23E63FB01B1E8CFF008C8E66 /* RJHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E63FAF1B1E8CFF008C8E66 /* RJHomeViewController.m */; };
 		23E63FB31B1E9BC9008C8E66 /* RJInsetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E63FB21B1E9BC9008C8E66 /* RJInsetLabel.m */; };
+		B70340541BC7486200AA92AB /* RJTransparentNavigationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B70340531BC7486200AA92AB /* RJTransparentNavigationBarController.m */; settings = {ASSET_TAGS = (); }; };
 		B743EE0A1BC21ACE001E4D1B /* RJTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B743EE091BC21ACE001E4D1B /* RJTextFieldTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		B755BBEF1B5D75EA002BAE31 /* RJSubtitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B755BBEE1B5D75EA002BAE31 /* RJSubtitleTableViewCell.m */; };
 		B755BBF21B5D7C3F002BAE31 /* UIColor+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B755BBF11B5D7C3F002BAE31 /* UIColor+RJAdditions.m */; };
@@ -52,6 +53,7 @@
 		B756B5D01B2A9EAF0088E918 /* RJParseComment.m in Sources */ = {isa = PBXBuildFile; fileRef = B756B5CF1B2A9EAF0088E918 /* RJParseComment.m */; };
 		B756B5D31B2A9EC10088E918 /* RJParseLike.m in Sources */ = {isa = PBXBuildFile; fileRef = B756B5D21B2A9EC10088E918 /* RJParseLike.m */; };
 		B756B5D61B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B756B5D51B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m */; };
+		B76758741BC724A400CAF6A4 /* RJParseComparablePFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B76758731BC724A400CAF6A4 /* RJParseComparablePFObject.m */; settings = {ASSET_TAGS = (); }; };
 		B779F6541B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6531B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m */; };
 		B779F6571B6AD810008F4986 /* RJExerciseSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6561B6AD810008F4986 /* RJExerciseSelectorViewController.m */; };
 		B779F65A1B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6591B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m */; };
@@ -70,6 +72,7 @@
 		B788CFEC1B6C01ED00772E6B /* RJInstructorSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFEB1B6C01ED00772E6B /* RJInstructorSelectorViewController.m */; };
 		B788CFEF1B6C036D00772E6B /* RJCreatableObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B788CFEE1B6C036D00772E6B /* RJCreatableObjectsViewController.m */; };
 		B7B18D901BBCAE37004EAF4B /* sound_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = B7B18D8F1BBCAE37004EAF4B /* sound_beep.wav */; settings = {ASSET_TAGS = (); }; };
+		B7C033D41BC22101003BBCCC /* RJPurchaseSubscriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C033D31BC22101003BBCCC /* RJPurchaseSubscriptionViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B7CC27B81B58905C0076EC41 /* RJCreateExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */; };
 		B7CC27BB1B5891BE0076EC41 /* RJLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27BA1B5891BE0076EC41 /* RJLabelCell.m */; };
 		B7CC27BE1B589EF30076EC41 /* RJMusclesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27BD1B589EF30076EC41 /* RJMusclesViewController.m */; };
@@ -90,7 +93,7 @@
 		B7EC6DB51B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC6DB41B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m */; };
 		B7EC6DB81B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC6DB71B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m */; };
 		B7F9CE561B2DDD9D00968559 /* RJSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */; };
-		B7F9CE591B2E146100968559 /* RJCreditsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE581B2E146100968559 /* RJCreditsHelper.m */; };
+		B7F9CE591B2E146100968559 /* RJInAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE581B2E146100968559 /* RJInAppPurchaseHelper.m */; };
 		B7FF38471B54763100083FE3 /* RJParseExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38461B54763100083FE3 /* RJParseExercise.m */; };
 		B7FF384A1B54764300083FE3 /* RJParseExerciseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF38491B54764300083FE3 /* RJParseExerciseStep.m */; };
 		B7FF384D1B5479D100083FE3 /* RJParseExerciseInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FF384C1B5479D100083FE3 /* RJParseExerciseInstruction.m */; };
@@ -156,8 +159,8 @@
 		2353FCBD1AFCB36400669E64 /* RJGalleryCell_FastImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJGalleryCell_FastImageCache.h; sourceTree = "<group>"; };
 		2353FCBE1AFCB70100669E64 /* RJStyleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJStyleManager.h; sourceTree = "<group>"; };
 		2353FCBF1AFCB70100669E64 /* RJStyleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJStyleManager.m; sourceTree = "<group>"; };
-		2356ECF51B1FA02200DB5B66 /* RJMixpanelConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJMixpanelConstants.h; sourceTree = "<group>"; };
-		2356ECF61B1FA02200DB5B66 /* RJMixpanelConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJMixpanelConstants.m; sourceTree = "<group>"; };
+		2356ECF51B1FA02200DB5B66 /* RJMixpanelHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJMixpanelHelper.h; sourceTree = "<group>"; };
+		2356ECF61B1FA02200DB5B66 /* RJMixpanelHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJMixpanelHelper.m; sourceTree = "<group>"; };
 		23631A7E1AF86D9200E49935 /* FitnessClasses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitnessClasses.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23631A821AF86D9200E49935 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		23631A831AF86D9200E49935 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -177,6 +180,8 @@
 		23E63FB11B1E9BC9008C8E66 /* RJInsetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJInsetLabel.h; sourceTree = "<group>"; };
 		23E63FB21B1E9BC9008C8E66 /* RJInsetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJInsetLabel.m; sourceTree = "<group>"; };
 		74D17DB7932E584F6AA5BB5E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		B70340521BC7486200AA92AB /* RJTransparentNavigationBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTransparentNavigationBarController.h; sourceTree = "<group>"; };
+		B70340531BC7486200AA92AB /* RJTransparentNavigationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTransparentNavigationBarController.m; sourceTree = "<group>"; };
 		B743EE081BC21ACE001E4D1B /* RJTextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTextFieldTableViewCell.h; sourceTree = "<group>"; };
 		B743EE091BC21ACE001E4D1B /* RJTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTextFieldTableViewCell.m; sourceTree = "<group>"; };
 		B755BBED1B5D75EA002BAE31 /* RJSubtitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSubtitleTableViewCell.h; sourceTree = "<group>"; };
@@ -200,6 +205,8 @@
 		B756B5D21B2A9EC10088E918 /* RJParseLike.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseLike.m; sourceTree = "<group>"; };
 		B756B5D41B2B5BA50088E918 /* RJAuthenticationDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJAuthenticationDetailsViewController.h; sourceTree = "<group>"; };
 		B756B5D51B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJAuthenticationDetailsViewController.m; sourceTree = "<group>"; };
+		B76758721BC724A400CAF6A4 /* RJParseComparablePFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseComparablePFObject.h; sourceTree = "<group>"; };
+		B76758731BC724A400CAF6A4 /* RJParseComparablePFObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseComparablePFObject.m; sourceTree = "<group>"; };
 		B779F6521B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditChoreographedClassTimeline.h; sourceTree = "<group>"; };
 		B779F6531B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditChoreographedClassTimeline.m; sourceTree = "<group>"; };
 		B779F6551B6AD810008F4986 /* RJExerciseSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseSelectorViewController.h; sourceTree = "<group>"; };
@@ -234,6 +241,8 @@
 		B788CFED1B6C036D00772E6B /* RJCreatableObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreatableObjectsViewController.h; sourceTree = "<group>"; };
 		B788CFEE1B6C036D00772E6B /* RJCreatableObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreatableObjectsViewController.m; sourceTree = "<group>"; };
 		B7B18D8F1BBCAE37004EAF4B /* sound_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound_beep.wav; sourceTree = "<group>"; };
+		B7C033D21BC22101003BBCCC /* RJPurchaseSubscriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJPurchaseSubscriptionViewController.h; sourceTree = "<group>"; };
+		B7C033D31BC22101003BBCCC /* RJPurchaseSubscriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJPurchaseSubscriptionViewController.m; sourceTree = "<group>"; };
 		B7CC27B61B58905C0076EC41 /* RJCreateExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateExerciseViewController.h; sourceTree = "<group>"; };
 		B7CC27B71B58905C0076EC41 /* RJCreateExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateExerciseViewController.m; sourceTree = "<group>"; };
 		B7CC27B91B5891BE0076EC41 /* RJLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJLabelCell.h; sourceTree = "<group>"; };
@@ -274,8 +283,8 @@
 		B7EC6DB71B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJChoreographedPlayingClassViewController.m; sourceTree = "<group>"; };
 		B7F9CE541B2DDD9D00968559 /* RJSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSettingsViewController.h; sourceTree = "<group>"; };
 		B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSettingsViewController.m; sourceTree = "<group>"; };
-		B7F9CE571B2E146100968559 /* RJCreditsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreditsHelper.h; sourceTree = "<group>"; };
-		B7F9CE581B2E146100968559 /* RJCreditsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreditsHelper.m; sourceTree = "<group>"; };
+		B7F9CE571B2E146100968559 /* RJInAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJInAppPurchaseHelper.h; sourceTree = "<group>"; };
+		B7F9CE581B2E146100968559 /* RJInAppPurchaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJInAppPurchaseHelper.m; sourceTree = "<group>"; };
 		B7FF38451B54763100083FE3 /* RJParseExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExercise.h; sourceTree = "<group>"; };
 		B7FF38461B54763100083FE3 /* RJParseExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseExercise.m; sourceTree = "<group>"; };
 		B7FF38481B54764300083FE3 /* RJParseExerciseStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExerciseStep.h; sourceTree = "<group>"; };
@@ -351,6 +360,8 @@
 				23040EC01AFB11CA00852D94 /* RJParseClass.m */,
 				B756B5CE1B2A9EAF0088E918 /* RJParseComment.h */,
 				B756B5CF1B2A9EAF0088E918 /* RJParseComment.m */,
+				B76758721BC724A400CAF6A4 /* RJParseComparablePFObject.h */,
+				B76758731BC724A400CAF6A4 /* RJParseComparablePFObject.m */,
 				B7FF38451B54763100083FE3 /* RJParseExercise.h */,
 				B7FF38461B54763100083FE3 /* RJParseExercise.m */,
 				B7CC27C21B58A0030076EC41 /* RJParseExerciseEquipment.h */,
@@ -389,8 +400,6 @@
 			children = (
 				B7CC27B51B588F4E0076EC41 /* Create */,
 				B7FF38661B57367A00083FE3 /* Tutorial */,
-				B7F9CE541B2DDD9D00968559 /* RJSettingsViewController.h */,
-				B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */,
 				B77C4CE21B2B77A00088393D /* Class Pages */,
 				23C0D44C1B1E54C3005E31BA /* Home */,
 			);
@@ -472,6 +481,10 @@
 				B778CC051B66C8210071B884 /* Helper Files */,
 				2353FCB31AFC82D900669E64 /* Image Cache */,
 				233386971AFD0CA900181446 /* Main Pages */,
+				B7C033D21BC22101003BBCCC /* RJPurchaseSubscriptionViewController.h */,
+				B7C033D31BC22101003BBCCC /* RJPurchaseSubscriptionViewController.m */,
+				B7F9CE541B2DDD9D00968559 /* RJSettingsViewController.h */,
+				B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */,
 				233386951AFD0C8000181446 /* Parse */,
 				233386961AFD0C9400181446 /* SoundCloud */,
 				233386991AFD0CD200181446 /* Style */,
@@ -489,8 +502,8 @@
 			children = (
 				23631A821AF86D9200E49935 /* Info.plist */,
 				23631A831AF86D9200E49935 /* main.m */,
-				2356ECF51B1FA02200DB5B66 /* RJMixpanelConstants.h */,
-				2356ECF61B1FA02200DB5B66 /* RJMixpanelConstants.m */,
+				2356ECF51B1FA02200DB5B66 /* RJMixpanelHelper.h */,
+				2356ECF61B1FA02200DB5B66 /* RJMixpanelHelper.m */,
 				232DC2C91B0BBF160008308E /* RJTouchposeApplication.h */,
 				232DC2CA1B0BBF160008308E /* RJTouchposeApplication.m */,
 				B7B18D8F1BBCAE37004EAF4B /* sound_beep.wav */,
@@ -549,6 +562,8 @@
 				B77C4CF01B2B8D4D0088393D /* RJStackedTitleView.m */,
 				B743EE081BC21ACE001E4D1B /* RJTextFieldTableViewCell.h */,
 				B743EE091BC21ACE001E4D1B /* RJTextFieldTableViewCell.m */,
+				B70340521BC7486200AA92AB /* RJTransparentNavigationBarController.h */,
+				B70340531BC7486200AA92AB /* RJTransparentNavigationBarController.m */,
 			);
 			name = "Custom Generic UI Elements";
 			sourceTree = "<group>";
@@ -594,8 +609,8 @@
 			children = (
 				B7CC27E11B5C7EDD0076EC41 /* RJArithmeticHelper.h */,
 				B7CC27E21B5C7EDD0076EC41 /* RJArithmeticHelper.m */,
-				B7F9CE571B2E146100968559 /* RJCreditsHelper.h */,
-				B7F9CE581B2E146100968559 /* RJCreditsHelper.m */,
+				B7F9CE571B2E146100968559 /* RJInAppPurchaseHelper.h */,
+				B7F9CE581B2E146100968559 /* RJInAppPurchaseHelper.m */,
 				B7FF386A1B577DDD00083FE3 /* RJUserDefaults.h */,
 				B7FF386B1B577DDD00083FE3 /* RJUserDefaults.m */,
 			);
@@ -866,7 +881,7 @@
 				B77C4CF71B2BA7A00088393D /* UIBarButtonItem+RJAdditions.m in Sources */,
 				B7CC27DA1B5C478F0076EC41 /* RJCreateEditChoreographedClassViewController.m in Sources */,
 				2333869C1AFD506A00181446 /* RJGalleryCellAccessoriesView.m in Sources */,
-				2356ECF71B1FA02200DB5B66 /* RJMixpanelConstants.m in Sources */,
+				2356ECF71B1FA02200DB5B66 /* RJMixpanelHelper.m in Sources */,
 				B788CFEF1B6C036D00772E6B /* RJCreatableObjectsViewController.m in Sources */,
 				B7FF38691B57368F00083FE3 /* RJTutorialCollectionViewCell.m in Sources */,
 				B788CFEC1B6C01ED00772E6B /* RJInstructorSelectorViewController.m in Sources */,
@@ -882,10 +897,12 @@
 				23E63FB31B1E9BC9008C8E66 /* RJInsetLabel.m in Sources */,
 				2353FCB61AFC969500669E64 /* UIImage+RJAdditions.m in Sources */,
 				2353FCC01AFCB70100669E64 /* RJStyleManager.m in Sources */,
+				B70340541BC7486200AA92AB /* RJTransparentNavigationBarController.m in Sources */,
 				B7FF38511B54808800083FE3 /* RJExerciseInstructionCell.m in Sources */,
 				B77C4CFA1B2BACC60088393D /* UINavigationItem+RJAdditions.m in Sources */,
 				B7EC6DB51B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m in Sources */,
 				B755BBF21B5D7C3F002BAE31 /* UIColor+RJAdditions.m in Sources */,
+				B7C033D41BC22101003BBCCC /* RJPurchaseSubscriptionViewController.m in Sources */,
 				B7CC27C11B589F260076EC41 /* RJSinglePFObjectSelectionViewController.m in Sources */,
 				B788CFE31B6BF8AF00772E6B /* RJCategorySelectorViewController.m in Sources */,
 				23631A871AF86D9200E49935 /* AppDelegate.m in Sources */,
@@ -914,6 +931,7 @@
 				23631A841AF86D9200E49935 /* main.m in Sources */,
 				B77C4CEE1B2B86DB0088393D /* RJClassSummaryView.m in Sources */,
 				B779F6541B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m in Sources */,
+				B76758741BC724A400CAF6A4 /* RJParseComparablePFObject.m in Sources */,
 				B7FF38471B54763100083FE3 /* RJParseExercise.m in Sources */,
 				B756B5D01B2A9EAF0088E918 /* RJParseComment.m in Sources */,
 				B77C4CE81B2B78430088393D /* RJPlayingClassViewController.m in Sources */,
@@ -930,7 +948,7 @@
 				B7CC27CD1B58CFE70076EC41 /* RJCreateEditSelfPacedClassViewController.m in Sources */,
 				B743EE0A1BC21ACE001E4D1B /* RJTextFieldTableViewCell.m in Sources */,
 				2353FCB21AFC82C500669E64 /* RJUserImageCacheEntity.m in Sources */,
-				B7F9CE591B2E146100968559 /* RJCreditsHelper.m in Sources */,
+				B7F9CE591B2E146100968559 /* RJInAppPurchaseHelper.m in Sources */,
 				23040EBE1AFB11AC00852D94 /* RJParseUser.m in Sources */,
 				B756B5D61B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m in Sources */,
 				B779F6571B6AD810008F4986 /* RJExerciseSelectorViewController.m in Sources */,

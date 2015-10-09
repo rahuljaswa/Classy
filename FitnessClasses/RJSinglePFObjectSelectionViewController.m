@@ -176,7 +176,7 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
         NSInteger numberOfObjects = [self.objects count];
         for (NSInteger i = 0; i < numberOfObjects; i++) {
             PFObject *object = self.objects[i];
-            if ([object.objectId isEqualToString:self.selectedObject.objectId]) {
+            if ([object isEqual:self.selectedObject]) {
                 self.selectedIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
                 [self.tableView reloadData];
                 
@@ -198,7 +198,7 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
     
     PFObject *object = self.objects[indexPath.row];
     NSInteger rowForSearchResultsIndexPath = [self.searchResults indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        return [object.objectId isEqualToString:[obj objectId]];
+        return [object isEqual:obj];
     }];
     if (rowForSearchResultsIndexPath != NSNotFound) {
         return [NSIndexPath indexPathForRow:rowForSearchResultsIndexPath inSection:0];
@@ -212,7 +212,7 @@ static NSString *const kSingleSelectionViewControllerCellID = @"SingleSelectionV
     
     PFObject *object = self.searchResults[indexPath.row];
     NSInteger rowForIndexPath = [self.objects indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        return [object.objectId isEqualToString:[obj objectId]];
+        return [object isEqual:obj];
     }];
     if (rowForIndexPath != NSNotFound) {
         return [NSIndexPath indexPathForRow:rowForIndexPath inSection:0];

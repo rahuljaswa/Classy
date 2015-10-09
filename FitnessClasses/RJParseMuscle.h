@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import <Parse/Parse.h>
+#import "RJParseComparablePFObject.h"
 
 
-@interface RJParseMuscle : PFObject <PFSubclassing>
+@interface RJParseMuscle : RJParseComparablePFObject <PFSubclassing>
 
 @property (nonatomic, strong) NSString *name;
 

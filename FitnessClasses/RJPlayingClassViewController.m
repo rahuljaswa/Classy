@@ -10,7 +10,7 @@
 #import "RJChoreographedPlayingClassViewController.h"
 #import "RJClassDetailsViewController.h"
 #import "RJClassSummaryView.h"
-#import "RJCreditsHelper.h"
+#import "RJInAppPurchaseHelper.h"
 #import "RJParseClass.h"
 #import "RJParseTrack.h"
 #import "RJPlayingClassViewController.h"

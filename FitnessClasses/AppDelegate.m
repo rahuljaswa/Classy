@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "RJHomeNavigationViewController.h"
 #import "RJImageCacheManager.h"
-#import "RJMixpanelConstants.h"
+#import "RJMixpanelHelper.h"
 #import "RJStyleManager.h"
 #import <Crashlytics/Crashlytics.h>
 #import <DigitsKit/DigitsKit.h>
@@ -68,9 +68,8 @@
 
     [FBSDKAppEvents activateApp];
     
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel track:kRJMixpanelConstantsOpenedApp];
-    [mixpanel.people increment:kRJMixpanelPeopleConstantsAppOpens by:@1];
+    [RJMixpanelHelper trackForCurrentApp:kRJMixpanelConstantsOpenedApp];
+    [[Mixpanel sharedInstance].people increment:kRJMixpanelPeopleConstantsAppOpens by:@1];
     
     [self clearAppBadge];
 }
