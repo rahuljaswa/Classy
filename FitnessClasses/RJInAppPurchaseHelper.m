@@ -293,7 +293,7 @@ NSString *const kTierOneYearlySubscriptionProductIdentifier = @"com.rahuljaswa.C
     
     NSDictionary *productInfo = @{
                                   @"debugMode" : @(debugMode),
-                                  @"receiptData" : receiptData,
+                                  @"receiptData" : [receiptData base64EncodedStringWithOptions:0],
                                   @"userObjectId" : [RJParseUser currentUser].objectId
                                   };
     [PFCloud callFunctionInBackground:@"validateReceipt"
@@ -306,6 +306,16 @@ NSString *const kTierOneYearlySubscriptionProductIdentifier = @"com.rahuljaswa.C
                                         completion(YES);
                                     }
                                 }];
+}
+
+- (void)restoreCompletedTransactionsWithCompletion:(void (^)(BOOL))completion {
+    self.completion = completion;
+    
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"Restoring purchases...", nil)];
+    
+    SKPaymentQueue *paymentQueue = [SKPaymentQueue defaultQueue];
+    [paymentQueue addTransactionObserver:self];
+    [paymentQueue restoreCompletedTransactions];
 }
 
 #pragma mark - Public Class Methods

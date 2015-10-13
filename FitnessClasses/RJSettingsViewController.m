@@ -15,6 +15,7 @@
 #import "RJSettingsViewController.h"
 #import "RJStyleManager.h"
 #import "RJTransparentNavigationBarController.h"
+#import "RJUserDefaults.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 @import MessageUI.MFMailComposeViewController;
 
@@ -239,8 +240,16 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
                     
                     break;
                 }
-                case kSubscriptionSectionRowRestorePurchases:
+                case kSubscriptionSectionRowRestorePurchases: {
+                    RJInAppPurchaseHelper *inAppPurchaseHelper = [RJInAppPurchaseHelper sharedInstance];
+                    [inAppPurchaseHelper restoreCompletedTransactionsWithCompletion:^(BOOL success) {
+                        [SVProgressHUD showWithStatus:NSLocalizedString(@"Updating account...", nil)];
+                        [inAppPurchaseHelper updateCurrentUserSubscriptionStatusWithReceiptData:[RJUserDefaults subscriptionReceipt] completion:^(BOOL success) {
+                            [SVProgressHUD dismiss];
+                        }];
+                    }];
                     break;
+                }
                 default:
                     break;
             }

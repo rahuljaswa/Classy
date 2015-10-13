@@ -33,4 +33,6 @@ typedef NS_ENUM(NSUInteger, RJInAppPurchaseHelperBonusOption) {
 - (void)getSubscriptionPricesWithCompletion:(void (^)(double monthlyPrice, NSString *formattedMonthlyPrice, double yearlyPrice, NSString *formattedYearlyPrice))completion;
 - (void)updateCurrentUserSubscriptionStatusWithReceiptData:(NSData *)receiptData completion:(void (^)(BOOL success))completion;
 
+- (void)restoreCompletedTransactionsWithCompletion:(void (^)(BOOL success))completion;
+
 @end
