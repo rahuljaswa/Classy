@@ -9,8 +9,10 @@
 #import "AppDelegate.h"
 #import "RJHomeNavigationViewController.h"
 #import "RJImageCacheManager.h"
+#import "RJInAppPurchaseHelper.h"
 #import "RJMixpanelHelper.h"
 #import "RJStyleManager.h"
+#import "RJUserDefaults.h"
 #import <Crashlytics/Crashlytics.h>
 #import <DigitsKit/DigitsKit.h>
 #import <Fabric/Fabric.h>
@@ -72,6 +74,11 @@
     [[Mixpanel sharedInstance].people increment:kRJMixpanelPeopleConstantsAppOpens by:@1];
     
     [self clearAppBadge];
+    
+    NSData *subscriptionReceipt = [RJUserDefaults subscriptionReceipt];
+    if (subscriptionReceipt) {
+        [[RJInAppPurchaseHelper sharedInstance] updateCurrentUserSubscriptionStatusWithReceiptData:subscriptionReceipt completion:nil];
+    }
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

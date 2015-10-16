@@ -12,6 +12,7 @@
 #import "RJParseExercise.h"
 #import "RJParseExerciseEquipment.h"
 #import "RJParseExerciseInstruction.h"
+#import "RJParseKey.h"
 #import "RJParseLike.h"
 #import "RJParseMuscle.h"
 #import "RJParseUser.h"
@@ -47,15 +48,20 @@
 + (void)completeEarnBonusOption:(RJInAppPurchaseHelperBonusOption)option completion:(void (^)(BOOL success))completion {
     RJParseUser *user = [RJParseUser currentUser];
     
+    NSNumber *creditsEarned = nil;
+    
     switch (option) {
         case kRJInAppPurchaseHelperBonusOptionAppStoreReview:
+            creditsEarned = @2;
             [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(appStoreCreditEarnDates))];
             break;
         case kRJInAppPurchaseHelperBonusOptionTwitterShare:
+            creditsEarned = @1;
             [user addUniqueObject:[NSDate date] forKey:NSStringFromSelector(@selector(twitterCreditEarnDates))];
             break;
     }
     
+    [user incrementKey:NSStringFromSelector(@selector(creditsAvailable)) byAmount:creditsEarned];
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!succeeded) {
             NSLog(@"Error updating user earn dates\n\n%@", [error localizedDescription]);
@@ -280,6 +286,19 @@
     }];
 }
 
++ (void)fetchKeyForIdentifier:(NSString *)identifier completion:(void (^)(RJParseKey *))completion {
+    PFQuery *query = [RJParseKey query];
+    [query whereKey:NSStringFromSelector(@selector(identifier)) equalTo:identifier];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (!objects) {
+            NSLog(@"Error fetching key for identifier:\n\n%@", identifier);
+        }
+        if (completion) {
+            completion([objects firstObject]);
+        }
+    }];
+}
+
 #pragma mark - Public Class Methods - Updating
 
 + (void)incrementPlaysForClass:(RJParseClass *)klass completion:(void (^)(BOOL))completion {
@@ -340,21 +359,6 @@
             if (completion) {
                 completion(NO);
             }
-        }
-    }];
-}
-
-#pragma mark - Public Class Methods - Subscription Updating
-
-+ (void)updateSubscriptionWithCompletion:(void (^)(BOOL))completion {
-    RJParseUser *user = [RJParseUser currentUser];
-    [user setObject:[NSDate date] forKey:NSStringFromSelector(@selector(subscriptionExpirationDate))];
-    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!succeeded) {
-            NSLog(@"Error updating subscription expiration date:\n\n%@", [error localizedDescription]);
-        }
-        if (completion) {
-            completion(succeeded);
         }
     }];
 }

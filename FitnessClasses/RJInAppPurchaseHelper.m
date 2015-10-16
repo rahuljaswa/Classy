@@ -7,6 +7,7 @@
 //
 
 #import "RJInAppPurchaseHelper.h"
+#import "RJParseKey.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJUserDefaults.h"
@@ -15,8 +16,8 @@
 @import StoreKit;
 
 NSString *const kInstructorTipProductIdentifier = @"com.rahuljaswa.Classy.instructorTip";
-NSString *const kTierOneMonthlySubscriptionProductIdentifier = @"com.rahuljaswa.Classy.tierOneMonthlySubscription";
-NSString *const kTierOneYearlySubscriptionProductIdentifier = @"com.rahuljaswa.Classy.tierOneYearlySubscription";
+NSString *const kTierOneSubscriptionMonthlyProductIdentifier = @"com.rahuljaswa.Classy.tierOneSubscriptionMonthly";
+NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"com.rahuljaswa.Classy.tierOneSubscriptionYearly";
 
 
 @interface RJInAppPurchaseHelper () <SKPaymentTransactionObserver, SKProductsRequestDelegate>
@@ -45,11 +46,11 @@ NSString *const kTierOneYearlySubscriptionProductIdentifier = @"com.rahuljaswa.C
         [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         
         for (SKProduct *product in products) {
-            if ([product.productIdentifier isEqualToString:kTierOneMonthlySubscriptionProductIdentifier]) {
+            if ([product.productIdentifier isEqualToString:kTierOneSubscriptionMonthlyProductIdentifier]) {
                 monthlySubscriptionPrice = product.price;
                 [numberFormatter setLocale:product.priceLocale];
                 formattedMonthlyPrice = [numberFormatter stringFromNumber:product.price];
-            } else if ([product.productIdentifier isEqualToString:kTierOneYearlySubscriptionProductIdentifier]) {
+            } else if ([product.productIdentifier isEqualToString:kTierOneSubscriptionYearlyProductIdentifier]) {
                 yearlySubscriptionPrice = product.price;
                 [numberFormatter setLocale:product.priceLocale];
                 formattedYearlyPrice = [numberFormatter stringFromNumber:product.price];
@@ -96,8 +97,8 @@ NSString *const kTierOneYearlySubscriptionProductIdentifier = @"com.rahuljaswa.C
 #pragma mark - Private Instance Methods
 
 - (void)saveSubscriptionReceiptForTransaction:(SKPaymentTransaction *)transaction {
-    if ([transaction.payment.productIdentifier isEqualToString:kTierOneMonthlySubscriptionProductIdentifier] ||
-        [transaction.payment.productIdentifier isEqualToString:kTierOneYearlySubscriptionProductIdentifier])
+    if ([transaction.payment.productIdentifier isEqualToString:kTierOneSubscriptionMonthlyProductIdentifier] ||
+        [transaction.payment.productIdentifier isEqualToString:kTierOneSubscriptionYearlyProductIdentifier])
     {
         NSURL *appStoreReceiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
         if (appStoreReceiptURL) {
@@ -231,16 +232,9 @@ NSString *const kTierOneYearlySubscriptionProductIdentifier = @"com.rahuljaswa.C
 - (void)purchaseMonthlySubscriptionWithCompletion:(void (^)(BOOL))completion {
     if (!self.isTransactionInProgress) {
         self.transactionInProgress = YES;
+        self.completion = completion;
         
-        self.completion = ^(BOOL success) {
-            if (success) {
-                [RJParseUtils updateSubscriptionWithCompletion:completion];
-            } else if (completion) {
-                completion(NO);
-            }
-        };
-        
-        [self startRequestWithProductID:kTierOneMonthlySubscriptionProductIdentifier hud:YES];
+        [self startRequestWithProductID:kTierOneSubscriptionMonthlyProductIdentifier hud:YES];
     }
 }
 
@@ -248,15 +242,9 @@ NSString *const kTierOneYearlySubscriptionProductIdentifier = @"com.rahuljaswa.C
     if (!self.isTransactionInProgress) {
         self.transactionInProgress = YES;
         
-        self.completion = ^(BOOL success) {
-            if (success) {
-                [RJParseUtils updateSubscriptionWithCompletion:completion];
-            } else if (completion) {
-                completion(NO);
-            }
-        };
+        self.completion = completion;
         
-        [self startRequestWithProductID:kTierOneYearlySubscriptionProductIdentifier hud:YES];
+        [self startRequestWithProductID:kTierOneSubscriptionYearlyProductIdentifier hud:YES];
     }
 }
 
@@ -279,33 +267,73 @@ NSString *const kTierOneYearlySubscriptionProductIdentifier = @"com.rahuljaswa.C
 
 - (void)getSubscriptionPricesWithCompletion:(void (^)(double, NSString *, double, NSString *))completion {
     if (!self.isTransactionInProgress) {
-        [self startRequestWithProductIDS:[NSSet setWithObjects:kTierOneMonthlySubscriptionProductIdentifier, kTierOneYearlySubscriptionProductIdentifier, nil] hud:NO];
+        [self startRequestWithProductIDS:[NSSet setWithObjects:kTierOneSubscriptionMonthlyProductIdentifier, kTierOneSubscriptionYearlyProductIdentifier, nil] hud:NO];
         self.priceLookupCompletion = completion;
     }
 }
 
 - (void)updateCurrentUserSubscriptionStatusWithReceiptData:(NSData *)receiptData completion:(void (^)(BOOL))completion {
+    [RJParseUtils fetchKeyForIdentifier:kRJParseKeyAppleInAppPurchaseKey completion:^(RJParseKey *key) {
+        if (key) {
+            NSError *error;
+            NSDictionary *requestContents = @{
+                                              @"receipt-data": [receiptData base64EncodedStringWithOptions:0],
+                                              @"password": key.secret
+                                              };
+            NSData *requestData = [NSJSONSerialization dataWithJSONObject:requestContents
+                                                                  options:0
+                                                                    error:&error];
+            
+            if (requestData) {
 #ifdef DEBUG
-    BOOL debugMode = YES;
+                NSURL *storeURL = [NSURL URLWithString:@"https://sandbox.itunes.apple.com/verifyReceipt"];
 #else
-    BOOL debugMode = NO;
+                NSURL *storeURL = [NSURL URLWithString:@"http://buy.itunes.apple.com/verifyReceipt"];
 #endif
-    
-    NSDictionary *productInfo = @{
-                                  @"debugMode" : @(debugMode),
-                                  @"receiptData" : [receiptData base64EncodedStringWithOptions:0],
-                                  @"userObjectId" : [RJParseUser currentUser].objectId
-                                  };
-    [PFCloud callFunctionInBackground:@"validateReceipt"
-                       withParameters:productInfo
-                                block:^(id object, NSError *error) {
-                                    if (error) {
-                                        NSLog(@"Error validating subscription receipt:\n\n%@", [error localizedDescription]);
-                                    }
-                                    if (completion) {
-                                        completion(YES);
-                                    }
-                                }];
+                
+                NSMutableURLRequest *storeRequest = [NSMutableURLRequest requestWithURL:storeURL];
+                [storeRequest setHTTPMethod:@"POST"];
+                [storeRequest setHTTPBody:requestData];
+                
+                NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+                [NSURLConnection sendAsynchronousRequest:storeRequest queue:queue
+                                       completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                                           if (connectionError) {
+                                               NSLog(@"Error connecting to Apple Receipt Validation Server\n\n%@", [error localizedDescription]);
+                                           } else {
+                                               NSError *error;
+                                               NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                                               if (jsonResponse) {
+                                                   RJParseUser *currentUser = [RJParseUser currentUser];
+                                                   NSString *jsonSubscriptionExpirationDate = [jsonResponse[@"latest_receipt_info"] lastObject][@"expires_date"];
+                                                   
+                                                   NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                                                   formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss VV";
+                                                   
+                                                   currentUser.subscriptionExpirationDate = [formatter dateFromString:jsonSubscriptionExpirationDate];
+                                                   [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                                                       if (completion) {
+                                                           completion(succeeded);
+                                                       }
+                                                   }];
+                                               } else {
+                                                   NSLog(@"Error creating JSON object with response data\n\n%@", [error localizedDescription]);
+                                                   if (completion) {
+                                                       completion(NO);
+                                                   }
+                                               }
+                                           }
+                                       }];
+            } else {
+                NSLog(@"Error retrieving data from JSON Object\n\n%@", [error localizedDescription]);
+                if (completion) {
+                    completion(NO);
+                }
+            }
+        } else if (completion) {
+            completion(NO);
+        }
+    }];
 }
 
 - (void)restoreCompletedTransactionsWithCompletion:(void (^)(BOOL))completion {

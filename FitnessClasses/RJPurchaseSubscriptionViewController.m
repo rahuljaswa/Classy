@@ -6,6 +6,7 @@
 //  Copyright © 2015 Rahul Jaswa. All rights reserved.
 //
 
+#import "RJAuthenticationViewController.h"
 #import "RJInAppPurchaseHelper.h"
 #import "RJInsetLabel.h"
 #import "RJMixpanelHelper.h"
@@ -15,6 +16,7 @@
 #import "RJUserDefaults.h"
 #import "UIBarButtonItem+RJAdditions.h"
 #import "UIImage+RJAdditions.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString *const kCellID = @"CellID";
 static const CGFloat kTableViewHeight = 110.0f;
@@ -80,33 +82,73 @@ typedef NS_ENUM(NSInteger, PremiumFeature) {
 }
 
 - (void)monthlyButtonPressed:(UIButton *)button {
-    [[RJInAppPurchaseHelper sharedInstance] purchaseMonthlySubscriptionWithCompletion:^(BOOL success) {
-        if (success) {
-            NSData *receiptData = [RJUserDefaults subscriptionReceipt];
-            [[RJInAppPurchaseHelper sharedInstance] updateCurrentUserSubscriptionStatusWithReceiptData:receiptData completion:^(BOOL success) {
-                [[RJParseUser currentUser] fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-                    if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
-                        [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
-                    }
-                }];
-            }];
-        }
-    }];
+    void (^purchaseSubscriptionBlock) (void) = ^{
+        [[RJInAppPurchaseHelper sharedInstance] purchaseMonthlySubscriptionWithCompletion:^(BOOL success) {
+            if (success) {
+                NSData *receiptData = [RJUserDefaults subscriptionReceipt];
+                if (receiptData) {
+                    [[RJInAppPurchaseHelper sharedInstance] updateCurrentUserSubscriptionStatusWithReceiptData:receiptData completion:^(BOOL success) {
+                        if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
+                            [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
+                        }
+                    }];
+                }
+            }
+        }];
+    };
+    
+    if ([RJParseUser currentUser]) {
+        purchaseSubscriptionBlock();
+    } else {
+        [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            if (user && ![user hasCurrentSubscription]) {
+                purchaseSubscriptionBlock();
+            } else if ([user hasCurrentSubscription]) {
+                [SVProgressHUD showWithStatus:NSLocalizedString(@"You are already a subscriber!", nil)];
+                if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
+                    [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
+                }
+            } else {
+                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Login failed. Try again!", nil)];
+            }
+        }];
+    }
 }
 
 - (void)yearlyButtonPressed:(UIButton *)button {
-    [[RJInAppPurchaseHelper sharedInstance] purchaseYearlySubscriptionWithCompletion:^(BOOL success) {
-        if (success) {
-            NSData *receiptData = [RJUserDefaults subscriptionReceipt];
-            [[RJInAppPurchaseHelper sharedInstance] updateCurrentUserSubscriptionStatusWithReceiptData:receiptData completion:^(BOOL success) {
-                [[RJParseUser currentUser] fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-                    if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
-                        [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
-                    }
-                }];
-            }];
-        }
-    }];
+    void (^purchaseSubscriptionBlock) (void) = ^{
+        [[RJInAppPurchaseHelper sharedInstance] purchaseYearlySubscriptionWithCompletion:^(BOOL success) {
+            if (success) {
+                NSData *receiptData = [RJUserDefaults subscriptionReceipt];
+                if (receiptData) {
+                    [[RJInAppPurchaseHelper sharedInstance] updateCurrentUserSubscriptionStatusWithReceiptData:receiptData completion:^(BOOL success) {
+                        if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
+                            [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
+                        }
+                    }];
+                }
+            }
+        }];
+    };
+    
+    if ([RJParseUser currentUser]) {
+        purchaseSubscriptionBlock();
+    } else {
+        [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            if (user && ![user hasCurrentSubscription]) {
+                purchaseSubscriptionBlock();
+            } else if ([user hasCurrentSubscription]) {
+                [SVProgressHUD showWithStatus:NSLocalizedString(@"You are already a subscriber!", nil)];
+                if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
+                    [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
+                }
+            } else {
+                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Login failed. Try again!", nil)];
+            }
+        }];
+    }
 }
 
 - (void)updateButtonText {
@@ -254,7 +296,7 @@ typedef NS_ENUM(NSInteger, PremiumFeature) {
     
     [self updateButtonText];
     self.titleLabel.text = NSLocalizedString(@"Classy Plus", nil);
-    self.detailLabel.text = NSLocalizedString(@"Unlock the healthy, fit, happy, beautiful, version of you.", nil);
+    self.detailLabel.text = NSLocalizedString(@"Unlock the healthy, happy, beautiful, version of you.", nil);
     
     
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];

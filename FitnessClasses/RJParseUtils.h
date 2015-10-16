@@ -15,6 +15,7 @@
 @class RJParseCategory;
 @class RJParseClass;
 @class RJParseExerciseEquipment;
+@class RJParseKey;
 @class RJParseUser;
 
 @interface RJParseUtils : NSObject
@@ -37,13 +38,12 @@
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassesForInstructor:(RJParseUser *)instructor completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassWithId:(NSString *)objectId completion:(void (^)(RJParseClass *klass))completion;
++ (void)fetchKeyForIdentifier:(NSString *)identifier completion:(void (^)(RJParseKey *key))completion;
 
 + (void)incrementPlaysForClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
 + (void)incrementTipsForClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;
 + (void)incrementTipsForUser:(RJParseUser *)user completion:(void (^)(BOOL success))completion;
 
 + (void)insertCommentForClass:(RJParseClass *)klass text:(NSString *)text completion:(void (^)(BOOL success))completion;
-
-+ (void)updateSubscriptionWithCompletion:(void (^)(BOOL success))completion;
 
 @end

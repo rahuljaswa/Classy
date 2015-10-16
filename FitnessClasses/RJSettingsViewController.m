@@ -33,12 +33,12 @@ typedef NS_ENUM(NSUInteger, UserInfoSectionRow) {
     kUserInfoSectionRowName,
     kUserInfoSectionRowPhoneNumber,
     kUserInfoSectionRowVersion,
+    kUserInfoSectionRowSubscriptionStatus,
     kNumUserInfoSectionRows
 };
 
 typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
-    kSubscriptionSectionRowStatus,
-    kSubscriptionSectionRowEarnBonus,
+//    kSubscriptionSectionRowEarnBonus,
     kSubscriptionSectionRowRestorePurchases,
     kSubscriptionSectionRowSubscribeOrCancelSubscription,
     kNumSubscriptionSectionRows
@@ -115,43 +115,37 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
             switch (userInfoSectionRow) {
                 case kUserInfoSectionRowName:
                     cell.textLabel.text = self.currentUser.name;
-                    cell.textLabel.textAlignment = NSTextAlignmentLeft;
                     break;
                 case kUserInfoSectionRowPhoneNumber:
                     cell.textLabel.text = self.currentUser.username;
-                    cell.textLabel.textAlignment = NSTextAlignmentLeft;
                     break;
                 case kUserInfoSectionRowVersion:
                     cell.textLabel.text = [NSString stringWithFormat:@"Classy v%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-                    cell.textLabel.textAlignment = NSTextAlignmentLeft;
                     break;
+                case kUserInfoSectionRowSubscriptionStatus:
+                    if ([self.currentUser hasCurrentSubscription]) {
+                        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                        formatter.dateFormat = @"M/d/yyyy";
+                        NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Subscription Ends %@", nil), [formatter stringFromDate:self.currentUser.subscriptionExpirationDate]];
+                        cell.textLabel.text = text;
+                    } else {
+                        cell.textLabel.text = NSLocalizedString(@"Free Plan", nil);
+                    }
                 default:
                     break;
             }
             cell.userInteractionEnabled = NO;
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
             break;
         }
         case kSectionSubscription: {
             SubscriptionSectionRow subscriptionSectionRow = indexPath.row;
             switch (subscriptionSectionRow) {
-                case kSubscriptionSectionRowStatus:
-                    if ([self.currentUser hasCurrentSubscription]) {
-                        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                        formatter.dateFormat = @"M/d/yyyy";
-                        NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Premium Subscription Ending %@", nil), [formatter stringFromDate:self.currentUser.subscriptionExpirationDate]];
-                        cell.textLabel.text = text;
-                    } else {
-                        cell.textLabel.text = NSLocalizedString(@"Free Plan", nil);
-                    }
-                    cell.textLabel.textAlignment = NSTextAlignmentLeft;
-                    break;
-                case kSubscriptionSectionRowEarnBonus:
-                    cell.textLabel.text = NSLocalizedString(@"Earn Free Subscription", nil);
-                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-                    break;
+//                case kSubscriptionSectionRowEarnBonus:
+//                    cell.textLabel.text = NSLocalizedString(@"Earn Free Subscription", nil);
+//                    break;
                 case kSubscriptionSectionRowRestorePurchases:
                     cell.textLabel.text = NSLocalizedString(@"Restore Previous Purchases", nil);
-                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
                     break;
                 case kSubscriptionSectionRowSubscribeOrCancelSubscription:
                     if ([self.currentUser hasCurrentSubscription]) {
@@ -164,6 +158,7 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
                 default:
                     break;
             }
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.userInteractionEnabled = YES;
             break;
         }
@@ -194,19 +189,15 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
         case kSectionUserInfo:
             break;
         case kSectionSubscription: {
-            void (^completion) (BOOL) = ^(BOOL success) {
-                if (success) {
-                    [self.tableView reloadData];
-                }
-            };
-            
             SubscriptionSectionRow subscriptionRow = indexPath.row;
             switch (subscriptionRow) {
-                case kSubscriptionSectionRowStatus:
-                    break;
                 case kSubscriptionSectionRowSubscribeOrCancelSubscription: {
                     if ([self.currentUser hasCurrentSubscription]) {
-                        
+                        UIApplication *application = [UIApplication sharedApplication];
+                        NSURL *url = [NSURL URLWithString:@"https://support.apple.com/en-us/HT202039"];
+                        if ([application canOpenURL:url]) {
+                            [application openURL:url];
+                        }
                     } else {
                         RJPurchaseSubscriptionViewController *subscriptionViewController = [[RJPurchaseSubscriptionViewController alloc] initWithNibName:nil bundle:nil];
                         subscriptionViewController.delegate = self;
@@ -216,37 +207,46 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
                     }
                     break;
                 }
-                case kSubscriptionSectionRowEarnBonus: {
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"You can earn subscription bonuses by helping to spread the word about Classy!", nil) preferredStyle:UIAlertControllerStyleActionSheet];
-                    
-                    [alertController addAction:
-                     [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
-                    
-                    __block RJInAppPurchaseHelper *inAppPurchasesHelper = [RJInAppPurchaseHelper sharedInstance];
-                    
-                    [alertController addAction:
-                     [UIAlertAction actionWithTitle:NSLocalizedString(@"Share on Twitter (1 month)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        [inAppPurchasesHelper earnBonusOption:kRJInAppPurchaseHelperBonusOptionTwitterShare presentingViewController:self completion:completion];
-                    }]];
-                    
-                    if (self.currentUser.showAllEarnCreditsOptions) {
-                        [alertController addAction:
-                         [UIAlertAction actionWithTitle:NSLocalizedString(@"Write a 5-Star App Store Review (1 month)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            [inAppPurchasesHelper earnBonusOption:kRJInAppPurchaseHelperBonusOptionAppStoreReview presentingViewController:self completion:completion];
-                        }]];
-                    }
-                    
-                    [self presentViewController:alertController animated:YES completion:nil];
-                    
-                    break;
-                }
+//                case kSubscriptionSectionRowEarnBonus: {
+//                    void (^completion) (BOOL) = ^(BOOL success) {
+//                        if (success) {
+//                            [self.tableView reloadData];
+//                        }
+//                    };
+//                    
+//                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:NSLocalizedString(@"You can earn subscription bonuses by helping to spread the word about Classy!", nil) preferredStyle:UIAlertControllerStyleActionSheet];
+//                    
+//                    [alertController addAction:
+//                     [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
+//                    
+//                    __block RJInAppPurchaseHelper *inAppPurchasesHelper = [RJInAppPurchaseHelper sharedInstance];
+//                    
+//                    [alertController addAction:
+//                     [UIAlertAction actionWithTitle:NSLocalizedString(@"Share on Twitter (1 month)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                        [inAppPurchasesHelper earnBonusOption:kRJInAppPurchaseHelperBonusOptionTwitterShare presentingViewController:self completion:completion];
+//                    }]];
+//                    
+//                    if (self.currentUser.showAllEarnCreditsOptions) {
+//                        [alertController addAction:
+//                         [UIAlertAction actionWithTitle:NSLocalizedString(@"Write a 5-Star App Store Review (1 month)", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                            [inAppPurchasesHelper earnBonusOption:kRJInAppPurchaseHelperBonusOptionAppStoreReview presentingViewController:self completion:completion];
+//                        }]];
+//                    }
+//                    
+//                    [self presentViewController:alertController animated:YES completion:nil];
+//                    
+//                    break;
+//                }
                 case kSubscriptionSectionRowRestorePurchases: {
                     RJInAppPurchaseHelper *inAppPurchaseHelper = [RJInAppPurchaseHelper sharedInstance];
                     [inAppPurchaseHelper restoreCompletedTransactionsWithCompletion:^(BOOL success) {
-                        [SVProgressHUD showWithStatus:NSLocalizedString(@"Updating account...", nil)];
-                        [inAppPurchaseHelper updateCurrentUserSubscriptionStatusWithReceiptData:[RJUserDefaults subscriptionReceipt] completion:^(BOOL success) {
-                            [SVProgressHUD dismiss];
-                        }];
+                        NSData *subscriptionReceipt = [RJUserDefaults subscriptionReceipt];
+                        if (subscriptionReceipt) {
+                            [inAppPurchaseHelper updateCurrentUserSubscriptionStatusWithReceiptData:subscriptionReceipt completion:^(BOOL success) {
+                                [self.tableView reloadData];
+                                [SVProgressHUD dismiss];
+                            }];
+                        }
                     }];
                     break;
                 }

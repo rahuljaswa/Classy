@@ -13,6 +13,7 @@
 
 @dynamic admin;
 @dynamic appStoreCreditEarnDates;
+@dynamic creditsAvailable;
 @dynamic email;
 @dynamic facebookCreditEarnDates;
 @dynamic instructor;

@@ -54,6 +54,7 @@
 		B756B5D31B2A9EC10088E918 /* RJParseLike.m in Sources */ = {isa = PBXBuildFile; fileRef = B756B5D21B2A9EC10088E918 /* RJParseLike.m */; };
 		B756B5D61B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B756B5D51B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m */; };
 		B76758741BC724A400CAF6A4 /* RJParseComparablePFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B76758731BC724A400CAF6A4 /* RJParseComparablePFObject.m */; settings = {ASSET_TAGS = (); }; };
+		B7754B111BD05B9B009C5315 /* RJParseKey.m in Sources */ = {isa = PBXBuildFile; fileRef = B7754B101BD05B9B009C5315 /* RJParseKey.m */; settings = {ASSET_TAGS = (); }; };
 		B779F6541B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6531B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m */; };
 		B779F6571B6AD810008F4986 /* RJExerciseSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6561B6AD810008F4986 /* RJExerciseSelectorViewController.m */; };
 		B779F65A1B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B779F6591B6AD8BF008F4986 /* RJExerciseEquipmentOptionsViewController.m */; };
@@ -207,6 +208,8 @@
 		B756B5D51B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJAuthenticationDetailsViewController.m; sourceTree = "<group>"; };
 		B76758721BC724A400CAF6A4 /* RJParseComparablePFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseComparablePFObject.h; sourceTree = "<group>"; };
 		B76758731BC724A400CAF6A4 /* RJParseComparablePFObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseComparablePFObject.m; sourceTree = "<group>"; };
+		B7754B0F1BD05B9B009C5315 /* RJParseKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseKey.h; sourceTree = "<group>"; };
+		B7754B101BD05B9B009C5315 /* RJParseKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseKey.m; sourceTree = "<group>"; };
 		B779F6521B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditChoreographedClassTimeline.h; sourceTree = "<group>"; };
 		B779F6531B69AC37008F4986 /* RJCreateEditChoreographedClassTimeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditChoreographedClassTimeline.m; sourceTree = "<group>"; };
 		B779F6551B6AD810008F4986 /* RJExerciseSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseSelectorViewController.h; sourceTree = "<group>"; };
@@ -370,6 +373,8 @@
 				B7FF384C1B5479D100083FE3 /* RJParseExerciseInstruction.m */,
 				B7FF38481B54764300083FE3 /* RJParseExerciseStep.h */,
 				B7FF38491B54764300083FE3 /* RJParseExerciseStep.m */,
+				B7754B0F1BD05B9B009C5315 /* RJParseKey.h */,
+				B7754B101BD05B9B009C5315 /* RJParseKey.m */,
 				B756B5D11B2A9EC10088E918 /* RJParseLike.h */,
 				B756B5D21B2A9EC10088E918 /* RJParseLike.m */,
 				B7CC27C51B58A01F0076EC41 /* RJParseMuscle.h */,
@@ -952,6 +957,7 @@
 				23040EBE1AFB11AC00852D94 /* RJParseUser.m in Sources */,
 				B756B5D61B2B5BA50088E918 /* RJAuthenticationDetailsViewController.m in Sources */,
 				B779F6571B6AD810008F4986 /* RJExerciseSelectorViewController.m in Sources */,
+				B7754B111BD05B9B009C5315 /* RJParseKey.m in Sources */,
 				232DC2CB1B0BBF160008308E /* RJTouchposeApplication.m in Sources */,
 				B756B5D31B2A9EC10088E918 /* RJParseLike.m in Sources */,
 				23040EA11AFADFB000852D94 /* RJGalleryViewController.m in Sources */,

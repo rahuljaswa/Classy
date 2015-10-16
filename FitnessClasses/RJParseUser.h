@@ -13,6 +13,7 @@
 
 @property (nonatomic, assign) BOOL admin;
 @property (nonatomic, strong) NSArray *appStoreCreditEarnDates;
+@property (nonatomic, strong) NSNumber *creditsAvailable;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSArray *facebookCreditEarnDates;
 @property (nonatomic, assign) BOOL instructor;
