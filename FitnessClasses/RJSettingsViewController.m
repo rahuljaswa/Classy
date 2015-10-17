@@ -107,6 +107,8 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    RJStyleManager *styleManager = [RJStyleManager sharedInstance];
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSettingsCellID forIndexPath:indexPath];
     Section settingsSection = indexPath.section;
     switch (settingsSection) {
@@ -134,6 +136,7 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
                 default:
                     break;
             }
+            cell.textLabel.textColor = styleManager.themeTextColor;
             cell.userInteractionEnabled = NO;
             cell.textLabel.textAlignment = NSTextAlignmentLeft;
             break;
@@ -158,6 +161,7 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
                 default:
                     break;
             }
+            cell.textLabel.textColor = styleManager.tintBlueColor;
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.userInteractionEnabled = YES;
             break;
@@ -166,16 +170,17 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
             cell.textLabel.text = NSLocalizedString(@"Send Feedback & Suggestions", nil);
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
             cell.userInteractionEnabled = YES;
+            cell.textLabel.textColor = styleManager.tintBlueColor;
             break;
         case kSectionLogout:
             cell.textLabel.text = NSLocalizedString(@"Logout", nil);
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.textLabel.textColor = [UIColor redColor];
             cell.userInteractionEnabled = YES;
             break;
         default:
             break;
     }
-    cell.textLabel.textColor = [RJStyleManager sharedInstance].themeTextColor;
     cell.backgroundColor = [UIColor clearColor];
     cell.contentView.backgroundColor = [UIColor clearColor];
     return cell;

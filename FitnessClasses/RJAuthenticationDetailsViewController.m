@@ -57,6 +57,8 @@ typedef NS_ENUM(NSInteger, InputsSectionRow) {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    RJStyleManager *styleManager = [RJStyleManager sharedInstance];
+    
     UITableViewCell *cell = nil;
     Section authenticationSection = indexPath.section;
     switch (authenticationSection) {
@@ -91,6 +93,7 @@ typedef NS_ENUM(NSInteger, InputsSectionRow) {
         case kSectionDone: {
             cell = [tableView dequeueReusableCellWithIdentifier:kCellID forIndexPath:indexPath];
             cell.textLabel.text = NSLocalizedString(@"Save Profile Information", nil);
+            cell.textLabel.textColor = styleManager.tintBlueColor;
             break;
         }
         default:
