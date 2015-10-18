@@ -24,10 +24,7 @@ static NSString *const kCellID = @"cellID";
 @interface RJSelfPacedPlayingClassViewController () <RJExerciseInstructionCellDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableIndexSet *completedSteps;
-
-@property (nonatomic, strong, readonly) UIImageView *instructorPicture;
-@property (nonatomic, strong, readonly) UILabel *instructorName;
-@property (nonatomic, strong, readonly) UIButton *tipButton;
+@property (nonatomic, strong, readonly) UIView *spacer;
 
 @end
 
@@ -135,17 +132,46 @@ static NSString *const kCellID = @"cellID";
 
 #pragma mark - Public Instance Methods
 
+- (void)loadView {
+    self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    UIView *collectionView = self.collectionView;
+    collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:collectionView];
+    UIView *spacer = self.spacer;
+    spacer.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:spacer];
+    
+    NSDictionary *views = NSDictionaryOfVariableBindings(collectionView, spacer);
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[spacer(1)][collectionView]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[spacer]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[collectionView]|" options:0 metrics:nil views:views]];
+}
+
 - (instancetype)init {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    return [super initWithCollectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    
+    _spacer = [[UIView alloc] initWithFrame:CGRectZero];
+    return [super init];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    RJStyleManager *styleManager = [RJStyleManager sharedInstance];
+    
     [self.collectionView registerClass:[RJExerciseInstructionCell class] forCellWithReuseIdentifier:kCellID];
-    self.collectionView.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
+    self.collectionView.backgroundColor = styleManager.themeBackgroundColor;
     self.collectionView.alwaysBounceVertical = YES;
+    
+    self.spacer.backgroundColor = styleManager.themeTextColor;
 }
 
 @end

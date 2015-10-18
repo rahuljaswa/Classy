@@ -89,8 +89,12 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"com.rahuljaswa.C
                 [self saveSubscriptionReceiptForTransaction:transaction];
                 [self completeTransaction:transaction WithSuccess:YES];
                 break;
-            default:
+            case SKPaymentTransactionStatePurchasing:
+                break;
+            case SKPaymentTransactionStateDeferred:
                 [self completeTransaction:transaction WithSuccess:NO];
+                break;
+            default:
                 break;
         }
     }

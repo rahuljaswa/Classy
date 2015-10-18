@@ -11,8 +11,9 @@
 
 @class RJParseClass;
 
-@interface RJSelfPacedPlayingClassViewController : UICollectionViewController
+@interface RJSelfPacedPlayingClassViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) RJParseClass *klass;
 
 @end
