@@ -51,8 +51,6 @@ static const CGFloat kPlayerUtteranceVolume = 0.3f;
 
 @property (nonatomic, strong, readwrite) RJParseTrack *currentTrack;
 
-@property (nonatomic, strong, readonly) UICollectionView *collectionView;
-
 @property (nonatomic, strong, readonly) UIImageView *instructorPicture;
 @property (nonatomic, strong, readonly) UILabel *instructorName;
 @property (nonatomic, strong, readonly) UIButton *playPauseButton;

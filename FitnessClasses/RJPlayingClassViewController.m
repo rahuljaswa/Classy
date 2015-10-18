@@ -74,9 +74,11 @@
             if ([self.currentPlayingClassViewController isKindOfClass:[RJChoreographedPlayingClassViewController class]]) {
                 RJChoreographedPlayingClassViewController *choreographedClassViewController = (RJChoreographedPlayingClassViewController *)self.currentPlayingClassViewController;
                 [choreographedClassViewController setKlass:_klass withAutoPlay:autoPlay];
+                choreographedClassViewController.collectionView.contentOffset = CGPointZero;
             } else {
                 RJSelfPacedPlayingClassViewController *selfPacedClassViewController = (RJSelfPacedPlayingClassViewController *)self.currentPlayingClassViewController;
                 selfPacedClassViewController.klass = _klass;
+                selfPacedClassViewController.collectionView.contentOffset = CGPointZero;
             }
         } else {
             UIViewController *oldViewController = self.currentPlayingClassViewController;

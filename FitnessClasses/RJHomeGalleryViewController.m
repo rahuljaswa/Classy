@@ -45,7 +45,9 @@ static NSString *const kLabelCellID = @"LabelCellID";
         self.classes = classes;
         [self.collectionView reloadData];
         
-        if (!self.hasFoundInitialClass) {
+        if (self.hasFoundInitialClass && completion) {
+            completion();
+        } else if (!self.hasFoundInitialClass) {
             __block RJParseClass *initialClass = nil;
             
             [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {

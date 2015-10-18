@@ -29,6 +29,7 @@
 
 @property (nonatomic, assign, getter=hasClassStarted, readonly) BOOL classStarted;
 @property (nonatomic, assign, getter=isClassPlaying, readonly) BOOL classPlaying;
+@property (nonatomic, strong, readonly) UICollectionView *collectionView;
 @property (nonatomic, strong, readonly) RJParseTrack *currentTrack;
 @property (nonatomic, weak) id<RJChoreographedPlayingClassViewControllerDelegate> delegate;
 @property (nonatomic, strong, readonly) RJParseClass *klass;

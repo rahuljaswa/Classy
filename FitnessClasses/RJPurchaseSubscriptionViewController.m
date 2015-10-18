@@ -70,6 +70,7 @@ typedef NS_ENUM(NSInteger, PremiumFeature) {
     cell.textLabel.numberOfLines = 0;
     cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     cell.backgroundColor = [UIColor clearColor];
+    cell.userInteractionEnabled = NO;
     return cell;
 }
 
