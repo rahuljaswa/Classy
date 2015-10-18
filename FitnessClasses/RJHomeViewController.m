@@ -80,14 +80,16 @@
 #pragma mark - Private Instance Methods
 
 - (void)settingsButtonPressed:(UIBarButtonItem *)settingsButton {
-    if ([RJParseUser currentUser]) {
-        RJSettingsViewController *settingsViewController = [[RJSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
-        [[self navigationController] pushViewController:settingsViewController animated:YES];
-    } else {
-        [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }];
-    }
+    [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {
+        if (currentUser) {
+            RJSettingsViewController *settingsViewController = [[RJSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            [[self navigationController] pushViewController:settingsViewController animated:YES];
+        } else {
+            [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
+    }];
 }
 
 - (void)titleViewTapRecognized:(UITapGestureRecognizer *)tapRecognized {

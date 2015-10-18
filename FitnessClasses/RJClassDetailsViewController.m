@@ -138,10 +138,13 @@
     self.view.backgroundColor = [RJStyleManager sharedInstance].themeBackgroundColor;
     
     self.navigationItem.titleView = self.titleView;
-    if ([[RJParseUser currentUser] admin]) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage tintableImageNamed:@"settingsIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPressed:)];
-        [self.navigationItem setRightBarButtonItem:item];
-    }
+    
+    [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {
+        if (currentUser.admin) {
+            UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage tintableImageNamed:@"settingsIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPressed:)];
+            [self.navigationItem setRightBarButtonItem:item];
+        }
+    }];
     
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     

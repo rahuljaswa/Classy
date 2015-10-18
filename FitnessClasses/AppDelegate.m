@@ -11,6 +11,7 @@
 #import "RJImageCacheManager.h"
 #import "RJInAppPurchaseHelper.h"
 #import "RJMixpanelHelper.h"
+#import "RJParseUser.h"
 #import "RJStyleManager.h"
 #import "RJUserDefaults.h"
 #import <Crashlytics/Crashlytics.h>
@@ -54,6 +55,8 @@
     [self setUpAudioSession];
     [self setUpFastImageCache];
     [self setUpStyleManager];
+    
+    [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];

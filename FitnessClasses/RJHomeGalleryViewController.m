@@ -46,30 +46,31 @@ static NSString *const kLabelCellID = @"LabelCellID";
         [self.collectionView reloadData];
         
         if (!self.hasFoundInitialClass) {
-            RJParseClass *initialClass = nil;
+            __block RJParseClass *initialClass = nil;
             
-            RJParseUser *user = [RJParseUser currentUser];
-            if (user && [user hasCurrentSubscription]) {
-                initialClass = self.classes[0];
-            } else {
-                NSUInteger nonSubscriptionClassIndex = [classes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-                    return ([obj requiresSubscription] == NO);
-                }];
-                             
-                if (nonSubscriptionClassIndex != NSNotFound) {
-                    initialClass = self.classes[nonSubscriptionClassIndex];
+            [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {
+                if (currentUser && [currentUser hasCurrentSubscription]) {
+                    initialClass = self.classes[0];
+                } else {
+                    NSUInteger nonSubscriptionClassIndex = [classes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                        return ([obj requiresSubscription] == NO);
+                    }];
+                    
+                    if (nonSubscriptionClassIndex != NSNotFound) {
+                        initialClass = self.classes[nonSubscriptionClassIndex];
+                    }
                 }
-            }
-            
-            if (initialClass) {
-                [self.homeGalleryDelegate homeGalleryViewController:self wantsPlayForClass:initialClass autoPlay:NO];
-            }
-            
-            self.foundInitialClass = YES;
-        }
-        
-        if (completion) {
-            completion();
+                
+                if (initialClass) {
+                    [self.homeGalleryDelegate homeGalleryViewController:self wantsPlayForClass:initialClass autoPlay:NO];
+                }
+                
+                self.foundInitialClass = YES;
+                
+                if (completion) {
+                    completion();
+                }
+            }];
         }
     }];
 }

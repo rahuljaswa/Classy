@@ -9,6 +9,8 @@
 #import <Parse/Parse.h>
 
 
+@class RJParseSubscription;
+
 @interface RJParseUser : PFUser
 
 @property (nonatomic, assign) BOOL admin;
@@ -19,12 +21,17 @@
 @property (nonatomic, assign) BOOL instructor;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) BOOL showAllEarnCreditsOptions;
-@property (nonatomic, strong) NSDate *subscriptionExpirationDate;
+@property (nonatomic, strong) NSArray *subscriptions;
 @property (nonatomic, strong) NSNumber *tips;
 @property (nonatomic, strong) NSArray *twitterCreditEarnDates;
 @property (nonatomic, strong) NSString *twitterDigitsUserID;
 @property (nonatomic, strong) PFFile *profilePicture;
 
+- (RJParseSubscription *)currentAppSubscription;
 - (BOOL)hasCurrentSubscription;
+
++ (RJParseUser *)loadCurrentUserWithSubscriptionsWithCompletion:(void (^)(RJParseUser *currentUser))completion;
++ (void)resetCurrentUser;
++ (RJParseUser *)setCurrentUserWithSubscriptionsSharedInstance:(RJParseUser *)currentUserWithSubscriptions;
 
 @end

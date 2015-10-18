@@ -46,7 +46,7 @@
 #pragma mark - Public Class Methods - Creating
 
 + (void)completeEarnBonusOption:(RJInAppPurchaseHelperBonusOption)option completion:(void (^)(BOOL success))completion {
-    RJParseUser *user = [RJParseUser currentUser];
+    RJParseUser *user = [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil];
     
     NSNumber *creditsEarned = nil;
     
@@ -286,6 +286,27 @@
     }];
 }
 
++ (void)fetchCurrentUserWithCompletion:(void (^)(RJParseUser *))completion {
+    RJParseUser *parseCurrentUser = [RJParseUser currentUser];
+    if (parseCurrentUser) {
+        PFQuery *query = [RJParseUser query];
+        [query includeKey:NSStringFromSelector(@selector(subscriptions))];
+        [query includeKey:NSStringFromSelector(@selector(twitterCreditEarnDates))];
+        [query includeKey:NSStringFromSelector(@selector(facebookCreditEarnDates))];
+        [query includeKey:NSStringFromSelector(@selector(appStoreCreditEarnDates))];
+        [query getObjectInBackgroundWithId:parseCurrentUser.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            if (!object) {
+                NSLog(@"Error fetching current user:\n\n%@", [error localizedDescription]);
+            }
+            if (completion) {
+                completion((RJParseUser *)object);
+            }
+        }];
+    } else if (completion) {
+        completion(nil);
+    }
+}
+
 + (void)fetchKeyForIdentifier:(NSString *)identifier completion:(void (^)(RJParseKey *))completion {
     PFQuery *query = [RJParseKey query];
     [query whereKey:NSStringFromSelector(@selector(identifier)) equalTo:identifier];
@@ -342,7 +363,7 @@
 + (void)insertCommentForClass:(RJParseClass *)klass text:(NSString *)text completion:(void (^)(BOOL))completion {
     RJParseComment *comment = [RJParseComment object];
     comment.text = text;
-    comment.creator = [RJParseUser currentUser];
+    comment.creator = [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil];
     [comment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [klass addUniqueObject:comment forKey:NSStringFromSelector(@selector(comments))];

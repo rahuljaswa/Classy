@@ -91,6 +91,7 @@
 		B7CC27E61B5C98670076EC41 /* RJTrackSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27E51B5C98670076EC41 /* RJTrackSelectorViewController.m */; };
 		B7CC27E91B5C998E0076EC41 /* RJLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC27E81B5C998E0076EC41 /* RJLoadingTableViewCell.m */; };
 		B7D609151B890142009EC59A /* RJShareClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D609141B890142009EC59A /* RJShareClassViewController.m */; };
+		B7DE52201BD416930023FFA1 /* RJParseSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DE521F1BD416930023FFA1 /* RJParseSubscription.m */; settings = {ASSET_TAGS = (); }; };
 		B7EC6DB51B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC6DB41B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m */; };
 		B7EC6DB81B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EC6DB71B54450800EC56B9 /* RJChoreographedPlayingClassViewController.m */; };
 		B7F9CE561B2DDD9D00968559 /* RJSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F9CE551B2DDD9D00968559 /* RJSettingsViewController.m */; };
@@ -280,6 +281,8 @@
 		B7CC27E81B5C998E0076EC41 /* RJLoadingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJLoadingTableViewCell.m; sourceTree = "<group>"; };
 		B7D609131B890142009EC59A /* RJShareClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJShareClassViewController.h; sourceTree = "<group>"; };
 		B7D609141B890142009EC59A /* RJShareClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJShareClassViewController.m; sourceTree = "<group>"; };
+		B7DE521E1BD416930023FFA1 /* RJParseSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseSubscription.h; sourceTree = "<group>"; };
+		B7DE521F1BD416930023FFA1 /* RJParseSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseSubscription.m; sourceTree = "<group>"; };
 		B7EC6DB31B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSelfPacedPlayingClassViewController.h; sourceTree = "<group>"; };
 		B7EC6DB41B5444EE00EC56B9 /* RJSelfPacedPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSelfPacedPlayingClassViewController.m; sourceTree = "<group>"; };
 		B7EC6DB61B54450800EC56B9 /* RJChoreographedPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJChoreographedPlayingClassViewController.h; sourceTree = "<group>"; };
@@ -379,6 +382,8 @@
 				B756B5D21B2A9EC10088E918 /* RJParseLike.m */,
 				B7CC27C51B58A01F0076EC41 /* RJParseMuscle.h */,
 				B7CC27C61B58A01F0076EC41 /* RJParseMuscle.m */,
+				B7DE521E1BD416930023FFA1 /* RJParseSubscription.h */,
+				B7DE521F1BD416930023FFA1 /* RJParseSubscription.m */,
 				B7CC27DB1B5C4B110076EC41 /* RJParseTrack.h */,
 				B7CC27DC1B5C4B110076EC41 /* RJParseTrack.m */,
 				23040EBC1AFB11AC00852D94 /* RJParseUser.h */,
@@ -929,6 +934,7 @@
 				B788CFE61B6BFA1800772E6B /* RJCreateCategoryViewController.m in Sources */,
 				B756B5CA1B2A5F550088E918 /* RJAuthenticationViewController.m in Sources */,
 				B7FF38651B57367600083FE3 /* RJTutorialViewController.m in Sources */,
+				B7DE52201BD416930023FFA1 /* RJParseSubscription.m in Sources */,
 				B7FF385B1B55EAE900083FE3 /* RJExerciseStepsViewController.m in Sources */,
 				B756B5CD1B2A9C3F0088E918 /* RJClassCommentsViewController.m in Sources */,
 				B7CC27CA1B58CC800076EC41 /* RJCreateEditSelfPacedExerciseInstructionCell.m in Sources */,

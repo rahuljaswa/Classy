@@ -75,25 +75,26 @@
 #pragma mark - Private Protocols - RJHomeViewControllerDelegate
 
 - (void)homeViewController:(RJHomeViewController *)homeViewController wantsPlayForClass:(RJParseClass *)klass autoPlay:(BOOL)autoPlay {
-    RJParseUser *user = [RJParseUser currentUser];
-    if ((klass.requiresSubscription && [user hasCurrentSubscription]) ||
-        !klass.requiresSubscription)
-    {
-        [self startClass:klass autoPlay:autoPlay];
-    } else {
-        __weak RJHomeNavigationViewController *weakSelf = self;
-        self.subscriptionCompletion = ^(BOOL success) {
-            if (success) {
-                [weakSelf startClass:klass autoPlay:autoPlay];
-            }
-        };
-        
-        RJPurchaseSubscriptionViewController *subscriptionViewController = [[RJPurchaseSubscriptionViewController alloc] initWithNibName:nil bundle:nil];
-        subscriptionViewController.delegate = self;
-        
-        RJTransparentNavigationBarController *subscriptionNavigationController = [[RJTransparentNavigationBarController alloc] initWithRootViewController:subscriptionViewController];
-        [self presentViewController:subscriptionNavigationController animated:YES completion:nil];
-    }
+    [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {
+        if ((currentUser && klass.requiresSubscription && [currentUser hasCurrentSubscription]) ||
+            !klass.requiresSubscription)
+        {
+            [self startClass:klass autoPlay:autoPlay];
+        } else {
+            __weak RJHomeNavigationViewController *weakSelf = self;
+            self.subscriptionCompletion = ^(BOOL success) {
+                if (success) {
+                    [weakSelf startClass:klass autoPlay:autoPlay];
+                }
+            };
+            
+            RJPurchaseSubscriptionViewController *subscriptionViewController = [[RJPurchaseSubscriptionViewController alloc] initWithNibName:nil bundle:nil];
+            subscriptionViewController.delegate = self;
+            
+            RJTransparentNavigationBarController *subscriptionNavigationController = [[RJTransparentNavigationBarController alloc] initWithRootViewController:subscriptionViewController];
+            [self presentViewController:subscriptionNavigationController animated:YES completion:nil];
+        }
+    }];
 }
 
 #pragma mark - Private Instance Methods - Animation

@@ -38,6 +38,7 @@
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassesForInstructor:(RJParseUser *)instructor completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassWithId:(NSString *)objectId completion:(void (^)(RJParseClass *klass))completion;
++ (void)fetchCurrentUserWithCompletion:(void (^)(RJParseUser *user))completion;
 + (void)fetchKeyForIdentifier:(NSString *)identifier completion:(void (^)(RJParseKey *key))completion;
 
 + (void)incrementPlaysForClass:(RJParseClass *)klass completion:(void (^)(BOOL success))completion;

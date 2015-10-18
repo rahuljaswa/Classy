@@ -32,7 +32,7 @@ static NSString *const kClassCommentsViewControllerCellID = @"ClassCommentsViewC
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
     NSString *text = nil;
-    if ([RJParseUser currentUser]) {
+    if ([RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil]) {
         text = NSLocalizedString(@"Share your tips and comments about this workout", nil);
     } else {
         text = NSLocalizedString(@"Please login to write a comment", nil);
@@ -48,7 +48,7 @@ static NSString *const kClassCommentsViewControllerCellID = @"ClassCommentsViewC
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
     NSString *text = nil;
-    if ([RJParseUser currentUser]) {
+    if ([RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil]) {
         text = NSLocalizedString(@"Write a Comment", nil);
     } else {
         text = NSLocalizedString(@"Login Now", nil);
@@ -89,7 +89,7 @@ static NSString *const kClassCommentsViewControllerCellID = @"ClassCommentsViewC
 }
 
 - (void)emptyDataSetDidTapButton:(UIScrollView *)scrollView {
-    if ([RJParseUser currentUser]) {
+    if ([RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil]) {
         [self.writeChatView becomeFirstResponder];
     } else {
         [self presentAuthentication];
@@ -182,7 +182,7 @@ static NSString *const kClassCommentsViewControllerCellID = @"ClassCommentsViewC
 
 - (void)updateWriteChatView {
     BOOL enabled;
-    if ([RJParseUser currentUser]) {
+    if ([RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil]) {
         enabled = YES;
         [self.writeChatView removeGestureRecognizer:self.tapGestureRecognizer];
     } else {

@@ -97,23 +97,25 @@ typedef NS_ENUM(NSInteger, PremiumFeature) {
         }];
     };
     
-    if ([RJParseUser currentUser]) {
-        purchaseSubscriptionBlock();
-    } else {
-        [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-            if (user && ![user hasCurrentSubscription]) {
-                purchaseSubscriptionBlock();
-            } else if ([user hasCurrentSubscription]) {
-                [SVProgressHUD showWithStatus:NSLocalizedString(@"You are already a subscriber!", nil)];
-                if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
-                    [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
+    [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {
+        if (currentUser) {
+            purchaseSubscriptionBlock();
+        } else {
+            [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+                if (user && ![user hasCurrentSubscription]) {
+                    purchaseSubscriptionBlock();
+                } else if ([user hasCurrentSubscription]) {
+                    [SVProgressHUD showWithStatus:NSLocalizedString(@"You are already a subscriber!", nil)];
+                    if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
+                        [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
+                    }
+                } else {
+                    [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Login failed. Try again!", nil)];
                 }
-            } else {
-                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Login failed. Try again!", nil)];
-            }
-        }];
-    }
+            }];
+        }
+    }];
 }
 
 - (void)yearlyButtonPressed:(UIButton *)button {
@@ -132,23 +134,25 @@ typedef NS_ENUM(NSInteger, PremiumFeature) {
         }];
     };
     
-    if ([RJParseUser currentUser]) {
-        purchaseSubscriptionBlock();
-    } else {
-        [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-            if (user && ![user hasCurrentSubscription]) {
-                purchaseSubscriptionBlock();
-            } else if ([user hasCurrentSubscription]) {
-                [SVProgressHUD showWithStatus:NSLocalizedString(@"You are already a subscriber!", nil)];
-                if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
-                    [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
+    [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {
+        if (currentUser) {
+            purchaseSubscriptionBlock();
+        } else {
+            [[RJAuthenticationViewController sharedInstance] startWithPresentingViewController:self completion:^(RJParseUser *user) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+                if (user && ![user hasCurrentSubscription]) {
+                    purchaseSubscriptionBlock();
+                } else if ([user hasCurrentSubscription]) {
+                    [SVProgressHUD showWithStatus:NSLocalizedString(@"You are already a subscriber!", nil)];
+                    if ([self.delegate respondsToSelector:@selector(purchaseSubscriptionViewControllerDidComplete:)]) {
+                        [self.delegate purchaseSubscriptionViewControllerDidComplete:self];
+                    }
+                } else {
+                    [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Login failed. Try again!", nil)];
                 }
-            } else {
-                [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Login failed. Try again!", nil)];
-            }
-        }];
-    }
+            }];
+        }
+    }];
 }
 
 - (void)updateButtonText {

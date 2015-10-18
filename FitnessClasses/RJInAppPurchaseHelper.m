@@ -8,6 +8,7 @@
 
 #import "RJInAppPurchaseHelper.h"
 #import "RJParseKey.h"
+#import "RJParseSubscription.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJUserDefaults.h"
@@ -89,6 +90,7 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"com.rahuljaswa.C
                 [self completeTransaction:transaction WithSuccess:YES];
                 break;
             default:
+                [self completeTransaction:transaction WithSuccess:NO];
                 break;
         }
     }
@@ -166,7 +168,7 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"com.rahuljaswa.C
     if (!self.isTransactionInProgress) {
         NSString *textForShares = NSLocalizedString(@"I love working out with Classy! http://ios.getclassy.co", nil);
         
-        RJParseUser *user = [RJParseUser currentUser];
+        RJParseUser *user = [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil];
         
         BOOL allowed;
         NSUInteger numberOfDays;
@@ -253,8 +255,12 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"com.rahuljaswa.C
         self.transactionInProgress = YES;
         self.completion = ^(BOOL success) {
             if (success) {
-                [RJParseUtils incrementTipsForClass:klass completion:nil];
-                [RJParseUtils incrementTipsForUser:[RJParseUser currentUser] completion:nil];
+                [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {
+                    [RJParseUtils incrementTipsForClass:klass completion:nil];
+                    if (currentUser) {
+                        [RJParseUtils incrementTipsForUser:currentUser completion:nil];
+                    }
+                }];
             }
             if (completion) {
                 completion(success);
@@ -304,13 +310,20 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"com.rahuljaswa.C
                                                NSError *error;
                                                NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
                                                if (jsonResponse) {
-                                                   RJParseUser *currentUser = [RJParseUser currentUser];
+                                                   RJParseUser *currentUser = [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:nil];
                                                    NSString *jsonSubscriptionExpirationDate = [jsonResponse[@"latest_receipt_info"] lastObject][@"expires_date"];
                                                    
                                                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                                                    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss VV";
                                                    
-                                                   currentUser.subscriptionExpirationDate = [formatter dateFromString:jsonSubscriptionExpirationDate];
+                                                   RJParseSubscription *subscription = [currentUser currentAppSubscription];
+                                                   if (!subscription) {
+                                                       subscription = [RJParseSubscription object];
+                                                       subscription.bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+                                                       [currentUser addUniqueObject:subscription forKey:NSStringFromSelector(@selector(subscriptions))];
+                                                   }
+                                                   subscription.expirationDate = [formatter dateFromString:jsonSubscriptionExpirationDate];
+                                                   
                                                    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                                                        if (completion) {
                                                            completion(succeeded);

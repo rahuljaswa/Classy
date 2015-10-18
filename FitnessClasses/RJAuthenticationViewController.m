@@ -63,30 +63,39 @@ typedef NS_ENUM(NSUInteger, UIState) {
                                                          block:^(PFUser *user, NSError *error)
                      {
                          if (user) {
-                             self.user = (RJParseUser *)user;
-                             if ([self.user.twitterDigitsUserID isEqualToString:session.userID]) {
-                                 __weak RJAuthenticationViewController *weakSelf = self;
-                                 [self updateInstallationForUser:self.user withCompletion:^(BOOL success) {
-                                     __strong RJAuthenticationViewController *strongSelf = weakSelf;
-                                     if (success) {
-                                         strongSelf.state = kUIStateUsername;
+                             [RJParseUtils fetchCurrentUserWithCompletion:^(RJParseUser *refetchedUser) {
+                                 if (refetchedUser) {
+                                     self.user = refetchedUser;
+                                     [RJParseUser setCurrentUserWithSubscriptionsSharedInstance:self.user];
+                                     if ([self.user.twitterDigitsUserID isEqualToString:session.userID]) {
+                                         __weak RJAuthenticationViewController *weakSelf = self;
+                                         [self updateInstallationForUser:self.user withCompletion:^(BOOL success) {
+                                             __strong RJAuthenticationViewController *strongSelf = weakSelf;
+                                             if (success) {
+                                                 strongSelf.state = kUIStateUsername;
+                                             }
+                                         }];
+                                     } else {
+                                         self.user.twitterDigitsUserID = session.userID;
+                                         [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                             __weak RJAuthenticationViewController *weakSelf = self;
+                                             [self updateInstallationForUser:self.user withCompletion:^(BOOL success) {
+                                                 __strong RJAuthenticationViewController *strongSelf = weakSelf;
+                                                 if (success) {
+                                                     strongSelf.state = kUIStateUsername;
+                                                 }
+                                             }];
+                                         }];
                                      }
-                                 }];
-                             } else {
-                                 self.user.twitterDigitsUserID = session.userID;
-                                 [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                     __weak RJAuthenticationViewController *weakSelf = self;
-                                     [self updateInstallationForUser:self.user withCompletion:^(BOOL success) {
-                                         __strong RJAuthenticationViewController *strongSelf = weakSelf;
-                                         if (success) {
-                                             strongSelf.state = kUIStateUsername;
-                                         }
-                                     }];
-                                 }];
-                             }
+                                 } else {
+                                    NSLog(@"Error signing up user\n\n%@", [error localizedDescription]);
+                                 }
+                             }];
                          } else {
                              [SVProgressHUD showWithStatus:NSLocalizedString(@"Creating account...", nil) maskType:SVProgressHUDMaskTypeClear];
                              self.user = [RJParseUser object];
+                             [RJParseUser setCurrentUserWithSubscriptionsSharedInstance:self.user];
+                             
                              self.user.username = session.phoneNumber;
                              self.user.password = session.phoneNumber;
                              self.user.twitterDigitsUserID = session.userID;
@@ -262,6 +271,7 @@ typedef NS_ENUM(NSUInteger, UIState) {
 
 - (void)logOutWithCompletion:(void (^)(BOOL success))completion {
     [[Digits sharedInstance] logOut];
+    [RJParseUser resetCurrentUser];
     [RJParseUser logOutInBackgroundWithBlock:^(NSError *error) {
         if (completion) {
             completion(!error);

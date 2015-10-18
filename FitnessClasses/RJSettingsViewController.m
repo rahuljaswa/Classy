@@ -9,6 +9,7 @@
 #import "RJAuthenticationViewController.h"
 #import "RJCreatableObjectsViewController.h"
 #import "RJInAppPurchaseHelper.h"
+#import "RJParseSubscription.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
 #import "RJPurchaseSubscriptionViewController.h"
@@ -53,12 +54,6 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
 
 
 @implementation RJSettingsViewController
-
-#pragma mark - Private Properties
-
-- (RJParseUser *)currentUser {
-    return [RJParseUser currentUser];
-}
 
 #pragma mark - Private Protocols - MFMailComposeViewControllerDelegate
 
@@ -128,7 +123,7 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
                     if ([self.currentUser hasCurrentSubscription]) {
                         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                         formatter.dateFormat = @"M/d/yyyy";
-                        NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Subscription Ends %@", nil), [formatter stringFromDate:self.currentUser.subscriptionExpirationDate]];
+                        NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Subscription Ends %@", nil), [formatter stringFromDate:[self.currentUser currentAppSubscription].expirationDate]];
                         cell.textLabel.text = text;
                     } else {
                         cell.textLabel.text = NSLocalizedString(@"Free Plan", nil);
@@ -311,17 +306,18 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
     
     self.navigationItem.title = [NSLocalizedString(@"Settings", nil) uppercaseString];
     
-    if (self.currentUser.admin) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createButtonPressed:)];
-        [self.navigationItem setRightBarButtonItem:item];
-    }
-    
     RJStyleManager *styleManager = [RJStyleManager sharedInstance];
     self.tableView.separatorColor = styleManager.themeTextColor;
     self.tableView.backgroundColor = styleManager.themeBackgroundColor;
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kSettingsCellID];
-    [[RJParseUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object,  NSError *error) {
+    
+    [RJParseUser loadCurrentUserWithSubscriptionsWithCompletion:^(RJParseUser *currentUser) {
+        self.currentUser = currentUser;
+        if (self.currentUser.admin) {
+            UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createButtonPressed:)];
+            [self.navigationItem setRightBarButtonItem:item];
+        }
         [self.tableView reloadData];
     }];
 }
