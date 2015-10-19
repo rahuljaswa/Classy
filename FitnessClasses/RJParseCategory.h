@@ -11,6 +11,7 @@
 
 @interface RJParseCategory : RJParseComparablePFObject <PFSubclassing>
 
+@property (nonatomic, strong) NSArray *appIdentifiers;
 @property (nonatomic, strong) NSString *categoryDescription;
 @property (nonatomic, strong) NSNumber *categoryOrder;
 @property (nonatomic, strong) PFRelation *classes;

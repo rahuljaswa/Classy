@@ -11,6 +11,7 @@
 
 @implementation RJParseCategory
 
+@dynamic appIdentifiers;
 @dynamic categoryDescription;
 @dynamic categoryOrder;
 @dynamic classes;
@@ -26,6 +27,12 @@
 
 + (NSString *)parseClassName {
     return @"Category";
+}
+
++ (PFQuery *)query {
+    PFQuery *query = [super query];
+    [query whereKey:NSStringFromSelector(@selector(appIdentifiers)) equalTo:[[NSBundle mainBundle] bundleIdentifier]];
+    return query;
 }
 
 @end
