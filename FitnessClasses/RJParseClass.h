@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, RJParseClassType) {
 
 @interface RJParseClass : RJParseComparablePFObject <PFSubclassing>
 
-@property (nonatomic, strong) RJParseCategory *category;
+@property (nonatomic, strong) NSArray *categories;
 @property (nonatomic, strong) NSNumber *classOrder;
 @property (nonatomic, strong) NSNumber *classType;
 @property (nonatomic, strong) NSArray *comments;

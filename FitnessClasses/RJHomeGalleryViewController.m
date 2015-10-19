@@ -162,12 +162,12 @@ static NSString *const kLabelCellID = @"LabelCellID";
         }
         
         NSString *summaryText = nil;
-        if (klass.instructor && klass.category) {
-            summaryText = [NSString stringWithFormat:@" %@ | %@ ", klass.instructor.name, klass.category.name];
+        if (klass.instructor && self.category) {
+            summaryText = [NSString stringWithFormat:@" %@ | %@ ", klass.instructor.name, self.category.name];
         } else if (klass.instructor) {
             summaryText = [NSString stringWithFormat:@" %@ ", klass.instructor.name];
-        } else if (klass.category) {
-            summaryText = [NSString stringWithFormat:@" %@ ", klass.category.name];
+        } else if (self.category) {
+            summaryText = [NSString stringWithFormat:@" %@ ", self.category.name];
         }
         
         NSUInteger totalSeconds = klass.length;

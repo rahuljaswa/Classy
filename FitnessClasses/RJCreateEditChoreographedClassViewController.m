@@ -66,7 +66,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
     _exerciseInstructions = [[NSMutableArray alloc] initWithArray:_klass.exerciseInstructions];
     _tracks = [[NSMutableArray alloc] initWithArray:_klass.tracks];
     self.instructorViewController.selectedObject = _klass.instructor;
-    self.categoryViewController.selectedObject = _klass.category;
+    self.categoryViewController.selectedObject = [_klass.categories firstObject];
 }
 
 #pragma mark - Private Properties

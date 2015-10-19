@@ -85,8 +85,9 @@
 
 - (void)updateUI {
     self.titleView.textLabel.text = [self.klass.name uppercaseString];
-    self.titleView.detailTextLabel.text = self.klass.category.name;
     [self.commentsViewController setComments:self.klass.comments likes:self.klass.likes];
+    NSArray *categoryNames = [self.klass.categories valueForKey:NSStringFromSelector(@selector(name))];
+    self.titleView.detailTextLabel.text = [categoryNames componentsJoinedByString:@", "];
 }
 
 #pragma mark - Private Instance Methods - Handlers

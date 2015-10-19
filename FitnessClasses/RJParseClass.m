@@ -12,7 +12,7 @@
 
 @implementation RJParseClass
 
-@dynamic category;
+@dynamic categories;
 @dynamic classOrder;
 @dynamic classType;
 @dynamic comments;

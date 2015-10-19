@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, Section) {
     _klass = klass;
     self.name = _klass.name;
     _exerciseInstructions = [[NSMutableArray alloc] initWithArray:_klass.exerciseInstructions];
-    self.categoryViewController.selectedObject = _klass.category;
+    self.categoryViewController.selectedObject = [_klass.categories firstObject];
     [self.collectionView reloadData];
 }
 

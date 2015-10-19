@@ -106,7 +106,7 @@
     class.classType = @(classType);
     class.instructor = instructor;
     class.name = name;
-    class.category = category;
+    [class addUniqueObject:category forKey:NSStringFromSelector(@selector(categories))];
     class.tracks = tracks;
     class.exerciseInstructions = exerciseInstructions;
     [class saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -148,7 +148,7 @@
     klass.classType = @(classType);
     klass.instructor = instructor;
     klass.name = name;
-    klass.category = category;
+    [klass addUniqueObject:category forKey:NSStringFromSelector(@selector(categories))];
     klass.tracks = tracks;
     klass.exerciseInstructions = exerciseInstructions;
     [klass saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -247,7 +247,7 @@
 
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *))completion {
     PFQuery *query = [RJParseClass query];
-    [query whereKey:NSStringFromSelector(@selector(category)) equalTo:category];
+    [query whereKey:NSStringFromSelector(@selector(categories)) equalTo:category];
     [query orderByAscending:NSStringFromSelector(@selector(classOrder))];
     [self updateClassQueryWithIncludedKeys:query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
