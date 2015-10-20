@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppDelegate.h"
+#import <FitnessClassPlatformIOS/RJAppDelegate.h>
 
 #ifdef DEBUG
     #import "RJTouchposeApplication.h"
@@ -18,7 +18,7 @@ int main(int argc, char * argv[]) {
 #ifdef DEBUG
         return UIApplicationMain(argc, argv,
                                  NSStringFromClass([RJTouchposeApplication class]),
-                                 NSStringFromClass([AppDelegate class]));
+                                 NSStringFromClass([RJAppDelegate class]));
 #else
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
 #endif
