@@ -44,7 +44,7 @@ PODS:
   - FBSDKCoreKit/no-arc (4.7.1):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc
-  - FitnessClassPlatformIOS (1.0.0):
+  - FitnessClassPlatformIOS (1.1.0):
     - ActionLabel
     - AFNetworking (= 2.5.3)
     - ChatViewControllers
@@ -73,7 +73,7 @@ PODS:
   - UIToolkitIOS (1.0.0)
 
 DEPENDENCIES:
-  - FitnessClassPlatformIOS (~> 1.0.0)
+  - FitnessClassPlatformIOS (~> 1.1.0)
 
 SPEC CHECKSUMS:
   ActionLabel: 2ef75a8fc6304446f67b75272bb7b93a3cd6c829
@@ -86,7 +86,7 @@ SPEC CHECKSUMS:
   Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
   FastImageCache: 25f214fd46405daca3d1995d783fb83b9036c62e
   FBSDKCoreKit: 9141b70960a37930850370495fe565f4a27ac141
-  FitnessClassPlatformIOS: 6091b24afe56fa58fb5bc96e73e2995ef0d3005e
+  FitnessClassPlatformIOS: f804617c2f6f4d0d60026a061d2483597a633258
   Mixpanel: 42ae6168effc48481d957f7883dd8514a398738d
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
