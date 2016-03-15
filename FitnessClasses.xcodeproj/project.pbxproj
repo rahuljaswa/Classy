@@ -9,13 +9,90 @@
 /* Begin PBXBuildFile section */
 		23631A841AF86D9200E49935 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 23631A831AF86D9200E49935 /* main.m */; };
 		23631A921AF86D9200E49935 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23631A901AF86D9200E49935 /* LaunchScreen.xib */; };
-		B756B5BD1B2A5D2A0088E918 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B756B5B91B2A5D2A0088E918 /* Fabric.framework */; };
-		B756B5BE1B2A5D2B0088E918 /* DigitsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B756B5BA1B2A5D2A0088E918 /* DigitsKit.framework */; };
-		B756B5BF1B2A5D2B0088E918 /* DigitsKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B756B5BB1B2A5D2A0088E918 /* DigitsKitResources.bundle */; };
-		B756B5C01B2A5D2B0088E918 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B756B5BC1B2A5D2A0088E918 /* TwitterCore.framework */; };
+		B73EC28F1C97C08200DB4BED /* NSString+Temporal.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1EC1C97C08200DB4BED /* NSString+Temporal.m */; };
+		B73EC2901C97C08200DB4BED /* RJAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1EE1C97C08200DB4BED /* RJAppDelegate.m */; };
+		B73EC2911C97C08200DB4BED /* RJArithmeticHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1F01C97C08200DB4BED /* RJArithmeticHelper.m */; };
+		B73EC2921C97C08200DB4BED /* RJAssetImageCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1F21C97C08200DB4BED /* RJAssetImageCacheEntity.m */; };
+		B73EC2931C97C08200DB4BED /* RJAuthenticationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1F41C97C08200DB4BED /* RJAuthenticationDetailsViewController.m */; };
+		B73EC2941C97C08200DB4BED /* RJAuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1F61C97C08200DB4BED /* RJAuthenticationViewController.m */; };
+		B73EC2951C97C08200DB4BED /* RJCategorySelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1F81C97C08200DB4BED /* RJCategorySelectorViewController.m */; };
+		B73EC2961C97C08200DB4BED /* RJChoreographedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1FA1C97C08200DB4BED /* RJChoreographedPlayingClassViewController.m */; };
+		B73EC2971C97C08200DB4BED /* RJClassCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1FC1C97C08200DB4BED /* RJClassCommentsViewController.m */; };
+		B73EC2981C97C08200DB4BED /* RJClassDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC1FE1C97C08200DB4BED /* RJClassDetailsViewController.m */; };
+		B73EC2991C97C08200DB4BED /* RJClassImageCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2001C97C08200DB4BED /* RJClassImageCacheEntity.m */; };
+		B73EC29A1C97C08200DB4BED /* RJClassSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2021C97C08200DB4BED /* RJClassSummaryView.m */; };
+		B73EC29B1C97C08200DB4BED /* RJCreatableObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2041C97C08200DB4BED /* RJCreatableObjectsViewController.m */; };
+		B73EC29C1C97C08200DB4BED /* RJCreateCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2061C97C08200DB4BED /* RJCreateCategoryViewController.m */; };
+		B73EC29D1C97C08200DB4BED /* RJCreateEditChoreographedClassCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2081C97C08200DB4BED /* RJCreateEditChoreographedClassCollectionViewLayout.m */; };
+		B73EC29E1C97C08200DB4BED /* RJCreateEditChoreographedClassExerciseInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC20A1C97C08200DB4BED /* RJCreateEditChoreographedClassExerciseInstructionCell.m */; };
+		B73EC29F1C97C08200DB4BED /* RJCreateEditChoreographedClassTimeline.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC20C1C97C08200DB4BED /* RJCreateEditChoreographedClassTimeline.m */; };
+		B73EC2A01C97C08200DB4BED /* RJCreateEditChoreographedClassTrackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC20E1C97C08200DB4BED /* RJCreateEditChoreographedClassTrackCell.m */; };
+		B73EC2A11C97C08200DB4BED /* RJCreateEditChoreographedClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2101C97C08200DB4BED /* RJCreateEditChoreographedClassViewController.m */; };
+		B73EC2A21C97C08200DB4BED /* RJCreateEditSelfPacedClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2121C97C08200DB4BED /* RJCreateEditSelfPacedClassViewController.m */; };
+		B73EC2A31C97C08200DB4BED /* RJCreateEditSelfPacedExerciseInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2141C97C08200DB4BED /* RJCreateEditSelfPacedExerciseInstructionCell.m */; };
+		B73EC2A41C97C08200DB4BED /* RJCreateExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2161C97C08200DB4BED /* RJCreateExerciseViewController.m */; };
+		B73EC2A51C97C08200DB4BED /* RJCreateInstructorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2181C97C08200DB4BED /* RJCreateInstructorViewController.m */; };
+		B73EC2A61C97C08200DB4BED /* RJExerciseEquipmentOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC21A1C97C08200DB4BED /* RJExerciseEquipmentOptionsViewController.m */; };
+		B73EC2A71C97C08200DB4BED /* RJExerciseInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC21C1C97C08200DB4BED /* RJExerciseInstructionCell.m */; };
+		B73EC2A81C97C08200DB4BED /* RJExerciseSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC21E1C97C08200DB4BED /* RJExerciseSelectorViewController.m */; };
+		B73EC2A91C97C08200DB4BED /* RJExerciseStepCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2201C97C08200DB4BED /* RJExerciseStepCell.m */; };
+		B73EC2AA1C97C08200DB4BED /* RJExerciseStepImageCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2221C97C08200DB4BED /* RJExerciseStepImageCacheEntity.m */; };
+		B73EC2AB1C97C08200DB4BED /* RJExerciseStepsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2241C97C08200DB4BED /* RJExerciseStepsViewController.m */; };
+		B73EC2AC1C97C08200DB4BED /* RJGalleryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2271C97C08200DB4BED /* RJGalleryCell.m */; };
+		B73EC2AD1C97C08200DB4BED /* RJGalleryCell+FastImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2291C97C08200DB4BED /* RJGalleryCell+FastImageCache.m */; };
+		B73EC2AE1C97C08200DB4BED /* RJGalleryCellAccessoriesView.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC22B1C97C08200DB4BED /* RJGalleryCellAccessoriesView.m */; };
+		B73EC2AF1C97C08200DB4BED /* RJGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC22D1C97C08200DB4BED /* RJGalleryViewController.m */; };
+		B73EC2B01C97C08200DB4BED /* RJHomeGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC22F1C97C08200DB4BED /* RJHomeGalleryViewController.m */; };
+		B73EC2B11C97C08200DB4BED /* RJHomeNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2311C97C08200DB4BED /* RJHomeNavigationViewController.m */; };
+		B73EC2B21C97C08200DB4BED /* RJHomeTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2331C97C08200DB4BED /* RJHomeTitleView.m */; };
+		B73EC2B31C97C08200DB4BED /* RJHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2351C97C08200DB4BED /* RJHomeViewController.m */; };
+		B73EC2B41C97C08200DB4BED /* RJImageCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2371C97C08200DB4BED /* RJImageCacheManager.m */; };
+		B73EC2B51C97C08200DB4BED /* RJInAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2391C97C08200DB4BED /* RJInAppPurchaseHelper.m */; };
+		B73EC2B61C97C08200DB4BED /* RJInitialLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC23B1C97C08200DB4BED /* RJInitialLoadingViewController.m */; };
+		B73EC2B71C97C08200DB4BED /* RJInstructorSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC23D1C97C08200DB4BED /* RJInstructorSelectorViewController.m */; };
+		B73EC2B81C97C08200DB4BED /* RJMixpanelHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC23F1C97C08200DB4BED /* RJMixpanelHelper.m */; };
+		B73EC2B91C97C08200DB4BED /* RJMusclesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2411C97C08200DB4BED /* RJMusclesViewController.m */; };
+		B73EC2BA1C97C08200DB4BED /* RJParseCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2431C97C08200DB4BED /* RJParseCategory.m */; };
+		B73EC2BB1C97C08200DB4BED /* RJParseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2451C97C08200DB4BED /* RJParseClass.m */; };
+		B73EC2BC1C97C08200DB4BED /* RJParseComment.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2471C97C08200DB4BED /* RJParseComment.m */; };
+		B73EC2BD1C97C08200DB4BED /* RJParseComparablePFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2491C97C08200DB4BED /* RJParseComparablePFObject.m */; };
+		B73EC2BE1C97C08200DB4BED /* RJParseExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC24B1C97C08200DB4BED /* RJParseExercise.m */; };
+		B73EC2BF1C97C08200DB4BED /* RJParseExerciseEquipment.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC24D1C97C08200DB4BED /* RJParseExerciseEquipment.m */; };
+		B73EC2C01C97C08200DB4BED /* RJParseExerciseInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC24F1C97C08200DB4BED /* RJParseExerciseInstruction.m */; };
+		B73EC2C11C97C08200DB4BED /* RJParseExerciseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2511C97C08200DB4BED /* RJParseExerciseStep.m */; };
+		B73EC2C21C97C08200DB4BED /* RJParseKey.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2531C97C08200DB4BED /* RJParseKey.m */; };
+		B73EC2C31C97C08200DB4BED /* RJParseLike.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2551C97C08200DB4BED /* RJParseLike.m */; };
+		B73EC2C41C97C08200DB4BED /* RJParseMuscle.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2571C97C08200DB4BED /* RJParseMuscle.m */; };
+		B73EC2C51C97C08200DB4BED /* RJParseSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2591C97C08200DB4BED /* RJParseSubscription.m */; };
+		B73EC2C61C97C08200DB4BED /* RJParseTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC25B1C97C08200DB4BED /* RJParseTemplate.m */; };
+		B73EC2C71C97C08200DB4BED /* RJParseTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC25D1C97C08200DB4BED /* RJParseTrack.m */; };
+		B73EC2C81C97C08200DB4BED /* RJParseUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC25F1C97C08200DB4BED /* RJParseUser.m */; };
+		B73EC2C91C97C08200DB4BED /* RJParseUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2611C97C08200DB4BED /* RJParseUtils.m */; };
+		B73EC2CA1C97C08200DB4BED /* RJPlayingClassNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2631C97C08200DB4BED /* RJPlayingClassNavigationController.m */; };
+		B73EC2CB1C97C08200DB4BED /* RJPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2651C97C08200DB4BED /* RJPlayingClassViewController.m */; };
+		B73EC2CC1C97C08200DB4BED /* RJPurchaseSubscriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2671C97C08200DB4BED /* RJPurchaseSubscriptionViewController.m */; };
+		B73EC2CD1C97C08200DB4BED /* RJSelfPacedPlayingClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2691C97C08200DB4BED /* RJSelfPacedPlayingClassViewController.m */; };
+		B73EC2CE1C97C08200DB4BED /* RJSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC26B1C97C08200DB4BED /* RJSettingsViewController.m */; };
+		B73EC2CF1C97C08200DB4BED /* RJShareClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC26D1C97C08200DB4BED /* RJShareClassViewController.m */; };
+		B73EC2D01C97C08200DB4BED /* RJSinglePFObjectSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC26F1C97C08200DB4BED /* RJSinglePFObjectSelectionViewController.m */; };
+		B73EC2D11C97C08200DB4BED /* RJSortOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2711C97C08200DB4BED /* RJSortOptionsViewController.m */; };
+		B73EC2D21C97C08200DB4BED /* RJSoundCloudAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2731C97C08200DB4BED /* RJSoundCloudAPIClient.m */; };
+		B73EC2D31C97C08200DB4BED /* RJSoundCloudTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2751C97C08200DB4BED /* RJSoundCloudTrack.m */; };
+		B73EC2D41C97C08200DB4BED /* RJStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2771C97C08200DB4BED /* RJStyleManager.m */; };
+		B73EC2D51C97C08200DB4BED /* RJTouchposeApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2791C97C08200DB4BED /* RJTouchposeApplication.m */; };
+		B73EC2D61C97C08200DB4BED /* RJTrackImageCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC27B1C97C08200DB4BED /* RJTrackImageCacheEntity.m */; };
+		B73EC2D71C97C08200DB4BED /* RJTrackSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC27D1C97C08200DB4BED /* RJTrackSelectorViewController.m */; };
+		B73EC2D81C97C08200DB4BED /* RJTransparentNavigationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC27F1C97C08200DB4BED /* RJTransparentNavigationBarController.m */; };
+		B73EC2D91C97C08200DB4BED /* RJTutorialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2811C97C08200DB4BED /* RJTutorialCollectionViewCell.m */; };
+		B73EC2DA1C97C08200DB4BED /* RJTutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2831C97C08200DB4BED /* RJTutorialViewController.m */; };
+		B73EC2DB1C97C08200DB4BED /* RJUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2851C97C08200DB4BED /* RJUserDefaults.m */; };
+		B73EC2DC1C97C08200DB4BED /* RJUserImageCacheEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC2871C97C08200DB4BED /* RJUserImageCacheEntity.m */; };
+		B73EC2DD1C97C08200DB4BED /* sound_beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = B73EC2881C97C08200DB4BED /* sound_beep.wav */; };
+		B73EC2DE1C97C08200DB4BED /* UIBarButtonItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC28A1C97C08200DB4BED /* UIBarButtonItem+RJAdditions.m */; };
+		B73EC2DF1C97C08200DB4BED /* UIImageView+FastImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC28C1C97C08200DB4BED /* UIImageView+FastImageCache.m */; };
+		B73EC2E01C97C08200DB4BED /* UINavigationItem+RJAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B73EC28E1C97C08200DB4BED /* UINavigationItem+RJAdditions.m */; };
 		B756B5C31B2A5DD60088E918 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B756B5C21B2A5DD60088E918 /* AddressBook.framework */; };
 		B756B5C51B2A5DEB0088E918 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B756B5C41B2A5DEB0088E918 /* CoreData.framework */; };
-		B756B5C71B2A5DF90088E918 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B756B5C61B2A5DF90088E918 /* Crashlytics.framework */; };
 		B770FADC1BD59C8100F76FCB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B770FADB1BD59C8100F76FCB /* Images.xcassets */; };
 		B78450EC1B70354000B988D5 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B78450EB1B70354000B988D5 /* AdSupport.framework */; };
 		E92ED8C8EB19D17A3D85A9C0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14807AAA5D85AB30F68D5C0 /* libPods.a */; };
@@ -27,13 +104,172 @@
 		23631A831AF86D9200E49935 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		23631A911AF86D9200E49935 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		74D17DB7932E584F6AA5BB5E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		B756B5B91B2A5D2A0088E918 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		B756B5BA1B2A5D2A0088E918 /* DigitsKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DigitsKit.framework; sourceTree = "<group>"; };
-		B756B5BB1B2A5D2A0088E918 /* DigitsKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DigitsKitResources.bundle; path = DigitsKit.framework/Versions/A/Resources/DigitsKitResources.bundle; sourceTree = "<group>"; };
-		B756B5BC1B2A5D2A0088E918 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
+		B73EC1EB1C97C08200DB4BED /* NSString+Temporal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Temporal.h"; sourceTree = "<group>"; };
+		B73EC1EC1C97C08200DB4BED /* NSString+Temporal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Temporal.m"; sourceTree = "<group>"; };
+		B73EC1ED1C97C08200DB4BED /* RJAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJAppDelegate.h; sourceTree = "<group>"; };
+		B73EC1EE1C97C08200DB4BED /* RJAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJAppDelegate.m; sourceTree = "<group>"; };
+		B73EC1EF1C97C08200DB4BED /* RJArithmeticHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJArithmeticHelper.h; sourceTree = "<group>"; };
+		B73EC1F01C97C08200DB4BED /* RJArithmeticHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJArithmeticHelper.m; sourceTree = "<group>"; };
+		B73EC1F11C97C08200DB4BED /* RJAssetImageCacheEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJAssetImageCacheEntity.h; sourceTree = "<group>"; };
+		B73EC1F21C97C08200DB4BED /* RJAssetImageCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJAssetImageCacheEntity.m; sourceTree = "<group>"; };
+		B73EC1F31C97C08200DB4BED /* RJAuthenticationDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJAuthenticationDetailsViewController.h; sourceTree = "<group>"; };
+		B73EC1F41C97C08200DB4BED /* RJAuthenticationDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJAuthenticationDetailsViewController.m; sourceTree = "<group>"; };
+		B73EC1F51C97C08200DB4BED /* RJAuthenticationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJAuthenticationViewController.h; sourceTree = "<group>"; };
+		B73EC1F61C97C08200DB4BED /* RJAuthenticationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJAuthenticationViewController.m; sourceTree = "<group>"; };
+		B73EC1F71C97C08200DB4BED /* RJCategorySelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCategorySelectorViewController.h; sourceTree = "<group>"; };
+		B73EC1F81C97C08200DB4BED /* RJCategorySelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCategorySelectorViewController.m; sourceTree = "<group>"; };
+		B73EC1F91C97C08200DB4BED /* RJChoreographedPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJChoreographedPlayingClassViewController.h; sourceTree = "<group>"; };
+		B73EC1FA1C97C08200DB4BED /* RJChoreographedPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJChoreographedPlayingClassViewController.m; sourceTree = "<group>"; };
+		B73EC1FB1C97C08200DB4BED /* RJClassCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJClassCommentsViewController.h; sourceTree = "<group>"; };
+		B73EC1FC1C97C08200DB4BED /* RJClassCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJClassCommentsViewController.m; sourceTree = "<group>"; };
+		B73EC1FD1C97C08200DB4BED /* RJClassDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJClassDetailsViewController.h; sourceTree = "<group>"; };
+		B73EC1FE1C97C08200DB4BED /* RJClassDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJClassDetailsViewController.m; sourceTree = "<group>"; };
+		B73EC1FF1C97C08200DB4BED /* RJClassImageCacheEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJClassImageCacheEntity.h; sourceTree = "<group>"; };
+		B73EC2001C97C08200DB4BED /* RJClassImageCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJClassImageCacheEntity.m; sourceTree = "<group>"; };
+		B73EC2011C97C08200DB4BED /* RJClassSummaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJClassSummaryView.h; sourceTree = "<group>"; };
+		B73EC2021C97C08200DB4BED /* RJClassSummaryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJClassSummaryView.m; sourceTree = "<group>"; };
+		B73EC2031C97C08200DB4BED /* RJCreatableObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreatableObjectsViewController.h; sourceTree = "<group>"; };
+		B73EC2041C97C08200DB4BED /* RJCreatableObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreatableObjectsViewController.m; sourceTree = "<group>"; };
+		B73EC2051C97C08200DB4BED /* RJCreateCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateCategoryViewController.h; sourceTree = "<group>"; };
+		B73EC2061C97C08200DB4BED /* RJCreateCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateCategoryViewController.m; sourceTree = "<group>"; };
+		B73EC2071C97C08200DB4BED /* RJCreateEditChoreographedClassCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditChoreographedClassCollectionViewLayout.h; sourceTree = "<group>"; };
+		B73EC2081C97C08200DB4BED /* RJCreateEditChoreographedClassCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditChoreographedClassCollectionViewLayout.m; sourceTree = "<group>"; };
+		B73EC2091C97C08200DB4BED /* RJCreateEditChoreographedClassExerciseInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditChoreographedClassExerciseInstructionCell.h; sourceTree = "<group>"; };
+		B73EC20A1C97C08200DB4BED /* RJCreateEditChoreographedClassExerciseInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditChoreographedClassExerciseInstructionCell.m; sourceTree = "<group>"; };
+		B73EC20B1C97C08200DB4BED /* RJCreateEditChoreographedClassTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditChoreographedClassTimeline.h; sourceTree = "<group>"; };
+		B73EC20C1C97C08200DB4BED /* RJCreateEditChoreographedClassTimeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditChoreographedClassTimeline.m; sourceTree = "<group>"; };
+		B73EC20D1C97C08200DB4BED /* RJCreateEditChoreographedClassTrackCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditChoreographedClassTrackCell.h; sourceTree = "<group>"; };
+		B73EC20E1C97C08200DB4BED /* RJCreateEditChoreographedClassTrackCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditChoreographedClassTrackCell.m; sourceTree = "<group>"; };
+		B73EC20F1C97C08200DB4BED /* RJCreateEditChoreographedClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditChoreographedClassViewController.h; sourceTree = "<group>"; };
+		B73EC2101C97C08200DB4BED /* RJCreateEditChoreographedClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditChoreographedClassViewController.m; sourceTree = "<group>"; };
+		B73EC2111C97C08200DB4BED /* RJCreateEditSelfPacedClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditSelfPacedClassViewController.h; sourceTree = "<group>"; };
+		B73EC2121C97C08200DB4BED /* RJCreateEditSelfPacedClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditSelfPacedClassViewController.m; sourceTree = "<group>"; };
+		B73EC2131C97C08200DB4BED /* RJCreateEditSelfPacedExerciseInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateEditSelfPacedExerciseInstructionCell.h; sourceTree = "<group>"; };
+		B73EC2141C97C08200DB4BED /* RJCreateEditSelfPacedExerciseInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateEditSelfPacedExerciseInstructionCell.m; sourceTree = "<group>"; };
+		B73EC2151C97C08200DB4BED /* RJCreateExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateExerciseViewController.h; sourceTree = "<group>"; };
+		B73EC2161C97C08200DB4BED /* RJCreateExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateExerciseViewController.m; sourceTree = "<group>"; };
+		B73EC2171C97C08200DB4BED /* RJCreateInstructorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJCreateInstructorViewController.h; sourceTree = "<group>"; };
+		B73EC2181C97C08200DB4BED /* RJCreateInstructorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJCreateInstructorViewController.m; sourceTree = "<group>"; };
+		B73EC2191C97C08200DB4BED /* RJExerciseEquipmentOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseEquipmentOptionsViewController.h; sourceTree = "<group>"; };
+		B73EC21A1C97C08200DB4BED /* RJExerciseEquipmentOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseEquipmentOptionsViewController.m; sourceTree = "<group>"; };
+		B73EC21B1C97C08200DB4BED /* RJExerciseInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseInstructionCell.h; sourceTree = "<group>"; };
+		B73EC21C1C97C08200DB4BED /* RJExerciseInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseInstructionCell.m; sourceTree = "<group>"; };
+		B73EC21D1C97C08200DB4BED /* RJExerciseSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseSelectorViewController.h; sourceTree = "<group>"; };
+		B73EC21E1C97C08200DB4BED /* RJExerciseSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseSelectorViewController.m; sourceTree = "<group>"; };
+		B73EC21F1C97C08200DB4BED /* RJExerciseStepCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseStepCell.h; sourceTree = "<group>"; };
+		B73EC2201C97C08200DB4BED /* RJExerciseStepCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseStepCell.m; sourceTree = "<group>"; };
+		B73EC2211C97C08200DB4BED /* RJExerciseStepImageCacheEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseStepImageCacheEntity.h; sourceTree = "<group>"; };
+		B73EC2221C97C08200DB4BED /* RJExerciseStepImageCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseStepImageCacheEntity.m; sourceTree = "<group>"; };
+		B73EC2231C97C08200DB4BED /* RJExerciseStepsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJExerciseStepsViewController.h; sourceTree = "<group>"; };
+		B73EC2241C97C08200DB4BED /* RJExerciseStepsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJExerciseStepsViewController.m; sourceTree = "<group>"; };
+		B73EC2251C97C08200DB4BED /* RJGalleryCell_FastImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJGalleryCell_FastImageCache.h; sourceTree = "<group>"; };
+		B73EC2261C97C08200DB4BED /* RJGalleryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJGalleryCell.h; sourceTree = "<group>"; };
+		B73EC2271C97C08200DB4BED /* RJGalleryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJGalleryCell.m; sourceTree = "<group>"; };
+		B73EC2281C97C08200DB4BED /* RJGalleryCell+FastImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RJGalleryCell+FastImageCache.h"; sourceTree = "<group>"; };
+		B73EC2291C97C08200DB4BED /* RJGalleryCell+FastImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RJGalleryCell+FastImageCache.m"; sourceTree = "<group>"; };
+		B73EC22A1C97C08200DB4BED /* RJGalleryCellAccessoriesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJGalleryCellAccessoriesView.h; sourceTree = "<group>"; };
+		B73EC22B1C97C08200DB4BED /* RJGalleryCellAccessoriesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJGalleryCellAccessoriesView.m; sourceTree = "<group>"; };
+		B73EC22C1C97C08200DB4BED /* RJGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJGalleryViewController.h; sourceTree = "<group>"; };
+		B73EC22D1C97C08200DB4BED /* RJGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJGalleryViewController.m; sourceTree = "<group>"; };
+		B73EC22E1C97C08200DB4BED /* RJHomeGalleryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeGalleryViewController.h; sourceTree = "<group>"; };
+		B73EC22F1C97C08200DB4BED /* RJHomeGalleryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeGalleryViewController.m; sourceTree = "<group>"; };
+		B73EC2301C97C08200DB4BED /* RJHomeNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeNavigationViewController.h; sourceTree = "<group>"; };
+		B73EC2311C97C08200DB4BED /* RJHomeNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeNavigationViewController.m; sourceTree = "<group>"; };
+		B73EC2321C97C08200DB4BED /* RJHomeTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeTitleView.h; sourceTree = "<group>"; };
+		B73EC2331C97C08200DB4BED /* RJHomeTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeTitleView.m; sourceTree = "<group>"; };
+		B73EC2341C97C08200DB4BED /* RJHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJHomeViewController.h; sourceTree = "<group>"; };
+		B73EC2351C97C08200DB4BED /* RJHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJHomeViewController.m; sourceTree = "<group>"; };
+		B73EC2361C97C08200DB4BED /* RJImageCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJImageCacheManager.h; sourceTree = "<group>"; };
+		B73EC2371C97C08200DB4BED /* RJImageCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJImageCacheManager.m; sourceTree = "<group>"; };
+		B73EC2381C97C08200DB4BED /* RJInAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJInAppPurchaseHelper.h; sourceTree = "<group>"; };
+		B73EC2391C97C08200DB4BED /* RJInAppPurchaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJInAppPurchaseHelper.m; sourceTree = "<group>"; };
+		B73EC23A1C97C08200DB4BED /* RJInitialLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJInitialLoadingViewController.h; sourceTree = "<group>"; };
+		B73EC23B1C97C08200DB4BED /* RJInitialLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJInitialLoadingViewController.m; sourceTree = "<group>"; };
+		B73EC23C1C97C08200DB4BED /* RJInstructorSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJInstructorSelectorViewController.h; sourceTree = "<group>"; };
+		B73EC23D1C97C08200DB4BED /* RJInstructorSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJInstructorSelectorViewController.m; sourceTree = "<group>"; };
+		B73EC23E1C97C08200DB4BED /* RJMixpanelHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJMixpanelHelper.h; sourceTree = "<group>"; };
+		B73EC23F1C97C08200DB4BED /* RJMixpanelHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJMixpanelHelper.m; sourceTree = "<group>"; };
+		B73EC2401C97C08200DB4BED /* RJMusclesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJMusclesViewController.h; sourceTree = "<group>"; };
+		B73EC2411C97C08200DB4BED /* RJMusclesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJMusclesViewController.m; sourceTree = "<group>"; };
+		B73EC2421C97C08200DB4BED /* RJParseCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseCategory.h; sourceTree = "<group>"; };
+		B73EC2431C97C08200DB4BED /* RJParseCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseCategory.m; sourceTree = "<group>"; };
+		B73EC2441C97C08200DB4BED /* RJParseClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseClass.h; sourceTree = "<group>"; };
+		B73EC2451C97C08200DB4BED /* RJParseClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseClass.m; sourceTree = "<group>"; };
+		B73EC2461C97C08200DB4BED /* RJParseComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseComment.h; sourceTree = "<group>"; };
+		B73EC2471C97C08200DB4BED /* RJParseComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseComment.m; sourceTree = "<group>"; };
+		B73EC2481C97C08200DB4BED /* RJParseComparablePFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseComparablePFObject.h; sourceTree = "<group>"; };
+		B73EC2491C97C08200DB4BED /* RJParseComparablePFObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseComparablePFObject.m; sourceTree = "<group>"; };
+		B73EC24A1C97C08200DB4BED /* RJParseExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExercise.h; sourceTree = "<group>"; };
+		B73EC24B1C97C08200DB4BED /* RJParseExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseExercise.m; sourceTree = "<group>"; };
+		B73EC24C1C97C08200DB4BED /* RJParseExerciseEquipment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExerciseEquipment.h; sourceTree = "<group>"; };
+		B73EC24D1C97C08200DB4BED /* RJParseExerciseEquipment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseExerciseEquipment.m; sourceTree = "<group>"; };
+		B73EC24E1C97C08200DB4BED /* RJParseExerciseInstruction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExerciseInstruction.h; sourceTree = "<group>"; };
+		B73EC24F1C97C08200DB4BED /* RJParseExerciseInstruction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseExerciseInstruction.m; sourceTree = "<group>"; };
+		B73EC2501C97C08200DB4BED /* RJParseExerciseStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseExerciseStep.h; sourceTree = "<group>"; };
+		B73EC2511C97C08200DB4BED /* RJParseExerciseStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseExerciseStep.m; sourceTree = "<group>"; };
+		B73EC2521C97C08200DB4BED /* RJParseKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseKey.h; sourceTree = "<group>"; };
+		B73EC2531C97C08200DB4BED /* RJParseKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseKey.m; sourceTree = "<group>"; };
+		B73EC2541C97C08200DB4BED /* RJParseLike.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseLike.h; sourceTree = "<group>"; };
+		B73EC2551C97C08200DB4BED /* RJParseLike.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseLike.m; sourceTree = "<group>"; };
+		B73EC2561C97C08200DB4BED /* RJParseMuscle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseMuscle.h; sourceTree = "<group>"; };
+		B73EC2571C97C08200DB4BED /* RJParseMuscle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseMuscle.m; sourceTree = "<group>"; };
+		B73EC2581C97C08200DB4BED /* RJParseSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseSubscription.h; sourceTree = "<group>"; };
+		B73EC2591C97C08200DB4BED /* RJParseSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseSubscription.m; sourceTree = "<group>"; };
+		B73EC25A1C97C08200DB4BED /* RJParseTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseTemplate.h; sourceTree = "<group>"; };
+		B73EC25B1C97C08200DB4BED /* RJParseTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseTemplate.m; sourceTree = "<group>"; };
+		B73EC25C1C97C08200DB4BED /* RJParseTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseTrack.h; sourceTree = "<group>"; };
+		B73EC25D1C97C08200DB4BED /* RJParseTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseTrack.m; sourceTree = "<group>"; };
+		B73EC25E1C97C08200DB4BED /* RJParseUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseUser.h; sourceTree = "<group>"; };
+		B73EC25F1C97C08200DB4BED /* RJParseUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseUser.m; sourceTree = "<group>"; };
+		B73EC2601C97C08200DB4BED /* RJParseUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJParseUtils.h; sourceTree = "<group>"; };
+		B73EC2611C97C08200DB4BED /* RJParseUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJParseUtils.m; sourceTree = "<group>"; };
+		B73EC2621C97C08200DB4BED /* RJPlayingClassNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJPlayingClassNavigationController.h; sourceTree = "<group>"; };
+		B73EC2631C97C08200DB4BED /* RJPlayingClassNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJPlayingClassNavigationController.m; sourceTree = "<group>"; };
+		B73EC2641C97C08200DB4BED /* RJPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJPlayingClassViewController.h; sourceTree = "<group>"; };
+		B73EC2651C97C08200DB4BED /* RJPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJPlayingClassViewController.m; sourceTree = "<group>"; };
+		B73EC2661C97C08200DB4BED /* RJPurchaseSubscriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJPurchaseSubscriptionViewController.h; sourceTree = "<group>"; };
+		B73EC2671C97C08200DB4BED /* RJPurchaseSubscriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJPurchaseSubscriptionViewController.m; sourceTree = "<group>"; };
+		B73EC2681C97C08200DB4BED /* RJSelfPacedPlayingClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSelfPacedPlayingClassViewController.h; sourceTree = "<group>"; };
+		B73EC2691C97C08200DB4BED /* RJSelfPacedPlayingClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSelfPacedPlayingClassViewController.m; sourceTree = "<group>"; };
+		B73EC26A1C97C08200DB4BED /* RJSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSettingsViewController.h; sourceTree = "<group>"; };
+		B73EC26B1C97C08200DB4BED /* RJSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSettingsViewController.m; sourceTree = "<group>"; };
+		B73EC26C1C97C08200DB4BED /* RJShareClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJShareClassViewController.h; sourceTree = "<group>"; };
+		B73EC26D1C97C08200DB4BED /* RJShareClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJShareClassViewController.m; sourceTree = "<group>"; };
+		B73EC26E1C97C08200DB4BED /* RJSinglePFObjectSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSinglePFObjectSelectionViewController.h; sourceTree = "<group>"; };
+		B73EC26F1C97C08200DB4BED /* RJSinglePFObjectSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSinglePFObjectSelectionViewController.m; sourceTree = "<group>"; };
+		B73EC2701C97C08200DB4BED /* RJSortOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSortOptionsViewController.h; sourceTree = "<group>"; };
+		B73EC2711C97C08200DB4BED /* RJSortOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSortOptionsViewController.m; sourceTree = "<group>"; };
+		B73EC2721C97C08200DB4BED /* RJSoundCloudAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSoundCloudAPIClient.h; sourceTree = "<group>"; };
+		B73EC2731C97C08200DB4BED /* RJSoundCloudAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSoundCloudAPIClient.m; sourceTree = "<group>"; };
+		B73EC2741C97C08200DB4BED /* RJSoundCloudTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJSoundCloudTrack.h; sourceTree = "<group>"; };
+		B73EC2751C97C08200DB4BED /* RJSoundCloudTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJSoundCloudTrack.m; sourceTree = "<group>"; };
+		B73EC2761C97C08200DB4BED /* RJStyleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJStyleManager.h; sourceTree = "<group>"; };
+		B73EC2771C97C08200DB4BED /* RJStyleManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJStyleManager.m; sourceTree = "<group>"; };
+		B73EC2781C97C08200DB4BED /* RJTouchposeApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTouchposeApplication.h; sourceTree = "<group>"; };
+		B73EC2791C97C08200DB4BED /* RJTouchposeApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTouchposeApplication.m; sourceTree = "<group>"; };
+		B73EC27A1C97C08200DB4BED /* RJTrackImageCacheEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTrackImageCacheEntity.h; sourceTree = "<group>"; };
+		B73EC27B1C97C08200DB4BED /* RJTrackImageCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTrackImageCacheEntity.m; sourceTree = "<group>"; };
+		B73EC27C1C97C08200DB4BED /* RJTrackSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTrackSelectorViewController.h; sourceTree = "<group>"; };
+		B73EC27D1C97C08200DB4BED /* RJTrackSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTrackSelectorViewController.m; sourceTree = "<group>"; };
+		B73EC27E1C97C08200DB4BED /* RJTransparentNavigationBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTransparentNavigationBarController.h; sourceTree = "<group>"; };
+		B73EC27F1C97C08200DB4BED /* RJTransparentNavigationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTransparentNavigationBarController.m; sourceTree = "<group>"; };
+		B73EC2801C97C08200DB4BED /* RJTutorialCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTutorialCollectionViewCell.h; sourceTree = "<group>"; };
+		B73EC2811C97C08200DB4BED /* RJTutorialCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTutorialCollectionViewCell.m; sourceTree = "<group>"; };
+		B73EC2821C97C08200DB4BED /* RJTutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJTutorialViewController.h; sourceTree = "<group>"; };
+		B73EC2831C97C08200DB4BED /* RJTutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJTutorialViewController.m; sourceTree = "<group>"; };
+		B73EC2841C97C08200DB4BED /* RJUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJUserDefaults.h; sourceTree = "<group>"; };
+		B73EC2851C97C08200DB4BED /* RJUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJUserDefaults.m; sourceTree = "<group>"; };
+		B73EC2861C97C08200DB4BED /* RJUserImageCacheEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RJUserImageCacheEntity.h; sourceTree = "<group>"; };
+		B73EC2871C97C08200DB4BED /* RJUserImageCacheEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RJUserImageCacheEntity.m; sourceTree = "<group>"; };
+		B73EC2881C97C08200DB4BED /* sound_beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound_beep.wav; sourceTree = "<group>"; };
+		B73EC2891C97C08200DB4BED /* UIBarButtonItem+RJAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+RJAdditions.h"; sourceTree = "<group>"; };
+		B73EC28A1C97C08200DB4BED /* UIBarButtonItem+RJAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+RJAdditions.m"; sourceTree = "<group>"; };
+		B73EC28B1C97C08200DB4BED /* UIImageView+FastImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+FastImageCache.h"; sourceTree = "<group>"; };
+		B73EC28C1C97C08200DB4BED /* UIImageView+FastImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+FastImageCache.m"; sourceTree = "<group>"; };
+		B73EC28D1C97C08200DB4BED /* UINavigationItem+RJAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+RJAdditions.h"; sourceTree = "<group>"; };
+		B73EC28E1C97C08200DB4BED /* UINavigationItem+RJAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+RJAdditions.m"; sourceTree = "<group>"; };
 		B756B5C21B2A5DD60088E918 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B756B5C41B2A5DEB0088E918 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		B756B5C61B2A5DF90088E918 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		B770FADB1BD59C8100F76FCB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B78450EB1B70354000B988D5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		D14807AAA5D85AB30F68D5C0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,11 +284,7 @@
 				B78450EC1B70354000B988D5 /* AdSupport.framework in Frameworks */,
 				B756B5C51B2A5DEB0088E918 /* CoreData.framework in Frameworks */,
 				B756B5C31B2A5DD60088E918 /* AddressBook.framework in Frameworks */,
-				B756B5BE1B2A5D2B0088E918 /* DigitsKit.framework in Frameworks */,
-				B756B5C01B2A5D2B0088E918 /* TwitterCore.framework in Frameworks */,
 				E92ED8C8EB19D17A3D85A9C0 /* libPods.a in Frameworks */,
-				B756B5BD1B2A5D2A0088E918 /* Fabric.framework in Frameworks */,
-				B756B5C71B2A5DF90088E918 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +312,170 @@
 		23631A801AF86D9200E49935 /* FitnessClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B73EC1EB1C97C08200DB4BED /* NSString+Temporal.h */,
+				B73EC1EC1C97C08200DB4BED /* NSString+Temporal.m */,
+				B73EC1ED1C97C08200DB4BED /* RJAppDelegate.h */,
+				B73EC1EE1C97C08200DB4BED /* RJAppDelegate.m */,
+				B73EC1EF1C97C08200DB4BED /* RJArithmeticHelper.h */,
+				B73EC1F01C97C08200DB4BED /* RJArithmeticHelper.m */,
+				B73EC1F11C97C08200DB4BED /* RJAssetImageCacheEntity.h */,
+				B73EC1F21C97C08200DB4BED /* RJAssetImageCacheEntity.m */,
+				B73EC1F31C97C08200DB4BED /* RJAuthenticationDetailsViewController.h */,
+				B73EC1F41C97C08200DB4BED /* RJAuthenticationDetailsViewController.m */,
+				B73EC1F51C97C08200DB4BED /* RJAuthenticationViewController.h */,
+				B73EC1F61C97C08200DB4BED /* RJAuthenticationViewController.m */,
+				B73EC1F71C97C08200DB4BED /* RJCategorySelectorViewController.h */,
+				B73EC1F81C97C08200DB4BED /* RJCategorySelectorViewController.m */,
+				B73EC1F91C97C08200DB4BED /* RJChoreographedPlayingClassViewController.h */,
+				B73EC1FA1C97C08200DB4BED /* RJChoreographedPlayingClassViewController.m */,
+				B73EC1FB1C97C08200DB4BED /* RJClassCommentsViewController.h */,
+				B73EC1FC1C97C08200DB4BED /* RJClassCommentsViewController.m */,
+				B73EC1FD1C97C08200DB4BED /* RJClassDetailsViewController.h */,
+				B73EC1FE1C97C08200DB4BED /* RJClassDetailsViewController.m */,
+				B73EC1FF1C97C08200DB4BED /* RJClassImageCacheEntity.h */,
+				B73EC2001C97C08200DB4BED /* RJClassImageCacheEntity.m */,
+				B73EC2011C97C08200DB4BED /* RJClassSummaryView.h */,
+				B73EC2021C97C08200DB4BED /* RJClassSummaryView.m */,
+				B73EC2031C97C08200DB4BED /* RJCreatableObjectsViewController.h */,
+				B73EC2041C97C08200DB4BED /* RJCreatableObjectsViewController.m */,
+				B73EC2051C97C08200DB4BED /* RJCreateCategoryViewController.h */,
+				B73EC2061C97C08200DB4BED /* RJCreateCategoryViewController.m */,
+				B73EC2071C97C08200DB4BED /* RJCreateEditChoreographedClassCollectionViewLayout.h */,
+				B73EC2081C97C08200DB4BED /* RJCreateEditChoreographedClassCollectionViewLayout.m */,
+				B73EC2091C97C08200DB4BED /* RJCreateEditChoreographedClassExerciseInstructionCell.h */,
+				B73EC20A1C97C08200DB4BED /* RJCreateEditChoreographedClassExerciseInstructionCell.m */,
+				B73EC20B1C97C08200DB4BED /* RJCreateEditChoreographedClassTimeline.h */,
+				B73EC20C1C97C08200DB4BED /* RJCreateEditChoreographedClassTimeline.m */,
+				B73EC20D1C97C08200DB4BED /* RJCreateEditChoreographedClassTrackCell.h */,
+				B73EC20E1C97C08200DB4BED /* RJCreateEditChoreographedClassTrackCell.m */,
+				B73EC20F1C97C08200DB4BED /* RJCreateEditChoreographedClassViewController.h */,
+				B73EC2101C97C08200DB4BED /* RJCreateEditChoreographedClassViewController.m */,
+				B73EC2111C97C08200DB4BED /* RJCreateEditSelfPacedClassViewController.h */,
+				B73EC2121C97C08200DB4BED /* RJCreateEditSelfPacedClassViewController.m */,
+				B73EC2131C97C08200DB4BED /* RJCreateEditSelfPacedExerciseInstructionCell.h */,
+				B73EC2141C97C08200DB4BED /* RJCreateEditSelfPacedExerciseInstructionCell.m */,
+				B73EC2151C97C08200DB4BED /* RJCreateExerciseViewController.h */,
+				B73EC2161C97C08200DB4BED /* RJCreateExerciseViewController.m */,
+				B73EC2171C97C08200DB4BED /* RJCreateInstructorViewController.h */,
+				B73EC2181C97C08200DB4BED /* RJCreateInstructorViewController.m */,
+				B73EC2191C97C08200DB4BED /* RJExerciseEquipmentOptionsViewController.h */,
+				B73EC21A1C97C08200DB4BED /* RJExerciseEquipmentOptionsViewController.m */,
+				B73EC21B1C97C08200DB4BED /* RJExerciseInstructionCell.h */,
+				B73EC21C1C97C08200DB4BED /* RJExerciseInstructionCell.m */,
+				B73EC21D1C97C08200DB4BED /* RJExerciseSelectorViewController.h */,
+				B73EC21E1C97C08200DB4BED /* RJExerciseSelectorViewController.m */,
+				B73EC21F1C97C08200DB4BED /* RJExerciseStepCell.h */,
+				B73EC2201C97C08200DB4BED /* RJExerciseStepCell.m */,
+				B73EC2211C97C08200DB4BED /* RJExerciseStepImageCacheEntity.h */,
+				B73EC2221C97C08200DB4BED /* RJExerciseStepImageCacheEntity.m */,
+				B73EC2231C97C08200DB4BED /* RJExerciseStepsViewController.h */,
+				B73EC2241C97C08200DB4BED /* RJExerciseStepsViewController.m */,
+				B73EC2251C97C08200DB4BED /* RJGalleryCell_FastImageCache.h */,
+				B73EC2261C97C08200DB4BED /* RJGalleryCell.h */,
+				B73EC2271C97C08200DB4BED /* RJGalleryCell.m */,
+				B73EC2281C97C08200DB4BED /* RJGalleryCell+FastImageCache.h */,
+				B73EC2291C97C08200DB4BED /* RJGalleryCell+FastImageCache.m */,
+				B73EC22A1C97C08200DB4BED /* RJGalleryCellAccessoriesView.h */,
+				B73EC22B1C97C08200DB4BED /* RJGalleryCellAccessoriesView.m */,
+				B73EC22C1C97C08200DB4BED /* RJGalleryViewController.h */,
+				B73EC22D1C97C08200DB4BED /* RJGalleryViewController.m */,
+				B73EC22E1C97C08200DB4BED /* RJHomeGalleryViewController.h */,
+				B73EC22F1C97C08200DB4BED /* RJHomeGalleryViewController.m */,
+				B73EC2301C97C08200DB4BED /* RJHomeNavigationViewController.h */,
+				B73EC2311C97C08200DB4BED /* RJHomeNavigationViewController.m */,
+				B73EC2321C97C08200DB4BED /* RJHomeTitleView.h */,
+				B73EC2331C97C08200DB4BED /* RJHomeTitleView.m */,
+				B73EC2341C97C08200DB4BED /* RJHomeViewController.h */,
+				B73EC2351C97C08200DB4BED /* RJHomeViewController.m */,
+				B73EC2361C97C08200DB4BED /* RJImageCacheManager.h */,
+				B73EC2371C97C08200DB4BED /* RJImageCacheManager.m */,
+				B73EC2381C97C08200DB4BED /* RJInAppPurchaseHelper.h */,
+				B73EC2391C97C08200DB4BED /* RJInAppPurchaseHelper.m */,
+				B73EC23A1C97C08200DB4BED /* RJInitialLoadingViewController.h */,
+				B73EC23B1C97C08200DB4BED /* RJInitialLoadingViewController.m */,
+				B73EC23C1C97C08200DB4BED /* RJInstructorSelectorViewController.h */,
+				B73EC23D1C97C08200DB4BED /* RJInstructorSelectorViewController.m */,
+				B73EC23E1C97C08200DB4BED /* RJMixpanelHelper.h */,
+				B73EC23F1C97C08200DB4BED /* RJMixpanelHelper.m */,
+				B73EC2401C97C08200DB4BED /* RJMusclesViewController.h */,
+				B73EC2411C97C08200DB4BED /* RJMusclesViewController.m */,
+				B73EC2421C97C08200DB4BED /* RJParseCategory.h */,
+				B73EC2431C97C08200DB4BED /* RJParseCategory.m */,
+				B73EC2441C97C08200DB4BED /* RJParseClass.h */,
+				B73EC2451C97C08200DB4BED /* RJParseClass.m */,
+				B73EC2461C97C08200DB4BED /* RJParseComment.h */,
+				B73EC2471C97C08200DB4BED /* RJParseComment.m */,
+				B73EC2481C97C08200DB4BED /* RJParseComparablePFObject.h */,
+				B73EC2491C97C08200DB4BED /* RJParseComparablePFObject.m */,
+				B73EC24A1C97C08200DB4BED /* RJParseExercise.h */,
+				B73EC24B1C97C08200DB4BED /* RJParseExercise.m */,
+				B73EC24C1C97C08200DB4BED /* RJParseExerciseEquipment.h */,
+				B73EC24D1C97C08200DB4BED /* RJParseExerciseEquipment.m */,
+				B73EC24E1C97C08200DB4BED /* RJParseExerciseInstruction.h */,
+				B73EC24F1C97C08200DB4BED /* RJParseExerciseInstruction.m */,
+				B73EC2501C97C08200DB4BED /* RJParseExerciseStep.h */,
+				B73EC2511C97C08200DB4BED /* RJParseExerciseStep.m */,
+				B73EC2521C97C08200DB4BED /* RJParseKey.h */,
+				B73EC2531C97C08200DB4BED /* RJParseKey.m */,
+				B73EC2541C97C08200DB4BED /* RJParseLike.h */,
+				B73EC2551C97C08200DB4BED /* RJParseLike.m */,
+				B73EC2561C97C08200DB4BED /* RJParseMuscle.h */,
+				B73EC2571C97C08200DB4BED /* RJParseMuscle.m */,
+				B73EC2581C97C08200DB4BED /* RJParseSubscription.h */,
+				B73EC2591C97C08200DB4BED /* RJParseSubscription.m */,
+				B73EC25A1C97C08200DB4BED /* RJParseTemplate.h */,
+				B73EC25B1C97C08200DB4BED /* RJParseTemplate.m */,
+				B73EC25C1C97C08200DB4BED /* RJParseTrack.h */,
+				B73EC25D1C97C08200DB4BED /* RJParseTrack.m */,
+				B73EC25E1C97C08200DB4BED /* RJParseUser.h */,
+				B73EC25F1C97C08200DB4BED /* RJParseUser.m */,
+				B73EC2601C97C08200DB4BED /* RJParseUtils.h */,
+				B73EC2611C97C08200DB4BED /* RJParseUtils.m */,
+				B73EC2621C97C08200DB4BED /* RJPlayingClassNavigationController.h */,
+				B73EC2631C97C08200DB4BED /* RJPlayingClassNavigationController.m */,
+				B73EC2641C97C08200DB4BED /* RJPlayingClassViewController.h */,
+				B73EC2651C97C08200DB4BED /* RJPlayingClassViewController.m */,
+				B73EC2661C97C08200DB4BED /* RJPurchaseSubscriptionViewController.h */,
+				B73EC2671C97C08200DB4BED /* RJPurchaseSubscriptionViewController.m */,
+				B73EC2681C97C08200DB4BED /* RJSelfPacedPlayingClassViewController.h */,
+				B73EC2691C97C08200DB4BED /* RJSelfPacedPlayingClassViewController.m */,
+				B73EC26A1C97C08200DB4BED /* RJSettingsViewController.h */,
+				B73EC26B1C97C08200DB4BED /* RJSettingsViewController.m */,
+				B73EC26C1C97C08200DB4BED /* RJShareClassViewController.h */,
+				B73EC26D1C97C08200DB4BED /* RJShareClassViewController.m */,
+				B73EC26E1C97C08200DB4BED /* RJSinglePFObjectSelectionViewController.h */,
+				B73EC26F1C97C08200DB4BED /* RJSinglePFObjectSelectionViewController.m */,
+				B73EC2701C97C08200DB4BED /* RJSortOptionsViewController.h */,
+				B73EC2711C97C08200DB4BED /* RJSortOptionsViewController.m */,
+				B73EC2721C97C08200DB4BED /* RJSoundCloudAPIClient.h */,
+				B73EC2731C97C08200DB4BED /* RJSoundCloudAPIClient.m */,
+				B73EC2741C97C08200DB4BED /* RJSoundCloudTrack.h */,
+				B73EC2751C97C08200DB4BED /* RJSoundCloudTrack.m */,
+				B73EC2761C97C08200DB4BED /* RJStyleManager.h */,
+				B73EC2771C97C08200DB4BED /* RJStyleManager.m */,
+				B73EC2781C97C08200DB4BED /* RJTouchposeApplication.h */,
+				B73EC2791C97C08200DB4BED /* RJTouchposeApplication.m */,
+				B73EC27A1C97C08200DB4BED /* RJTrackImageCacheEntity.h */,
+				B73EC27B1C97C08200DB4BED /* RJTrackImageCacheEntity.m */,
+				B73EC27C1C97C08200DB4BED /* RJTrackSelectorViewController.h */,
+				B73EC27D1C97C08200DB4BED /* RJTrackSelectorViewController.m */,
+				B73EC27E1C97C08200DB4BED /* RJTransparentNavigationBarController.h */,
+				B73EC27F1C97C08200DB4BED /* RJTransparentNavigationBarController.m */,
+				B73EC2801C97C08200DB4BED /* RJTutorialCollectionViewCell.h */,
+				B73EC2811C97C08200DB4BED /* RJTutorialCollectionViewCell.m */,
+				B73EC2821C97C08200DB4BED /* RJTutorialViewController.h */,
+				B73EC2831C97C08200DB4BED /* RJTutorialViewController.m */,
+				B73EC2841C97C08200DB4BED /* RJUserDefaults.h */,
+				B73EC2851C97C08200DB4BED /* RJUserDefaults.m */,
+				B73EC2861C97C08200DB4BED /* RJUserImageCacheEntity.h */,
+				B73EC2871C97C08200DB4BED /* RJUserImageCacheEntity.m */,
+				B73EC2881C97C08200DB4BED /* sound_beep.wav */,
+				B73EC2891C97C08200DB4BED /* UIBarButtonItem+RJAdditions.h */,
+				B73EC28A1C97C08200DB4BED /* UIBarButtonItem+RJAdditions.m */,
+				B73EC28B1C97C08200DB4BED /* UIImageView+FastImageCache.h */,
+				B73EC28C1C97C08200DB4BED /* UIImageView+FastImageCache.m */,
+				B73EC28D1C97C08200DB4BED /* UINavigationItem+RJAdditions.h */,
+				B73EC28E1C97C08200DB4BED /* UINavigationItem+RJAdditions.m */,
 				23631A811AF86D9200E49935 /* Supporting Files */,
 				23631A901AF86D9200E49935 /* LaunchScreen.xib */,
 			);
@@ -100,13 +496,8 @@
 			isa = PBXGroup;
 			children = (
 				B78450EB1B70354000B988D5 /* AdSupport.framework */,
-				B756B5C61B2A5DF90088E918 /* Crashlytics.framework */,
 				B756B5C41B2A5DEB0088E918 /* CoreData.framework */,
 				B756B5C21B2A5DD60088E918 /* AddressBook.framework */,
-				B756B5B91B2A5D2A0088E918 /* Fabric.framework */,
-				B756B5BA1B2A5D2A0088E918 /* DigitsKit.framework */,
-				B756B5BB1B2A5D2A0088E918 /* DigitsKitResources.bundle */,
-				B756B5BC1B2A5D2A0088E918 /* TwitterCore.framework */,
 				D14807AAA5D85AB30F68D5C0 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -182,9 +573,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B73EC2DD1C97C08200DB4BED /* sound_beep.wav in Resources */,
 				B770FADC1BD59C8100F76FCB /* Images.xcassets in Resources */,
 				23631A921AF86D9200E49935 /* LaunchScreen.xib in Resources */,
-				B756B5BF1B2A5D2B0088E918 /* DigitsKitResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +623,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 8003ec937845702c9f429378091c0f606fb962a8 bf37685078cbe656b58a8e93fe5593bce0b89aa81b5f1d2cac53107ab42b9f1e";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -241,7 +632,88 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B73EC2AA1C97C08200DB4BED /* RJExerciseStepImageCacheEntity.m in Sources */,
+				B73EC2B51C97C08200DB4BED /* RJInAppPurchaseHelper.m in Sources */,
+				B73EC2CB1C97C08200DB4BED /* RJPlayingClassViewController.m in Sources */,
+				B73EC2CF1C97C08200DB4BED /* RJShareClassViewController.m in Sources */,
+				B73EC2DC1C97C08200DB4BED /* RJUserImageCacheEntity.m in Sources */,
+				B73EC2BA1C97C08200DB4BED /* RJParseCategory.m in Sources */,
+				B73EC29E1C97C08200DB4BED /* RJCreateEditChoreographedClassExerciseInstructionCell.m in Sources */,
+				B73EC2901C97C08200DB4BED /* RJAppDelegate.m in Sources */,
+				B73EC2931C97C08200DB4BED /* RJAuthenticationDetailsViewController.m in Sources */,
+				B73EC2B41C97C08200DB4BED /* RJImageCacheManager.m in Sources */,
+				B73EC2B81C97C08200DB4BED /* RJMixpanelHelper.m in Sources */,
+				B73EC2BB1C97C08200DB4BED /* RJParseClass.m in Sources */,
+				B73EC2CE1C97C08200DB4BED /* RJSettingsViewController.m in Sources */,
+				B73EC2C01C97C08200DB4BED /* RJParseExerciseInstruction.m in Sources */,
+				B73EC2A11C97C08200DB4BED /* RJCreateEditChoreographedClassViewController.m in Sources */,
+				B73EC2991C97C08200DB4BED /* RJClassImageCacheEntity.m in Sources */,
+				B73EC2D11C97C08200DB4BED /* RJSortOptionsViewController.m in Sources */,
+				B73EC2DB1C97C08200DB4BED /* RJUserDefaults.m in Sources */,
+				B73EC2A51C97C08200DB4BED /* RJCreateInstructorViewController.m in Sources */,
+				B73EC2CD1C97C08200DB4BED /* RJSelfPacedPlayingClassViewController.m in Sources */,
+				B73EC2C71C97C08200DB4BED /* RJParseTrack.m in Sources */,
+				B73EC2911C97C08200DB4BED /* RJArithmeticHelper.m in Sources */,
+				B73EC2C81C97C08200DB4BED /* RJParseUser.m in Sources */,
+				B73EC2D51C97C08200DB4BED /* RJTouchposeApplication.m in Sources */,
+				B73EC2BE1C97C08200DB4BED /* RJParseExercise.m in Sources */,
+				B73EC2B91C97C08200DB4BED /* RJMusclesViewController.m in Sources */,
+				B73EC2A31C97C08200DB4BED /* RJCreateEditSelfPacedExerciseInstructionCell.m in Sources */,
+				B73EC2D41C97C08200DB4BED /* RJStyleManager.m in Sources */,
+				B73EC2951C97C08200DB4BED /* RJCategorySelectorViewController.m in Sources */,
+				B73EC2BD1C97C08200DB4BED /* RJParseComparablePFObject.m in Sources */,
+				B73EC2B11C97C08200DB4BED /* RJHomeNavigationViewController.m in Sources */,
+				B73EC29C1C97C08200DB4BED /* RJCreateCategoryViewController.m in Sources */,
+				B73EC2981C97C08200DB4BED /* RJClassDetailsViewController.m in Sources */,
+				B73EC2D21C97C08200DB4BED /* RJSoundCloudAPIClient.m in Sources */,
+				B73EC2DF1C97C08200DB4BED /* UIImageView+FastImageCache.m in Sources */,
+				B73EC2A81C97C08200DB4BED /* RJExerciseSelectorViewController.m in Sources */,
 				23631A841AF86D9200E49935 /* main.m in Sources */,
+				B73EC2DA1C97C08200DB4BED /* RJTutorialViewController.m in Sources */,
+				B73EC2C31C97C08200DB4BED /* RJParseLike.m in Sources */,
+				B73EC2CC1C97C08200DB4BED /* RJPurchaseSubscriptionViewController.m in Sources */,
+				B73EC29B1C97C08200DB4BED /* RJCreatableObjectsViewController.m in Sources */,
+				B73EC2961C97C08200DB4BED /* RJChoreographedPlayingClassViewController.m in Sources */,
+				B73EC2AE1C97C08200DB4BED /* RJGalleryCellAccessoriesView.m in Sources */,
+				B73EC2C61C97C08200DB4BED /* RJParseTemplate.m in Sources */,
+				B73EC2CA1C97C08200DB4BED /* RJPlayingClassNavigationController.m in Sources */,
+				B73EC2DE1C97C08200DB4BED /* UIBarButtonItem+RJAdditions.m in Sources */,
+				B73EC28F1C97C08200DB4BED /* NSString+Temporal.m in Sources */,
+				B73EC2A01C97C08200DB4BED /* RJCreateEditChoreographedClassTrackCell.m in Sources */,
+				B73EC2C91C97C08200DB4BED /* RJParseUtils.m in Sources */,
+				B73EC2BF1C97C08200DB4BED /* RJParseExerciseEquipment.m in Sources */,
+				B73EC2BC1C97C08200DB4BED /* RJParseComment.m in Sources */,
+				B73EC2AF1C97C08200DB4BED /* RJGalleryViewController.m in Sources */,
+				B73EC29D1C97C08200DB4BED /* RJCreateEditChoreographedClassCollectionViewLayout.m in Sources */,
+				B73EC2D91C97C08200DB4BED /* RJTutorialCollectionViewCell.m in Sources */,
+				B73EC2A61C97C08200DB4BED /* RJExerciseEquipmentOptionsViewController.m in Sources */,
+				B73EC2D31C97C08200DB4BED /* RJSoundCloudTrack.m in Sources */,
+				B73EC2A91C97C08200DB4BED /* RJExerciseStepCell.m in Sources */,
+				B73EC2C51C97C08200DB4BED /* RJParseSubscription.m in Sources */,
+				B73EC2AD1C97C08200DB4BED /* RJGalleryCell+FastImageCache.m in Sources */,
+				B73EC2A21C97C08200DB4BED /* RJCreateEditSelfPacedClassViewController.m in Sources */,
+				B73EC29F1C97C08200DB4BED /* RJCreateEditChoreographedClassTimeline.m in Sources */,
+				B73EC2D71C97C08200DB4BED /* RJTrackSelectorViewController.m in Sources */,
+				B73EC2941C97C08200DB4BED /* RJAuthenticationViewController.m in Sources */,
+				B73EC2D81C97C08200DB4BED /* RJTransparentNavigationBarController.m in Sources */,
+				B73EC2B61C97C08200DB4BED /* RJInitialLoadingViewController.m in Sources */,
+				B73EC2D61C97C08200DB4BED /* RJTrackImageCacheEntity.m in Sources */,
+				B73EC2B21C97C08200DB4BED /* RJHomeTitleView.m in Sources */,
+				B73EC2B71C97C08200DB4BED /* RJInstructorSelectorViewController.m in Sources */,
+				B73EC2E01C97C08200DB4BED /* UINavigationItem+RJAdditions.m in Sources */,
+				B73EC2C21C97C08200DB4BED /* RJParseKey.m in Sources */,
+				B73EC2AB1C97C08200DB4BED /* RJExerciseStepsViewController.m in Sources */,
+				B73EC29A1C97C08200DB4BED /* RJClassSummaryView.m in Sources */,
+				B73EC2B31C97C08200DB4BED /* RJHomeViewController.m in Sources */,
+				B73EC2C41C97C08200DB4BED /* RJParseMuscle.m in Sources */,
+				B73EC2B01C97C08200DB4BED /* RJHomeGalleryViewController.m in Sources */,
+				B73EC2A71C97C08200DB4BED /* RJExerciseInstructionCell.m in Sources */,
+				B73EC2A41C97C08200DB4BED /* RJCreateExerciseViewController.m in Sources */,
+				B73EC2921C97C08200DB4BED /* RJAssetImageCacheEntity.m in Sources */,
+				B73EC2971C97C08200DB4BED /* RJClassCommentsViewController.m in Sources */,
+				B73EC2D01C97C08200DB4BED /* RJSinglePFObjectSelectionViewController.m in Sources */,
+				B73EC2AC1C97C08200DB4BED /* RJGalleryCell.m in Sources */,
+				B73EC2C11C97C08200DB4BED /* RJParseExerciseStep.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

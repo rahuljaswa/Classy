@@ -21,78 +21,69 @@ PODS:
   - AFNetworking/UIKit (2.5.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Bolts (1.4.0):
-    - Bolts/AppLinks (= 1.4.0)
-    - Bolts/Tasks (= 1.4.0)
-  - Bolts/AppLinks (1.4.0):
+  - Bolts (1.6.0):
+    - Bolts/AppLinks (= 1.6.0)
+    - Bolts/Tasks (= 1.6.0)
+  - Bolts/AppLinks (1.6.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.4.0)
+  - Bolts/Tasks (1.6.0)
   - ChatViewControllers (1.0.0)
-  - Crashlytics (3.3.4)
-  - Digits (1.11.4)
-  - DZNEmptyDataSet (1.7.2)
-  - Fabric (1.5.5):
-    - Fabric/Base (= 1.5.5)
-  - Fabric/Base (1.5.5)
-  - FastImageCache (1.3)
-  - FBSDKCoreKit (4.7.1):
-    - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.7.1)
-    - FBSDKCoreKit/no-arc (= 4.7.1)
-  - FBSDKCoreKit/arc (4.7.1):
-    - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.7.1):
-    - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc
-  - FitnessClassPlatformIOS (1.1.0):
-    - ActionLabel
-    - AFNetworking (= 2.5.3)
-    - ChatViewControllers
-    - Crashlytics
-    - Digits (= 1.11.4)
-    - DZNEmptyDataSet
-    - Fabric
-    - FastImageCache
-    - FBSDKCoreKit
-    - Mixpanel
-    - Parse
-    - SVProgressHUD
-    - SZTextView
-    - Touchpose
-    - TwitterCore (= 1.11.4)
-    - UIToolkitIOS
-  - Mixpanel (2.9.0):
-    - Mixpanel/Mixpanel (= 2.9.0)
-  - Mixpanel/Mixpanel (2.9.0)
-  - Parse (1.9.1):
-    - Bolts/Tasks (>= 1.4.0)
+  - Crashlytics (3.7.0):
+    - Fabric (~> 1.6.3)
+  - Digits (1.15.3):
+    - TwitterCore (= 1.15.3)
+  - DZNEmptyDataSet (1.7.3)
+  - Fabric (1.6.7)
+  - FastImageCache (1.5.1)
+  - FBSDKCoreKit (4.10.0):
+    - Bolts (~> 1.5)
+  - Mixpanel (2.9.4):
+    - Mixpanel/Mixpanel (= 2.9.4)
+  - Mixpanel/Mixpanel (2.9.4)
+  - Parse (1.12.0):
+    - Bolts/Tasks (~> 1.5)
   - SVProgressHUD (1.1.3)
-  - SZTextView (1.2.1)
+  - SZTextView (1.2.2)
   - Touchpose (1.2.0)
-  - TwitterCore (1.11.4)
+  - TwitterCore (1.15.3):
+    - Fabric
   - UIToolkitIOS (1.0.0)
 
 DEPENDENCIES:
-  - FitnessClassPlatformIOS (~> 1.1.0)
+  - ActionLabel
+  - AFNetworking (= 2.5.3)
+  - ChatViewControllers
+  - Crashlytics
+  - Digits
+  - DZNEmptyDataSet
+  - Fabric
+  - FastImageCache
+  - FBSDKCoreKit
+  - Mixpanel
+  - Parse
+  - SVProgressHUD
+  - SZTextView
+  - Touchpose
+  - TwitterCore
+  - UIToolkitIOS
 
 SPEC CHECKSUMS:
   ActionLabel: 2ef75a8fc6304446f67b75272bb7b93a3cd6c829
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
-  Bolts: 0e9bce58b9b9f5e8a7a4d47b16d2fabec289072b
+  Bolts: f52a250053bb517ca874523c3913776359ab3def
   ChatViewControllers: a3bb422260979e3c3cd15f1bf4816a20f66a1a28
-  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
-  Digits: 1a372fab25b58d1459adc6b8d95e2e155ae5b212
-  DZNEmptyDataSet: 0ec00bfc230d7450997b60c127afdd0b9f24f3b6
-  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
-  FastImageCache: 25f214fd46405daca3d1995d783fb83b9036c62e
-  FBSDKCoreKit: 9141b70960a37930850370495fe565f4a27ac141
-  FitnessClassPlatformIOS: f804617c2f6f4d0d60026a061d2483597a633258
-  Mixpanel: 42ae6168effc48481d957f7883dd8514a398738d
-  Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
+  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  Digits: 9823f8aad766c0aa824fac9b08938e22bc635fac
+  DZNEmptyDataSet: dd7cca17c1d07dfa78956859b1e70a52505678ef
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  FastImageCache: 2e7a6f677b15336eb3d1a4092a494676256c891d
+  FBSDKCoreKit: 13bec8373fb3af94d44daf2aa1e0958687897fbd
+  Mixpanel: 80d2ca9bb38ae91c1044d738e80fe448377ac89f
+  Parse: de2c52a9a1421b91ae7594ab8ce191afd184f19b
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
-  SZTextView: 906df45afd3c1b24fc5252088d5ef8061513c238
+  SZTextView: 3a81174dce0710a9ab069bc73a813e6df53b9c82
   Touchpose: 219ef3dc3d1932b384ea502ec6df2f003667129b
-  TwitterCore: 171dbd2f8d55707397f461af5158d987fb34aa36
+  TwitterCore: cce24b3c798993ccde72787ea79ea9a478b284e4
   UIToolkitIOS: 668a58b118c4c5147255141d27daf4e584d7b31c
 
 COCOAPODS: 0.38.2
