@@ -1,48 +1,42 @@
 PODS:
   - ActionLabel (1.0.0)
-  - AFNetworking (2.5.3):
-    - AFNetworking/NSURLConnection (= 2.5.3)
-    - AFNetworking/NSURLSession (= 2.5.3)
-    - AFNetworking/Reachability (= 2.5.3)
-    - AFNetworking/Security (= 2.5.3)
-    - AFNetworking/Serialization (= 2.5.3)
-    - AFNetworking/UIKit (= 2.5.3)
-  - AFNetworking/NSURLConnection (2.5.3):
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.3):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.3)
-  - AFNetworking/Security (2.5.3)
-  - AFNetworking/Serialization (2.5.3)
-  - AFNetworking/UIKit (2.5.3):
-    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - Bolts (1.6.0):
-    - Bolts/AppLinks (= 1.6.0)
-    - Bolts/Tasks (= 1.6.0)
-  - Bolts/AppLinks (1.6.0):
+  - Bolts (1.7.0):
+    - Bolts/AppLinks (= 1.7.0)
+    - Bolts/Tasks (= 1.7.0)
+  - Bolts/AppLinks (1.7.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.6.0)
+  - Bolts/Tasks (1.7.0)
   - ChatViewControllers (1.0.0)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - Digits (1.15.3):
     - TwitterCore (= 1.15.3)
-  - DZNEmptyDataSet (1.7.3)
+  - DZNEmptyDataSet (1.8)
   - Fabric (1.6.7)
   - FastImageCache (1.5.1)
-  - FBSDKCoreKit (4.10.0):
-    - Bolts (~> 1.5)
-  - Mixpanel (2.9.4):
-    - Mixpanel/Mixpanel (= 2.9.4)
-  - Mixpanel/Mixpanel (2.9.4)
-  - Parse (1.12.0):
-    - Bolts/Tasks (~> 1.5)
-  - SVProgressHUD (1.1.3)
+  - FBSDKCoreKit (4.11.0):
+    - Bolts (~> 1.7)
+  - Mixpanel (2.9.8):
+    - Mixpanel/Mixpanel (= 2.9.8)
+  - Mixpanel/Mixpanel (2.9.8)
+  - Parse (1.13.0):
+    - Bolts/Tasks (~> 1.6)
+  - SVProgressHUD (2.0.3)
   - SZTextView (1.2.2)
   - Touchpose (1.2.0)
   - TwitterCore (1.15.3):
@@ -51,7 +45,7 @@ PODS:
 
 DEPENDENCIES:
   - ActionLabel
-  - AFNetworking (= 2.5.3)
+  - AFNetworking
   - ChatViewControllers
   - Crashlytics
   - Digits
@@ -69,21 +63,21 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   ActionLabel: 2ef75a8fc6304446f67b75272bb7b93a3cd6c829
-  AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
-  Bolts: f52a250053bb517ca874523c3913776359ab3def
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
   ChatViewControllers: a3bb422260979e3c3cd15f1bf4816a20f66a1a28
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Digits: 9823f8aad766c0aa824fac9b08938e22bc635fac
-  DZNEmptyDataSet: dd7cca17c1d07dfa78956859b1e70a52505678ef
+  DZNEmptyDataSet: d2351b2e8daefa40433ef292e246e21f6be31a7b
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FastImageCache: 2e7a6f677b15336eb3d1a4092a494676256c891d
-  FBSDKCoreKit: 13bec8373fb3af94d44daf2aa1e0958687897fbd
-  Mixpanel: 80d2ca9bb38ae91c1044d738e80fe448377ac89f
-  Parse: de2c52a9a1421b91ae7594ab8ce191afd184f19b
-  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  FBSDKCoreKit: 686ac982723a14ec9ddb85e2f81235d7706c891b
+  Mixpanel: 39c8e140d74d914e460ea3b4c770434fcd29c8a0
+  Parse: f51c24d2feb412e4b2d6cc73d37cb24e8d0089bc
+  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SZTextView: 3a81174dce0710a9ab069bc73a813e6df53b9c82
   Touchpose: 219ef3dc3d1932b384ea502ec6df2f003667129b
   TwitterCore: cce24b3c798993ccde72787ea79ea9a478b284e4
   UIToolkitIOS: 668a58b118c4c5147255141d27daf4e584d7b31c
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

@@ -56,9 +56,13 @@ typedef NS_ENUM(NSUInteger, UIState) {
             DGTAppearance *appearance = [[DGTAppearance alloc] init];
             appearance.backgroundColor = [[RJStyleManager sharedInstance] themeBackgroundColor];
             appearance.accentColor = [RJStyleManager sharedInstance].themeTextColor;
-            [[Digits sharedInstance] authenticateWithDigitsAppearance:appearance viewController:nil title:nil completion:^(DGTSession *session, NSError *error) {
+            DGTAuthenticationConfiguration *configuration = [[DGTAuthenticationConfiguration alloc] initWithAccountFields:DGTAccountFieldsDefaultOptionMask];
+            configuration.appearance = appearance;
+            [[Digits sharedInstance] authenticateWithViewController:nil configuration:configuration completion:^(DGTSession *session, NSError *error) {
                 if (session) {
-                    [SVProgressHUD showWithStatus:NSLocalizedString(@"Retrieving account details...", nil) maskType:SVProgressHUDMaskTypeClear];
+                    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+                    [SVProgressHUD showWithStatus:NSLocalizedString(@"Retrieving account details...", nil)];
+                    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
                     [RJParseUser logInWithUsernameInBackground:session.phoneNumber
                                                       password:session.phoneNumber
                                                          block:^(PFUser *user, NSError *error)
@@ -93,7 +97,9 @@ typedef NS_ENUM(NSUInteger, UIState) {
                                  }
                              }];
                          } else {
-                             [SVProgressHUD showWithStatus:NSLocalizedString(@"Creating account...", nil) maskType:SVProgressHUDMaskTypeClear];
+                             [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+                             [SVProgressHUD showWithStatus:NSLocalizedString(@"Creating account...", nil)];
+                             [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
                              self.user = [RJParseUser object];
                              [RJParseUser setCurrentUserWithSubscriptionsSharedInstance:self.user];
                              
@@ -149,7 +155,9 @@ typedef NS_ENUM(NSUInteger, UIState) {
 - (void)authenticationDetailsViewControllerDidFinish:(RJAuthenticationDetailsViewController *)viewController {
     self.user.name = viewController.name;
     self.user.email = viewController.email;
-    [SVProgressHUD showWithStatus:NSLocalizedString(@"Saving name...", nil) maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"Saving name...", nil)];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [self completeLogin];

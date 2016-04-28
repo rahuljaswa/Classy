@@ -65,7 +65,9 @@ static NSString *const kRJTrackSelectorControllerLoadingCell = @"RJLoadingCellID
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [SVProgressHUD showWithStatus:NSLocalizedString(@"Verifying track...", nil) maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"Verifying track...", nil)];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     
     NSString *trackSteamURL = [self.objects[indexPath.item] streamURL];
     NSURL *authenticatedTrackStreamURL = [[RJSoundCloudAPIClient sharedAPIClient] authenticatingStreamURLWithStreamURL:trackSteamURL];

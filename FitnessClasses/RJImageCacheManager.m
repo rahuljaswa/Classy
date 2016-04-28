@@ -9,7 +9,7 @@
 #import "RJImageCacheManager.h"
 #import "RJTrackImageCacheEntity.h"
 #import "RJUserImageCacheEntity.h"
-#import <AFNetworking/AFHTTPRequestOperation.h>
+#import <AFNetworking/AFImageDownloader.h>
 #import <FastImageCache/FICImageFormat.h>
 
 
@@ -19,25 +19,20 @@
 
 - (void)imageCache:(FICImageCache *)imageCache wantsSourceImageForEntity:(id<FICEntity>)entity withFormatName:(NSString *)formatName completionBlock:(FICImageRequestCompletionBlock)completionBlock {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURL *requestURL = [entity sourceImageURLWithFormatName:formatName];
-        NSURLRequest *request = [NSURLRequest requestWithURL:requestURL];
-        
-        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-        operation.responseSerializer = [AFImageResponseSerializer serializer];
-        operation.securityPolicy.allowInvalidCertificates = YES;
-        
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionBlock(responseObject);
-            });
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Error fetching image: %@", error);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionBlock(nil);
-            });
-        }];
-        
-        [operation start];
+        NSURL *url = [entity sourceImageURLWithFormatName:formatName];
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+        [[AFImageDownloader defaultInstance] downloadImageForURLRequest:urlRequest
+                                                                success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull responseObject) {
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                                        completionBlock(responseObject);
+                                                                    });
+                                                                }
+                                                                failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+                                                                    NSLog(@"Error fetching image: %@", error);
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                                        completionBlock(nil);
+                                                                    });
+                                                                }];
     });
 }
 

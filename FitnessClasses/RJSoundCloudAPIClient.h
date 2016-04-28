@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Rahul Jaswa. All rights reserved.
 //
 
-#import "AFHTTPRequestOperationManager.h"
+#import <AFNetworking/AFHTTPSessionManager.h>
 
 
 @class AVPlayer;
 @class RJSoundCloudTrack;
 
-@interface RJSoundCloudAPIClient : AFHTTPRequestOperationManager
+@interface RJSoundCloudAPIClient : AFHTTPSessionManager
 
 + (instancetype)sharedAPIClient;
 

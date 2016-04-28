@@ -4,7 +4,7 @@ source 'https://github.com/rahuljaswa/Specs.git'
 platform :ios, '7.0'
 
 pod 'ActionLabel'
-pod 'AFNetworking', '2.5.3'
+pod 'AFNetworking'
 pod 'ChatViewControllers'
 pod 'Crashlytics'
 pod 'Digits'
