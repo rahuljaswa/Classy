@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, Section) {
     kSectionSubscription,
     kSectionFeedback,
     kSectionLogout,
+    kSectionAdmin,
     kNumSections
 };
 
@@ -77,7 +78,9 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
 #pragma mark - Public Protocols - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return kNumSections;
+    NSInteger numberOfSections = kNumSections;
+    if (!self.currentUser.admin) { numberOfSections--; }
+    return numberOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -96,6 +99,8 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
         case kSectionLogout:
             numberOfRows = 1;
             break;
+        case kSectionAdmin:
+            numberOfRows = 1;
         default:
             break;
     }
@@ -174,6 +179,12 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
             cell.textLabel.textColor = [UIColor redColor];
             cell.userInteractionEnabled = YES;
             break;
+        case kSectionAdmin:
+            cell.textLabel.text = NSLocalizedString(@"Update Library Metadata", nil);
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            cell.userInteractionEnabled = YES;
+            cell.textLabel.textColor = styleManager.tintBlueColor;
+            break;
         default:
             break;
     }
@@ -247,6 +258,14 @@ typedef NS_ENUM(NSUInteger, SubscriptionSectionRow) {
             }];
             break;
         }
+        case kSectionAdmin:
+            [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+            [SVProgressHUD show];
+            [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
+            [RJParseUtils updateTracksMetadataWithCompletion:^(BOOL success) {
+                [SVProgressHUD dismiss];
+            }];
+            break;
         default:
             break;
     }

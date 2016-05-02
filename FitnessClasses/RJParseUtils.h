@@ -36,6 +36,7 @@
 + (void)fetchAllExercisesForPrimaryEquipment:(RJParseExerciseEquipment *)primaryEquipment completion:(void (^)(NSArray *exercises))completion;
 + (void)fetchAllExercisesWithCompletion:(void (^)(NSArray *exercises))completion;
 + (void)fetchAllMusclesWithCompletion:(void (^)(NSArray *muscles))completion;
++ (void)fetchAllTracksWithCompletion:(void (^)(NSArray *tracks))completion;
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassesForInstructor:(RJParseUser *)instructor completion:(void (^)(NSArray *classes))completion;
 + (void)fetchClassWithId:(NSString *)objectId completion:(void (^)(RJParseClass *klass))completion;
@@ -49,5 +50,7 @@
 + (void)incrementTipsForUser:(RJParseUser *)user completion:(void (^)(BOOL success))completion;
 
 + (void)insertCommentForClass:(RJParseClass *)klass text:(NSString *)text completion:(void (^)(BOOL success))completion;
+
++ (void)updateTracksMetadataWithCompletion:(void (^)(BOOL success))completion;
 
 @end

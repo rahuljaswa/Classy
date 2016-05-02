@@ -18,6 +18,7 @@
 
 - (NSURL *)authenticatingStreamURLWithTrackID:(NSString *)trackID;
 - (NSURL *)authenticatingStreamURLWithStreamURL:(NSString *)streamURL;
+- (void)getTracksWithTrackIDs:(NSString *)trackIDs completion:(void (^)(NSArray *tracks))completion;
 - (void)getTrackWithTrackID:(NSString *)trackID completion:(void (^)(RJSoundCloudTrack *track))completion;
 - (void)getTracksMatchingKeyword:(NSString *)keyword completion:(void (^)(NSArray *tracks))completion;
 

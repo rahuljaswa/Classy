@@ -9,6 +9,8 @@
 #import "RJParseComparablePFObject.h"
 
 
+@class RJSoundCloudTrack;
+
 @interface RJParseTrack : RJParseComparablePFObject <PFSubclassing>
 
 @property (nonatomic, strong) NSString *artist;
@@ -18,5 +20,7 @@
 @property (nonatomic, strong) NSString *soundCloudTrackID;
 @property (nonatomic, strong) NSString *streamURL;
 @property (nonatomic, strong) NSString *title;
+
+- (void)updateWithSoundCloudTrack:(RJSoundCloudTrack *)soundCloudTrack;
 
 @end

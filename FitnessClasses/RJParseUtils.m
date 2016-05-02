@@ -16,8 +16,11 @@
 #import "RJParseLike.h"
 #import "RJParseMuscle.h"
 #import "RJParseTemplate.h"
+#import "RJParseTrack.h"
 #import "RJParseUser.h"
 #import "RJParseUtils.h"
+#import "RJSoundCloudAPIClient.h"
+#import "RJSoundCloudTrack.h"
 #import <Parse/Parse.h>
 
 
@@ -246,6 +249,19 @@
     }];
 }
 
++ (void)fetchAllTracksWithCompletion:(void (^)(NSArray *))completion {
+    PFQuery *query = [RJParseTrack query];
+    query.limit = 1000;
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (!objects) {
+            NSLog(@"Error fetching all tracks\n\n%@", [error localizedDescription]);
+        }
+        if (completion) {
+            completion(objects);
+        }
+    }];
+}
+
 + (void)fetchClassesForCategory:(RJParseCategory *)category completion:(void (^)(NSArray *))completion {
     PFQuery *query = [RJParseClass query];
     [query whereKey:NSStringFromSelector(@selector(categories)) equalTo:category];
@@ -391,6 +407,62 @@
             }];
         } else {
             NSLog(@"Error creating comment for '%@'\n\n%@", klass.name, [error localizedDescription]);
+            if (completion) {
+                completion(NO);
+            }
+        }
+    }];
+}
+
+#pragma mark - Public Class Methods - Maintenance
+
++ (void)updateTracksMetadataWithCompletion:(void (^)(BOOL))completion {
+    [self fetchAllTracksWithCompletion:^(NSArray *parseTracks) {
+        if (parseTracks) {
+            NSMutableString *soundCloudTrackIDs = [[NSMutableString alloc] init];
+            for (RJParseTrack *parseTrack in parseTracks) {
+                if ([soundCloudTrackIDs length] > 0) {
+                    [soundCloudTrackIDs appendString:@","];
+                }
+                [soundCloudTrackIDs appendString:parseTrack.soundCloudTrackID];
+            }
+            [[RJSoundCloudAPIClient sharedAPIClient] getTracksWithTrackIDs:soundCloudTrackIDs completion:^(NSArray *soundCloudTracks) {
+                if (soundCloudTracks) {
+                    NSArray *parseTracksIDs = [parseTracks valueForKey:NSStringFromSelector(@selector(soundCloudTrackID))];
+                    NSMutableArray *updatedParseTracks = [[NSMutableArray alloc] init];
+                    NSInteger numberOfSoundCloudTracks = [soundCloudTracks count];
+                    for (NSInteger i=0; i<numberOfSoundCloudTracks; i++) {
+                        RJSoundCloudTrack *soundCloudTrack = soundCloudTracks[i];
+                        NSIndexSet *indexesInParseTracks = [parseTracksIDs indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            return [obj isEqualToString:soundCloudTrack.trackID];
+                        }];
+                        
+                        [indexesInParseTracks enumerateIndexesWithOptions:NSEnumerationConcurrent usingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+                            RJParseTrack *parseTrack = parseTracks[idx];
+                            [parseTrack updateWithSoundCloudTrack:soundCloudTrack];
+                            [updatedParseTracks addObject:parseTrack];
+                        }];
+                    }
+                    
+                    [PFObject saveAllInBackground:updatedParseTracks block:^(BOOL succeeded, NSError * _Nullable error) {
+                        if (succeeded) {
+                            if (completion) {
+                                completion(YES);
+                            }
+                        } else {
+                            NSLog(@"Error saving updated track metadata%@", [error localizedDescription]);
+                            if (completion) {
+                                completion(NO);
+                            }
+                        }
+                    }];
+                } else {
+                    if (completion) {
+                        completion(NO);
+                    }
+                }
+            }];
+        } else {
             if (completion) {
                 completion(NO);
             }

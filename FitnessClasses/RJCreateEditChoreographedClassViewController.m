@@ -115,13 +115,7 @@ static NSString *const kTrackCellID = @"TrackCellID";
     } else if ([viewController isKindOfClass:[RJTrackSelectorViewController class]]) {
         RJParseTrack *track = self.tracks[viewController.view.tag];
         RJSoundCloudTrack *soundCloudTrack = (RJSoundCloudTrack *)object;
-        track.artist = soundCloudTrack.artist;
-        track.length = @((NSInteger)soundCloudTrack.length);
-        track.soundCloudTrackID = soundCloudTrack.trackID;
-        track.title = soundCloudTrack.title;
-        track.artworkURL = soundCloudTrack.artworkURL;
-        track.streamURL = soundCloudTrack.streamURL;
-        track.permalinkURL = soundCloudTrack.permalinkURL;
+        [track updateWithSoundCloudTrack:soundCloudTrack];
         [self.collectionView reloadData];
     } else if (viewController == self.exerciseViewController) {
         RJParseExerciseInstruction *instruction = self.exerciseInstructions[viewController.view.tag];
