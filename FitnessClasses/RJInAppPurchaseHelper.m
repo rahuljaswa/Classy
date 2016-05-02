@@ -124,11 +124,13 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"tierOneSubscript
 }
 
 - (void)callCompletionWithSuccess:(BOOL)success {
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     if (success) {
-        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Success. Thanks!", nil) maskType:SVProgressHUDMaskTypeClear];
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Success. Thanks!", nil)];
     } else {
-        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error. Try again!", nil) maskType:SVProgressHUDMaskTypeClear];
+        [SVProgressHUD showErrorWithStatus:NSLocalizedString(@"Error. Try again!", nil)];
     }
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     
     if (self.completion) {
         self.completion(success);
@@ -156,7 +158,9 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"tierOneSubscript
 
 - (void)startRequestWithProductIDS:(NSSet *)productIDS hud:(BOOL)hud {
     if (hud) {
-        [SVProgressHUD showWithStatus:NSLocalizedString(@"Contacting App Store..", nil) maskType:SVProgressHUDMaskTypeClear];
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+        [SVProgressHUD showWithStatus:NSLocalizedString(@"Contacting App Store..", nil)];
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     }
     SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:productIDS];
     request.delegate = self;
