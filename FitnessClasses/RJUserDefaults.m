@@ -10,6 +10,7 @@
 
 static NSString *const kRJUserDefaultsHasShownTutorialKey = @"RJUserDefaultsHasShownTutorialKey";
 static NSString *const kRJUserDefaultsSubscriptionReceiptDataKey = @"RJUserDefaultsSubscriptionReceiptDataKey";
+static NSString *const kRJUserDefaultsSubscriptionReceiptDataKeySandbox = @"RJUserDefaultsSubscriptionReceiptDataKeySandbox";
 
 
 @implementation RJUserDefaults
@@ -21,18 +22,34 @@ static NSString *const kRJUserDefaultsSubscriptionReceiptDataKey = @"RJUserDefau
 }
 
 + (void)saveSubscriptionReceipt:(NSData *)receiptData {
+#ifdef DEBUG
+    [[NSUserDefaults standardUserDefaults] setObject:receiptData forKey:kRJUserDefaultsSubscriptionReceiptDataKeySandbox];
+#else
     [[NSUserDefaults standardUserDefaults] setObject:receiptData forKey:kRJUserDefaultsSubscriptionReceiptDataKey];
+#endif
 }
 
 #pragma mark - Public Class Methods - Retrieve
 
 + (NSData *)subscriptionReceipt {
+#ifdef DEBUG
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kRJUserDefaultsSubscriptionReceiptDataKeySandbox];
+#else
     return [[NSUserDefaults standardUserDefaults] objectForKey:kRJUserDefaultsSubscriptionReceiptDataKey];
+#endif
 }
 
 + (BOOL)shouldShowTutorialOnLaunch {
     NSNumber *hasShownTutorial = [[NSUserDefaults standardUserDefaults] objectForKey:kRJUserDefaultsHasShownTutorialKey];
     return (!hasShownTutorial || ![hasShownTutorial boolValue]);
+}
+
++ (void)clearSubscriptionReceipt {
+#ifdef DEBUG
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kRJUserDefaultsSubscriptionReceiptDataKeySandbox];
+#else
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kRJUserDefaultsSubscriptionReceiptDataKey];
+#endif
 }
 
 @end

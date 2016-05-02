@@ -282,7 +282,6 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"tierOneSubscript
 
 - (void)getSubscriptionPricesWithCompletion:(void (^)(double, NSString *, double, NSString *))completion {
     if (!self.isTransactionInProgress) {
-        NSLog(@"%@\n%@", [[self class] tierOneSubscriptionMonthlyProductIdentifier], [[self class] tierOneSubscriptionYearlyProductIdentifier]);
         [self startRequestWithProductIDS:[NSSet setWithObjects:[[self class] tierOneSubscriptionMonthlyProductIdentifier], [[self class] tierOneSubscriptionYearlyProductIdentifier], nil] hud:NO];
         self.priceLookupCompletion = completion;
     }
@@ -304,7 +303,7 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"tierOneSubscript
 #ifdef DEBUG
                 NSURL *storeURL = [NSURL URLWithString:@"https://sandbox.itunes.apple.com/verifyReceipt"];
 #else
-                NSURL *storeURL = [NSURL URLWithString:@"http://buy.itunes.apple.com/verifyReceipt"];
+                NSURL *storeURL = [NSURL URLWithString:@"https://buy.itunes.apple.com/verifyReceipt"];
 #endif
                 
                 NSMutableURLRequest *storeRequest = [NSMutableURLRequest requestWithURL:storeURL];
@@ -325,14 +324,19 @@ NSString *const kTierOneSubscriptionYearlyProductIdentifier = @"tierOneSubscript
                                                    
                                                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
                                                    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss VV";
+                                                   NSDate *expirationDate = [formatter dateFromString:jsonSubscriptionExpirationDate];
                                                    
-                                                   RJParseSubscription *subscription = [currentUser currentAppSubscription];
-                                                   if (!subscription) {
-                                                       subscription = [RJParseSubscription object];
-                                                       subscription.bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-                                                       [currentUser addUniqueObject:subscription forKey:NSStringFromSelector(@selector(subscriptions))];
+                                                   if ([expirationDate laterDate:[NSDate date]] == expirationDate) {
+                                                       RJParseSubscription *subscription = [currentUser currentAppSubscription];
+                                                       if (!subscription) {
+                                                           subscription = [RJParseSubscription object];
+                                                           subscription.bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+                                                           [currentUser addUniqueObject:subscription forKey:NSStringFromSelector(@selector(subscriptions))];
+                                                       }
+                                                       subscription.expirationDate = expirationDate;
+                                                   } else {
+                                                       [RJUserDefaults clearSubscriptionReceipt];
                                                    }
-                                                   subscription.expirationDate = [formatter dateFromString:jsonSubscriptionExpirationDate];
                                                    
                                                    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                                                        if (completion) {

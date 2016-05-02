@@ -17,4 +17,6 @@
 + (BOOL)shouldShowTutorialOnLaunch;
 + (NSData *)subscriptionReceipt;
 
++ (void)clearSubscriptionReceipt;
+
 @end
